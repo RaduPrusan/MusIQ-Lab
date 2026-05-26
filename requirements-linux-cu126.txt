@@ -38,7 +38,7 @@ pesto-pitch
 jams
 
 # Config / env
-python-dotenv>=1.0,<2.0
+python-dotenv>=1.2.2,<2.0
 
 # HTTP (AcoustID + MusicBrainz clients in analyze/clients/)
 httpx>=0.27,<1.0
