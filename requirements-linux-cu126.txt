@@ -42,7 +42,7 @@ python-dotenv>=1.0,<2.0
 
 # HTTP (AcoustID + MusicBrainz clients in analyze/clients/)
 httpx>=0.27,<1.0
-idna>=3.15
+idna>=3.16
 
 # High-level music descriptors (cross-check stage). Only dev wheels are
 # published in the 2.1b6 series — install with `pip install --pre`.
