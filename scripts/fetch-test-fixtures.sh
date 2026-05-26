@@ -6,15 +6,15 @@
 # Run from Windows Git Bash or WSL bash:
 #   bash scripts/fetch-test-fixtures.sh
 #
-# Note: the yt-dlp path uses single quotes so $WinSoft/$tools are NOT
-# expanded by bash (CLAUDE.md: "Always single-quote the path in Bash tool calls").
+# yt-dlp binary lookup (in order):
+#   1. $MUSIQ_YTDLP_BIN if set (matches .env.example)
+#   2. `yt-dlp` on PATH
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SOURCES="$ROOT/tests/corpus/sources.txt"
 OUT_DIR="$ROOT/tests/mp3"
-# Single-quoted so bash does not expand $WinSoft / $tools (CLAUDE.md rule)
-YT_DLP='C:/$WinSoft/$tools/yt-dlp/yt-dlp.exe'
+YT_DLP="${MUSIQ_YTDLP_BIN:-yt-dlp}"
 
 mkdir -p "$OUT_DIR"
 
