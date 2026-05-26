@@ -3,6 +3,7 @@ name = "webui"
 version = "0.2.0"
 description = "MusIQ-Lab local web UI for the analysis pipeline"
 requires-python = ">=3.13"
+license = "AGPL-3.0-or-later"
 dynamic = ["dependencies"]
 
 [tool.setuptools.packages.find]

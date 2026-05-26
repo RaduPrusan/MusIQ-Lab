@@ -220,9 +220,21 @@ A non-NVIDIA setup is not supported — the MIR pipeline uses Torch + CUDA throu
 7. [`analyze/README.md`](analyze/README.md) — production driver entrypoint
 8. [`webui/README.md`](webui/README.md) — UI setup, FastAPI surface, lifecycle helper
 
-## Attribution & licenses
+## License
 
-This project's own code is offered for personal use. The vendored / pulled-in dependencies carry their own licenses — the ones with non-trivial terms:
+MusIQ-Lab is licensed under the **GNU Affero General Public License v3.0 or later** (AGPL-3.0-or-later). See [`LICENSE`](LICENSE) for the full text.
+
+Practical summary (not a substitute for the license itself):
+
+- You may use, study, modify, and redistribute MusIQ-Lab freely.
+- If you distribute a modified version, or if you make a modified version available to users over a network (the AGPL's distinguishing clause), you must make the corresponding source available under the same AGPL-3.0-or-later terms.
+- The project ships **loopback-only by design** (`127.0.0.1:8765`) — see [`SECURITY.md`](SECURITY.md). The AGPL network-service clause only triggers if you choose to expose it to remote users; running it locally for yourself imposes no obligations beyond the standard GPL ones.
+
+The vendored / pulled-in third-party dependencies carry their own licenses, listed below. None of them are redistributed through this repository — the install scripts pull them from their original sources at install time.
+
+## Attribution
+
+The vendored / pulled-in dependencies carry their own licenses — the ones with non-trivial terms:
 
 - **LarsNet** drum sub-stem separation (optional) — weights are **CC BY-NC 4.0** (non-commercial only). Excluded from the install by default; opt in via `scripts/install-larsnet.sh`. See [`analyze/vendor/README.md`](analyze/vendor/README.md).
 - **ByteDance HR-Piano** (optional) — recommended for the piano stem; ~96.7% F1 vs basic-pitch's ~80%.
