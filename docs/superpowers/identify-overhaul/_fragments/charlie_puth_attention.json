@@ -1,0 +1,22 @@
+{
+  "slug": "charlie_puth_attention",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 302,
+  "duration_sec": 301.73,
+  "leading_silence_sec": 0.453424,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Charlie Puth",
+  "title_guess_raw": "Attention",
+  "artist_guess_clean": "Charlie Puth",
+  "title_guess_clean": "Attention",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtGoWNZIW4RnRx0ey3EWYh-iPb1EeyMsenMKD",
+  "fingerprint_length": 3822,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

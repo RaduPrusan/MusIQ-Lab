@@ -1,0 +1,12 @@
+{
+  "key": "C:major",
+  "bpm": 120.0,
+  "time_signature": "4/4",
+  "downbeat_count": 96,
+  "vocal_pitch_range": ["G3", "C5"],
+  "piano_present": true,
+  "drums_present": true,
+  "expected_chord_root_count": 4,
+  "notes_minimum_piano": 200,
+  "notes_minimum_vocals": 80
+}

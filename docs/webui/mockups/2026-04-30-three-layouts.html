@@ -1,0 +1,320 @@
+<h2>Which viewer layout?</h2>
+<p class="subtitle">All three use stacked stem lanes (RipX-style note pills) and a synced playhead. They differ in how prominent the harmonic analysis is. Mocked with real Gorillaz · <i>Silent Running</i> data: F minor, 107 BPM, loop <code>i&nbsp;–&nbsp;v&nbsp;–&nbsp;♭VI&nbsp;–&nbsp;♭III</code>.</p>
+
+<style>
+  .mock-app { background:#0e0e10; border:1px solid #2a2a30; border-radius:8px; color:#e7e7ea; font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; overflow:hidden; }
+  .mock-app .topbar { display:flex; gap:14px; align-items:center; padding:8px 14px; background:#17171b; border-bottom:1px solid #26262c; font-size:12px; color:#c6c6cc; }
+  .mock-app .topbar .badge { background:#2a2a30; padding:2px 8px; border-radius:4px; font-weight:600; }
+  .mock-app .topbar .badge.k { background:#3a2a4a; color:#e3c3ff; }
+  .mock-app .topbar .badge.t { background:#2a3a3a; color:#9cf; }
+  .mock-app .topbar .badge.s { background:#2a3a2a; color:#9c9; }
+  .mock-app .chord-strip { display:flex; height:38px; border-bottom:1px solid #26262c; }
+  .mock-app .chord-strip .ch { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border-right:1px solid #1f1f24; font-size:11px; }
+  .mock-app .chord-strip .ch .rn { color:#ffb86b; font-weight:700; font-size:13px; }
+  .mock-app .chord-strip .ch .lab { color:#aaa; font-size:10px; }
+  .mock-app .chord-strip .ch.tonic { background:#1a261a; }
+  .mock-app .chord-strip .ch.dom { background:#26221a; }
+  .mock-app .chord-strip .ch.modal { background:#2a1a26; }
+  .mock-app .chord-big { display:flex; height:80px; border-bottom:1px solid #26262c; }
+  .mock-app .chord-big .ch { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; border-right:1px solid #1f1f24; gap:4px; }
+  .mock-app .chord-big .ch .rn { color:#ffb86b; font-weight:700; font-size:28px; line-height:1; }
+  .mock-app .chord-big .ch .lab { color:#ddd; font-size:13px; font-weight:500; }
+  .mock-app .chord-big .ch .fn  { color:#888; font-size:9px; text-transform:uppercase; letter-spacing:.05em; }
+  .mock-app .chord-big .ch.tonic { background:#1a261a; }
+  .mock-app .chord-big .ch.dom { background:#26221a; }
+  .mock-app .chord-big .ch.modal { background:#2a1a26; }
+  .mock-app .lanes { background:#0a0a0c; }
+  .mock-app .lane { display:flex; align-items:stretch; height:46px; border-bottom:1px solid #1c1c20; position:relative; }
+  .mock-app .lane.vocals .notes-bg { background:linear-gradient(to bottom,#3a1d2c,#2a1322); }
+  .mock-app .lane.bass .notes-bg   { background:linear-gradient(to bottom,#1d2c3a,#13222a); }
+  .mock-app .lane.guitar .notes-bg { background:linear-gradient(to bottom,#2c3a1d,#22330e); }
+  .mock-app .lane.piano .notes-bg  { background:linear-gradient(to bottom,#3a2c1d,#2a1f10); }
+  .mock-app .lane.other .notes-bg  { background:linear-gradient(to bottom,#2c1d3a,#1f132a); }
+  .mock-app .lane.drums .notes-bg  { background:linear-gradient(to bottom,#1d2222,#101414); }
+  .mock-app .lane .label { width:80px; padding:0 10px; display:flex; flex-direction:column; justify-content:center; background:#15151a; border-right:1px solid #26262c; font-size:11px; }
+  .mock-app .lane .label .name { font-weight:600; color:#ddd; }
+  .mock-app .lane .label .notes-count { color:#888; font-size:9px; }
+  .mock-app .lane .label .controls { display:flex; gap:3px; margin-top:3px; }
+  .mock-app .lane .label .btn { width:14px; height:14px; border-radius:2px; background:#222; font-size:8px; display:flex; align-items:center; justify-content:center; color:#888; }
+  .mock-app .lane .label .btn.s { background:#3a2a1a; color:#fc6; }
+  .mock-app .lane .notes-bg { flex:1; position:relative; overflow:hidden; }
+  .mock-app .note-pill { position:absolute; height:5px; border-radius:3px; opacity:.85; }
+  .mock-app .vocals .note-pill { background:#ff7eaa; }
+  .mock-app .bass .note-pill { background:#7ecaff; }
+  .mock-app .guitar .note-pill { background:#bcff7e; }
+  .mock-app .piano .note-pill { background:#ffc97e; }
+  .mock-app .other .note-pill { background:#cf7eff; }
+  .mock-app .drums .note-pill { background:#888; height:3px; }
+  .mock-app .f0-overlay { position:absolute; inset:0; pointer-events:none; }
+  .mock-app .playhead { position:absolute; top:0; bottom:0; width:2px; background:#fff; box-shadow:0 0 4px #fff; z-index:5; }
+  .mock-app .gridline { position:absolute; top:0; bottom:0; width:1px; background:rgba(255,255,255,0.04); }
+  .mock-app .gridline.db { background:rgba(255,255,255,0.10); }
+  .mock-app .loop-band { position:absolute; top:0; bottom:0; background:rgba(255,184,107,.10); border-left:1px solid rgba(255,184,107,.4); border-right:1px solid rgba(255,184,107,.4); pointer-events:none; }
+  .mock-app .transport { display:flex; align-items:center; gap:12px; padding:8px 14px; background:#15151a; border-top:1px solid #26262c; font-size:11px; color:#bbb; }
+  .mock-app .transport .scrub { flex:1; height:6px; background:#222; border-radius:3px; position:relative; }
+  .mock-app .transport .scrub .fill { position:absolute; left:0; top:0; bottom:0; width:38%; background:#fff; border-radius:3px; opacity:.85; }
+  .mock-app .sidebar { background:#15151a; padding:10px 12px; font-size:11px; color:#ccc; line-height:1.5; }
+  .mock-app .sidebar h4 { font-size:10px; text-transform:uppercase; letter-spacing:.06em; color:#888; margin:8px 0 4px 0; font-weight:600; }
+  .mock-app .sidebar .tag { display:inline-block; background:#222; padding:2px 6px; border-radius:3px; margin:2px 2px 2px 0; font-size:10px; }
+  .mock-app .sidebar .tag.rn { background:#3a2a1a; color:#ffb86b; font-weight:600; }
+  .mock-app .body-split { display:flex; }
+  .mock-app .body-split .main { flex:1; min-width:0; }
+  .mock-app .body-split .side { width:200px; border-left:1px solid #26262c; }
+</style>
+
+<!-- ============================================================ -->
+<div class="cards">
+
+  <!-- ============== OPTION A: RipX-faithful ============== -->
+  <div class="card" data-choice="a" onclick="toggleSelect(this)" style="cursor:pointer;">
+    <div class="card-image" style="padding:0;">
+      <div class="mock-app">
+        <div class="topbar">
+          <span style="font-weight:600;">Gorillaz · Silent Running</span>
+          <span class="badge k">F minor</span>
+          <span class="badge t">107 BPM</span>
+          <span class="badge s">F natural minor</span>
+          <span style="margin-left:auto; color:#888;">3:35</span>
+        </div>
+        <div class="chord-strip">
+          <div class="ch tonic"><span class="rn">i</span><span class="lab">F:min</span></div>
+          <div class="ch dom"><span class="rn">v</span><span class="lab">C:min</span></div>
+          <div class="ch modal"><span class="rn">♭VI</span><span class="lab">C#:maj</span></div>
+          <div class="ch tonic"><span class="rn">♭III</span><span class="lab">Ab:maj</span></div>
+          <div class="ch modal"><span class="rn">♭VII/3</span><span class="lab">Eb:maj/3</span></div>
+          <div class="ch tonic"><span class="rn">i</span><span class="lab">F:min</span></div>
+          <div class="ch dom"><span class="rn">v</span><span class="lab">C:min</span></div>
+        </div>
+        <div class="lanes">
+          <!-- Vocals lane with F0 contour overlay -->
+          <div class="lane vocals">
+            <div class="label"><span class="name">VOCALS</span><span class="notes-count">1097 notes · F2–C7</span><div class="controls"><span class="btn">M</span><span class="btn s">S</span><span class="btn">·</span></div></div>
+            <div class="notes-bg">
+              <div class="loop-band" style="left:5%; width:13%;"></div>
+              <div class="loop-band" style="left:20%; width:18%;"></div>
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:6%; width:3%; top:55%;"></div>
+              <div class="note-pill" style="left:10%; width:4%; top:50%;"></div>
+              <div class="note-pill" style="left:15%; width:6%; top:45%;"></div>
+              <div class="note-pill" style="left:23%; width:3%; top:60%;"></div>
+              <div class="note-pill" style="left:28%; width:5%; top:55%;"></div>
+              <div class="note-pill" style="left:35%; width:4%; top:50%;"></div>
+              <div class="note-pill" style="left:42%; width:7%; top:42%;"></div>
+              <div class="note-pill" style="left:52%; width:4%; top:48%;"></div>
+              <div class="note-pill" style="left:60%; width:3%; top:55%;"></div>
+              <div class="note-pill" style="left:65%; width:6%; top:50%;"></div>
+              <div class="note-pill" style="left:75%; width:5%; top:45%;"></div>
+              <div class="note-pill" style="left:85%; width:8%; top:42%;"></div>
+              <svg class="f0-overlay" preserveAspectRatio="none" viewBox="0 0 100 46">
+                <path d="M0,28 Q5,24 10,26 T20,22 Q25,20 30,24 T40,18 Q50,16 60,22 T75,18 Q85,15 100,20" stroke="#ffd9e6" stroke-width="0.6" fill="none" opacity="0.55"/>
+              </svg>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div class="lane bass">
+            <div class="label"><span class="name">BASS</span><span class="notes-count">554 notes</span><div class="controls"><span class="btn">M</span><span class="btn">S</span><span class="btn">·</span></div></div>
+            <div class="notes-bg">
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:5%; width:8%; top:65%;"></div><div class="note-pill" style="left:14%; width:8%; top:75%;"></div><div class="note-pill" style="left:23%; width:8%; top:55%;"></div><div class="note-pill" style="left:32%; width:8%; top:48%;"></div><div class="note-pill" style="left:42%; width:13%; top:65%;"></div><div class="note-pill" style="left:56%; width:13%; top:65%;"></div><div class="note-pill" style="left:70%; width:8%; top:75%;"></div><div class="note-pill" style="left:79%; width:13%; top:55%;"></div>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div class="lane guitar">
+            <div class="label"><span class="name">GUITAR</span><span class="notes-count">922 notes</span><div class="controls"><span class="btn">M</span><span class="btn">S</span><span class="btn">·</span></div></div>
+            <div class="notes-bg">
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:6%; width:2%; top:35%;"></div><div class="note-pill" style="left:9%; width:2%; top:30%;"></div><div class="note-pill" style="left:13%; width:3%; top:40%;"></div><div class="note-pill" style="left:18%; width:2%; top:32%;"></div><div class="note-pill" style="left:22%; width:3%; top:38%;"></div><div class="note-pill" style="left:30%; width:4%; top:30%;"></div><div class="note-pill" style="left:38%; width:3%; top:35%;"></div><div class="note-pill" style="left:45%; width:5%; top:42%;"></div><div class="note-pill" style="left:55%; width:4%; top:30%;"></div><div class="note-pill" style="left:62%; width:3%; top:35%;"></div><div class="note-pill" style="left:70%; width:4%; top:38%;"></div><div class="note-pill" style="left:78%; width:5%; top:32%;"></div><div class="note-pill" style="left:88%; width:6%; top:35%;"></div>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div class="lane piano">
+            <div class="label"><span class="name">PIANO</span><span class="notes-count">955 notes</span><div class="controls"><span class="btn">M</span><span class="btn">S</span><span class="btn">·</span></div></div>
+            <div class="notes-bg">
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:5%; width:5%; top:50%;"></div><div class="note-pill" style="left:11%; width:6%; top:45%;"></div><div class="note-pill" style="left:18%; width:5%; top:55%;"></div><div class="note-pill" style="left:24%; width:6%; top:48%;"></div><div class="note-pill" style="left:32%; width:8%; top:42%;"></div><div class="note-pill" style="left:42%; width:13%; top:48%;"></div><div class="note-pill" style="left:56%; width:13%; top:50%;"></div><div class="note-pill" style="left:70%; width:7%; top:55%;"></div><div class="note-pill" style="left:78%; width:6%; top:45%;"></div><div class="note-pill" style="left:85%; width:9%; top:48%;"></div>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div class="lane other">
+            <div class="label"><span class="name">OTHER</span><span class="notes-count">1004 notes</span><div class="controls"><span class="btn">M</span><span class="btn">S</span><span class="btn">·</span></div></div>
+            <div class="notes-bg">
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:8%; width:3%; top:40%;"></div><div class="note-pill" style="left:14%; width:4%; top:42%;"></div><div class="note-pill" style="left:22%; width:3%; top:38%;"></div><div class="note-pill" style="left:30%; width:5%; top:45%;"></div><div class="note-pill" style="left:40%; width:6%; top:40%;"></div><div class="note-pill" style="left:50%; width:5%; top:42%;"></div><div class="note-pill" style="left:60%; width:7%; top:45%;"></div><div class="note-pill" style="left:72%; width:6%; top:38%;"></div><div class="note-pill" style="left:82%; width:8%; top:42%;"></div>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div class="lane drums">
+            <div class="label"><span class="name">DRUMS</span><span class="notes-count">audio only</span><div class="controls"><span class="btn">M</span><span class="btn">S</span><span class="btn">·</span></div></div>
+            <div class="notes-bg">
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:0%; width:100%; top:50%; opacity:0.45; background:linear-gradient(90deg,#888 0%,#aaa 50%,#888 100%); height:8px; border-radius:1px;"></div>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+        </div>
+        <div class="transport">
+          <span style="color:#fff;">▶</span><span>1:21 / 3:35</span>
+          <div class="scrub"><div class="fill"></div></div>
+          <span>vol</span><span>· loop A↔B</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A · RipX-faithful</h3>
+      <p>Thin chord ribbon, 6 equal-height stem lanes, F0 contour overlaid on vocals, loop-appearance bands shown faintly behind notes. Maximizes screen real-estate for the note view.</p>
+    </div>
+  </div>
+
+  <!-- ============== OPTION B: Study-mode ============== -->
+  <div class="card" data-choice="b" onclick="toggleSelect(this)" style="cursor:pointer;">
+    <div class="card-image" style="padding:0;">
+      <div class="mock-app">
+        <div class="topbar">
+          <span style="font-weight:600;">Gorillaz · Silent Running</span>
+          <span class="badge k">F minor</span>
+          <span class="badge t">107 BPM</span>
+          <span class="badge s">F natural minor</span>
+          <span style="margin-left:auto; color:#888;">3:35</span>
+        </div>
+        <div class="chord-big">
+          <div class="ch tonic"><span class="rn">i</span><span class="lab">F:min</span><span class="fn">tonic</span></div>
+          <div class="ch dom"><span class="rn">v</span><span class="lab">C:min</span><span class="fn">dominant</span></div>
+          <div class="ch modal"><span class="rn">♭VI</span><span class="lab">C#:maj</span><span class="fn">modal</span></div>
+          <div class="ch tonic"><span class="rn">♭III</span><span class="lab">Ab:maj</span><span class="fn">tonic</span></div>
+          <div class="ch modal"><span class="rn">♭VII/3</span><span class="lab">Eb:maj/3</span><span class="fn">modal</span></div>
+          <div class="ch tonic"><span class="rn">i</span><span class="lab">F:min</span><span class="fn">tonic</span></div>
+        </div>
+        <div class="body-split">
+          <div class="main">
+            <div class="lanes">
+              <div class="lane vocals" style="height:32px;">
+                <div class="label" style="width:70px;"><span class="name">VOX</span><div class="controls"><span class="btn">M</span><span class="btn s">S</span></div></div>
+                <div class="notes-bg">
+                  <div class="loop-band" style="left:5%; width:13%;"></div>
+                  <div class="loop-band" style="left:20%; width:18%;"></div>
+                  <div class="note-pill" style="left:6%; width:3%; top:55%;"></div><div class="note-pill" style="left:10%; width:4%; top:50%;"></div><div class="note-pill" style="left:15%; width:6%; top:45%;"></div><div class="note-pill" style="left:23%; width:3%; top:60%;"></div><div class="note-pill" style="left:28%; width:5%; top:55%;"></div><div class="note-pill" style="left:35%; width:4%; top:50%;"></div><div class="note-pill" style="left:42%; width:7%; top:42%;"></div><div class="note-pill" style="left:52%; width:4%; top:48%;"></div><div class="note-pill" style="left:60%; width:3%; top:55%;"></div><div class="note-pill" style="left:65%; width:6%; top:50%;"></div><div class="note-pill" style="left:75%; width:5%; top:45%;"></div><div class="note-pill" style="left:85%; width:8%; top:42%;"></div>
+                  <svg class="f0-overlay" preserveAspectRatio="none" viewBox="0 0 100 32"><path d="M0,18 Q5,15 10,17 T20,13 Q25,11 30,15 T40,9 Q50,7 60,13 T75,9 Q85,6 100,11" stroke="#ffd9e6" stroke-width="0.5" fill="none" opacity="0.55"/></svg>
+                  <div class="playhead" style="left:38%;"></div>
+                </div>
+              </div>
+              <div class="lane bass" style="height:32px;">
+                <div class="label" style="width:70px;"><span class="name">BASS</span><div class="controls"><span class="btn">M</span><span class="btn">S</span></div></div>
+                <div class="notes-bg">
+                  <div class="note-pill" style="left:5%; width:8%; top:65%;"></div><div class="note-pill" style="left:14%; width:8%; top:75%;"></div><div class="note-pill" style="left:23%; width:8%; top:55%;"></div><div class="note-pill" style="left:32%; width:8%; top:48%;"></div><div class="note-pill" style="left:42%; width:13%; top:65%;"></div><div class="note-pill" style="left:56%; width:13%; top:65%;"></div><div class="note-pill" style="left:70%; width:8%; top:75%;"></div><div class="note-pill" style="left:79%; width:13%; top:55%;"></div>
+                  <div class="playhead" style="left:38%;"></div>
+                </div>
+              </div>
+              <div class="lane guitar" style="height:32px;">
+                <div class="label" style="width:70px;"><span class="name">GTR</span><div class="controls"><span class="btn">M</span><span class="btn">S</span></div></div>
+                <div class="notes-bg">
+                  <div class="note-pill" style="left:6%; width:2%; top:35%;"></div><div class="note-pill" style="left:13%; width:3%; top:40%;"></div><div class="note-pill" style="left:22%; width:3%; top:38%;"></div><div class="note-pill" style="left:30%; width:4%; top:30%;"></div><div class="note-pill" style="left:38%; width:3%; top:35%;"></div><div class="note-pill" style="left:45%; width:5%; top:42%;"></div><div class="note-pill" style="left:55%; width:4%; top:30%;"></div><div class="note-pill" style="left:62%; width:3%; top:35%;"></div><div class="note-pill" style="left:78%; width:5%; top:32%;"></div>
+                  <div class="playhead" style="left:38%;"></div>
+                </div>
+              </div>
+              <div class="lane piano" style="height:32px;">
+                <div class="label" style="width:70px;"><span class="name">PNO</span><div class="controls"><span class="btn">M</span><span class="btn">S</span></div></div>
+                <div class="notes-bg">
+                  <div class="note-pill" style="left:5%; width:5%; top:50%;"></div><div class="note-pill" style="left:11%; width:6%; top:45%;"></div><div class="note-pill" style="left:18%; width:5%; top:55%;"></div><div class="note-pill" style="left:32%; width:8%; top:42%;"></div><div class="note-pill" style="left:42%; width:13%; top:48%;"></div><div class="note-pill" style="left:56%; width:13%; top:50%;"></div><div class="note-pill" style="left:78%; width:6%; top:45%;"></div>
+                  <div class="playhead" style="left:38%;"></div>
+                </div>
+              </div>
+              <div class="lane drums" style="height:24px;">
+                <div class="label" style="width:70px;"><span class="name">DRM</span><div class="controls"><span class="btn">M</span><span class="btn">S</span></div></div>
+                <div class="notes-bg">
+                  <div class="note-pill" style="left:0%; width:100%; top:50%; opacity:.45; background:linear-gradient(90deg,#888,#aaa,#888); height:6px; border-radius:1px;"></div>
+                  <div class="playhead" style="left:38%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="side sidebar">
+            <h4>Loop · 4 chords</h4>
+            <div><span class="tag rn">i</span><span class="tag rn">v</span><span class="tag rn">♭VI</span><span class="tag rn">♭III</span></div>
+            <div style="color:#888; font-size:10px; margin-top:3px;">9 appearances</div>
+            <h4>Modal interchange</h4>
+            <div><span class="tag" style="color:#e3c3ff">29 chords</span></div>
+            <h4>Vocal range</h4>
+            <div style="font-size:13px; color:#ff7eaa;">F2 — C7</div>
+            <h4>Now playing</h4>
+            <div style="font-family:ui-monospace,monospace;">F:min · <span style="color:#ffb86b;">i</span></div>
+            <div style="color:#888; font-size:10px;">tonic · bar 16</div>
+          </div>
+        </div>
+        <div class="transport">
+          <span style="color:#fff;">▶</span><span>1:21 / 3:35</span>
+          <div class="scrub"><div class="fill"></div></div>
+          <span>· bar 16</span><span>· loop on</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B · Study-mode (recommended)</h3>
+      <p>Big chord blocks at the top read across the room (perfect for "watch the harmony fly by"), compact stem lanes below, right sidebar surfaces the loop, modal-interchange count, vocal range, and live "now-playing" chord. Information-dense without being cramped.</p>
+    </div>
+  </div>
+
+  <!-- ============== OPTION C: Score-strip + collapsible stems ============== -->
+  <div class="card" data-choice="c" onclick="toggleSelect(this)" style="cursor:pointer;">
+    <div class="card-image" style="padding:0;">
+      <div class="mock-app">
+        <div class="topbar">
+          <span style="font-weight:600;">Gorillaz · Silent Running</span>
+          <span class="badge k">F minor</span>
+          <span class="badge t">107 BPM</span>
+          <span style="margin-left:auto; color:#888;">3:35</span>
+        </div>
+        <div style="background:#0a0a0c; padding:14px 20px; border-bottom:1px solid #26262c;">
+          <div style="color:#888; font-size:9px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;">Bar 16 · Loop iteration 4 of 9</div>
+          <div style="display:flex; gap:6px; align-items:flex-end; font-family:ui-serif,Georgia,serif;">
+            <div style="flex:1; padding:8px; background:#1a261a; border-radius:4px; text-align:center;"><div style="color:#ffb86b; font-size:32px; font-weight:700; line-height:1;">i</div><div style="color:#bbb; font-size:13px; margin-top:4px;">Fm</div></div>
+            <div style="flex:1; padding:8px; background:#26221a; border-radius:4px; text-align:center;"><div style="color:#ffb86b; font-size:32px; font-weight:700; line-height:1;">v</div><div style="color:#bbb; font-size:13px; margin-top:4px;">Cm</div></div>
+            <div style="flex:1; padding:8px; background:#2a1a26; border-radius:4px; text-align:center; border:2px solid #ffb86b; box-shadow:0 0 8px rgba(255,184,107,.3);"><div style="color:#ffb86b; font-size:32px; font-weight:700; line-height:1;">♭VI</div><div style="color:#fff; font-size:13px; margin-top:4px;">C♯</div><div style="color:#888; font-size:9px; text-transform:uppercase; margin-top:2px;">▶ now</div></div>
+            <div style="flex:1; padding:8px; background:#1a261a; border-radius:4px; text-align:center; opacity:.55;"><div style="color:#ffb86b; font-size:32px; font-weight:700; line-height:1;">♭III</div><div style="color:#bbb; font-size:13px; margin-top:4px;">A♭</div></div>
+          </div>
+        </div>
+        <div style="background:#15151a; padding:8px 20px; border-bottom:1px solid #26262c; display:flex; gap:8px; font-size:11px; color:#aaa;">
+          <span style="color:#fff;">▼ Stems</span>
+          <span class="badge" style="background:#222; padding:2px 8px; border-radius:3px;">vocals</span>
+          <span class="badge" style="background:#222; padding:2px 8px; border-radius:3px;">bass</span>
+          <span class="badge" style="background:#222; padding:2px 8px; border-radius:3px;">guitar</span>
+          <span class="badge" style="background:#222; padding:2px 8px; border-radius:3px;">piano</span>
+          <span class="badge" style="background:#222; padding:2px 8px; border-radius:3px;">other</span>
+          <span class="badge" style="background:#222; padding:2px 8px; border-radius:3px;">drums</span>
+        </div>
+        <div class="lanes">
+          <div class="lane vocals">
+            <div class="label"><span class="name">VOCALS</span><span class="notes-count">solo</span><div class="controls"><span class="btn">M</span><span class="btn s">S</span></div></div>
+            <div class="notes-bg">
+              <div class="loop-band" style="left:5%; width:13%;"></div><div class="loop-band" style="left:20%; width:18%;"></div>
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:6%; width:3%; top:55%;"></div><div class="note-pill" style="left:10%; width:4%; top:50%;"></div><div class="note-pill" style="left:15%; width:6%; top:45%;"></div><div class="note-pill" style="left:28%; width:5%; top:55%;"></div><div class="note-pill" style="left:35%; width:4%; top:50%;"></div><div class="note-pill" style="left:42%; width:7%; top:42%;"></div><div class="note-pill" style="left:60%; width:3%; top:55%;"></div><div class="note-pill" style="left:75%; width:5%; top:45%;"></div><div class="note-pill" style="left:85%; width:8%; top:42%;"></div>
+              <svg class="f0-overlay" preserveAspectRatio="none" viewBox="0 0 100 46"><path d="M0,28 Q5,24 10,26 T20,22 Q25,20 30,24 T40,18 Q50,16 60,22 T75,18 Q85,15 100,20" stroke="#ffd9e6" stroke-width="0.6" fill="none" opacity="0.55"/></svg>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div class="lane bass">
+            <div class="label"><span class="name">BASS</span><span class="notes-count">solo</span><div class="controls"><span class="btn">M</span><span class="btn">S</span></div></div>
+            <div class="notes-bg">
+              <div class="gridline db" style="left:14%;"></div><div class="gridline db" style="left:28%;"></div><div class="gridline db" style="left:42%;"></div><div class="gridline db" style="left:56%;"></div><div class="gridline db" style="left:70%;"></div><div class="gridline db" style="left:84%;"></div>
+              <div class="note-pill" style="left:5%; width:8%; top:65%;"></div><div class="note-pill" style="left:14%; width:8%; top:75%;"></div><div class="note-pill" style="left:23%; width:8%; top:55%;"></div><div class="note-pill" style="left:32%; width:8%; top:48%;"></div><div class="note-pill" style="left:42%; width:13%; top:65%;"></div><div class="note-pill" style="left:56%; width:13%; top:65%;"></div><div class="note-pill" style="left:70%; width:8%; top:75%;"></div>
+              <div class="playhead" style="left:38%;"></div>
+            </div>
+          </div>
+          <div style="padding:6px 14px; background:#15151a; border-bottom:1px solid #1c1c20; font-size:10px; color:#666; cursor:pointer;">▸ guitar, piano, other, drums (collapsed)</div>
+        </div>
+        <div class="transport">
+          <span style="color:#fff;">▶</span><span>1:21 / 3:35</span>
+          <div class="scrub"><div class="fill"></div></div>
+          <span>· bar 16</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C · Score-strip + collapsible stems</h3>
+      <p>The current chord is the visual hero (giant block, glowing border, "now"). Stems are a secondary, collapsible pane — only the ones you've opened render notes. Best for chord-progression study; weakest for "what's the bass actually doing right now?"</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;">Tap a card to vote, or just tell me in the terminal. All three are achievable; B is the recommendation as a balance between RipX-faithful note view and analysis-rich harmony display. We can also do A as v1 → graft B's sidebar in v2.</p>

@@ -1,0 +1,10 @@
+node_modules/
+playwright-report/
+test-results/
+# Phase 3 visual-review output: per-preset intermediate + PNGs are not tracked,
+# but merged verdict.json + axe.json ARE.
+visual-review/**/*.png
+visual-review/_baseline-current/
+visual-review/_baseline-diff/
+visual-review/verdict-*.json
+visual-review/axe-*.json

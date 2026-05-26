@@ -1,0 +1,1327 @@
+#app { display: flex; flex-direction: column; height: 100vh; }
+
+#topbar {
+  display: flex; align-items: center; gap: 14px;
+  padding: 10px 16px; background: var(--surface-1);
+  border-bottom: 1px solid var(--surface-3);
+  font-size: 12px; color: var(--text-secondary);
+  position: relative;
+}
+#topbar .badge { background: var(--surface-3); padding: 3px 9px; border-radius: 4px; font-weight: 600; font-size: var(--t-body); }
+#topbar .badge.k { background: var(--modal-soft-bg); color: var(--modal-soft-fg); }
+#topbar .badge.t { background: var(--info-soft-bg); color: var(--info-soft-fg); }
+#topbar .badge.s { background: var(--success-soft-bg); color: var(--success-soft-fg); }
+#topbar .badge.q { background: var(--warn-soft-bg); color: var(--warn-soft-fg); }
+/* Cross-check two-state pill: shown in place of the plain k/t badge when
+   essentia_agreement.{key,bpm}.ok === false. Renders the analyze + Essentia
+   values side-by-side as a segmented control; the active segment keeps the
+   badge's color, the inactive one fades to muted text on the bare surface.
+   Clicking the inactive segment toggles the per-slug xcheck choice. */
+#topbar .badge.xc-pill { padding: 0; display: inline-flex; gap: 0; overflow: hidden; }
+#topbar .badge.xc-pill .xc-seg {
+  padding: 3px 9px;
+  cursor: pointer;
+  color: var(--text-muted);
+  background: var(--surface-3);
+  transition: background 0.12s, color 0.12s;
+  user-select: none;
+}
+#topbar .badge.xc-pill .xc-seg + .xc-seg {
+  border-left: 1px solid var(--surface-base);
+}
+#topbar .badge.xc-pill .xc-seg:hover:not(.active) {
+  background: var(--surface-hover-2);
+  color: var(--text-primary);
+}
+/* Active segment inherits the per-kind color from the parent .badge.k / .t */
+#topbar .badge.k.xc-pill .xc-seg.active { background: var(--modal-soft-bg); color: var(--modal-soft-fg); }
+#topbar .badge.t.xc-pill .xc-seg.active { background: var(--info-soft-bg);  color: var(--info-soft-fg);  }
+#topbar .menu { margin-left: auto; display: flex; gap: 2px; align-items: center; }
+#topbar .menu .item { padding: 5px 10px; border-radius: 4px; font-size: var(--t-body); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: 5px; transition: background 0.12s, color 0.12s; }
+#topbar .menu .item:hover { background: var(--surface-3); color: var(--text-primary); }
+#topbar .menu .item.icon-only { padding: 5px 7px; }
+#topbar .menu .sep { width: 1px; height: 14px; background: var(--surface-3); margin: 0 4px; }
+
+.track-picker { position: relative; display: flex; align-items: center; gap: 6px; padding: var(--sp-1) var(--sp-2); border-radius: 4px; cursor: pointer; }
+.track-picker:hover { background: var(--surface-hover-2); }
+.track-picker.open { background: var(--surface-hover-2); }
+.track-picker .title { font-weight: 600; color: var(--text-primary); font-size: var(--t-prose); max-width: 160ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track-picker .chev { color: var(--text-muted); font-size: var(--t-micro); transition: transform .15s; }
+.track-picker.open .chev { transform: rotate(180deg); color: var(--text-primary); }
+
+.tp-panel { position: absolute; top: 36px; left: 0; width: 720px; max-width: calc(100vw - 24px); max-height: calc(100vh - 60px); background: var(--surface-1); border: 1px solid var(--surface-3); border-radius: 8px; box-shadow: var(--el-3); z-index: 50; overflow: hidden; display: flex; flex-direction: column; }
+.tp-search { padding: 10px 12px; border-bottom: 1px solid var(--border-soft); display: flex; gap: var(--sp-2); align-items: center; }
+.tp-search input { flex: 1; background: var(--surface-base); border: 1px solid var(--surface-3); color: var(--text-primary); font-size: 12px; padding: 6px 9px; border-radius: 4px; outline: none; }
+.tp-search input:focus { border-color: var(--focus-ring); outline: 2px solid color-mix(in srgb, var(--focus-ring) 35%, transparent); outline-offset: 1px; }
+.tp-header {
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--t-micro);
+  color: var(--text-disabled);
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+  background: var(--surface-base);
+  border-bottom: 1px solid var(--surface-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.tp-header .tp-count { color: var(--text-secondary); font-family: var(--font-mono); }
+.tp-header-actions {
+  display: flex;
+  gap: 6px;
+}
+.tp-header-btn {
+  background: transparent;
+  border: 1px solid var(--surface-3);
+  color: var(--text-muted);
+  border-radius: 10px;
+  padding: 2px 8px;
+  font-size: 10px;
+  cursor: pointer;
+  font-family: inherit;
+  text-transform: none;
+  letter-spacing: normal;
+}
+.tp-header-btn:hover {
+  color: var(--text-secondary);
+  border-color: var(--text-muted);
+}
+.tp-controls { padding: var(--sp-2) var(--sp-3); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border-soft); background: var(--surface-base); font-size: var(--t-micro); }
+.tp-controls .lbl { color: var(--text-disabled); text-transform: uppercase; letter-spacing: var(--ls-caps); font-weight: 600; margin-right: var(--sp-1); padding: 3px 0; border-right: 1px solid var(--surface-3); padding-right: var(--sp-2); }
+.tp-controls .pill { background: var(--surface-3); padding: 3px 8px; border-radius: 10px; color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; gap: var(--sp-1); }
+.tp-controls .pill:hover { background: var(--surface-pill-hover); color: var(--text-primary); }
+.tp-controls .pill.active { background: var(--modal-soft-bg); color: var(--modal-soft-fg); }
+.tp-list { flex: 1 1 auto; min-height: 0; max-height: min(1080px, calc(100vh - 200px)); overflow-y: auto; }
+.tp-row { display: grid; grid-template-columns: minmax(0, 1fr) 80px 60px 50px 14px; gap: 10px; align-items: center; padding: var(--sp-2) var(--sp-3); border-bottom: 1px solid var(--picker-divider); cursor: pointer; font-size: var(--t-body); }
+.tp-row:hover { background: var(--surface-hover); }
+.tp-row.current { background: var(--surface-selected); box-shadow: inset 3px 0 0 0 var(--accent); }
+.tp-row .nm { min-width: 0; white-space: normal; overflow-wrap: anywhere; word-break: break-word; line-height: 1.35; }
+.tp-row .nm .sub { color: var(--text-disabled); font-size: 9px; display: block; }
+.tp-row .nm .warn { color: var(--text-disabled); font-style: italic; font-size: 9px; display: block; }
+/* Small inline ⟳ chip surfaced when /api/tracks reports stale_stages on a
+   row — clicking it opens the analyze-stale modal pre-filtered to just the
+   stale set. Inline-block so it sits next to the title rather than below;
+   pointer cursor + saturated accent so the user reads it as actionable. */
+.tp-row .nm .tp-stale-chip {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 9px;
+  background: color-mix(in srgb, var(--status-error) 22%, transparent);
+  color: var(--status-error);
+  font-size: 9px;
+  font-family: var(--font-mono);
+  cursor: pointer;
+  vertical-align: middle;
+  border: 1px solid color-mix(in srgb, var(--status-error) 40%, transparent);
+  user-select: none;
+  line-height: 1.5;
+}
+.tp-row .nm .tp-stale-chip:hover {
+  background: color-mix(in srgb, var(--status-error) 35%, transparent);
+}
+.tp-row .nm .tp-stale-chip .n { font-weight: 600; }
+/* Row-level signal for stale caches: title text picks up the error color
+   so the row is scannable from the corner of the eye, not just where the
+   chip sits. The chip itself keeps its own coloring (the row rule below
+   stops short of the chip via the .title selector). */
+.tp-row.stale .nm .title { color: var(--status-error); }
+.tp-row .k { color: var(--modal-soft-fg); font-family: var(--font-mono); font-size: var(--t-body); }
+.tp-row .t { color: var(--info-soft-fg); font-family: var(--font-mono); font-size: var(--t-body); text-align: right; }
+.tp-row .d { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--t-micro); text-align: right; }
+.tp-row .ind { color: var(--accent); text-align: center; }
+.tp-footer { padding: 6px 12px; font-size: var(--t-micro); color: var(--text-muted); background: var(--surface-1); border-top: 1px solid var(--surface-3); display: flex; justify-content: space-between; }
+
+#body { flex: 1; padding: var(--sp-5); display: flex; flex-direction: column; min-height: 0; }
+#body.viewer-mode { padding: 0; }
+#loading { color: var(--text-muted); font-size: 14px; }
+
+/* M3 layout */
+#viewer-root { display: flex; flex: 1; min-height: 0; }
+#viewer-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+#viewer-side { width: 300px; background: var(--surface-1); border-left: 1px solid var(--surface-3); flex-shrink: 0; overflow-y: auto; }
+
+#minimap { height: 44px; background: var(--surface-base); border-bottom: 1px solid var(--surface-3); padding: 5px 8px; }
+#minimap .track { height: 100%; background: var(--surface-1); border-radius: 3px; position: relative; overflow: hidden; cursor: grab; user-select: none; }
+#minimap .track:active { cursor: grabbing; }
+/* The minimap accents (segs, viewport, play band, loop band) used to pin
+   to literal #ffb86b. After 2026-05-09-iter-2 they derive from the live
+   --accent token via color-mix, so a Midnight blue accent or a Studio
+   Light burnt-orange accent retints the minimap automatically. */
+#minimap .seg {
+  position: absolute; top: 4px; bottom: 4px;
+  background: color-mix(in srgb, var(--accent) calc(var(--alpha-overlay-med) * 100%), transparent);
+  border-left: 1px solid color-mix(in srgb, var(--accent) calc(var(--alpha-overlay-strong) * 100%), transparent);
+  border-right: 1px solid color-mix(in srgb, var(--accent) calc(var(--alpha-overlay-strong) * 100%), transparent);
+  border-radius: 1px;
+}
+#minimap .viewport {
+  position: absolute; top: 0; bottom: 0;
+  border: 1px solid var(--text-primary);
+  background: color-mix(in srgb, var(--text-primary) calc(var(--alpha-overlay-soft) * 100%), transparent);
+  border-radius: 2px;
+  box-shadow: 0 0 0 1px rgb(0 0 0 / 0.4);
+  pointer-events: none;
+}
+#minimap .play {
+  position: absolute; top: 0; bottom: 0; width: 2px;
+  background: var(--accent);
+  box-shadow: 0 0 4px color-mix(in srgb, var(--accent) calc(var(--alpha-glow-strong) * 100%), transparent);
+  pointer-events: none;
+}
+/* Playback loop band — distinct from analyzed song-structure segs.
+   Tunable via --alpha-loop-band-{fill,stroke} (same tokens that drive the
+   canvas analyzed-loop bands in pianoroll.js, so one slider tunes both). */
+#minimap .track .loop-band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--accent) calc(var(--alpha-loop-band-fill) * 100%), transparent);
+  border-left: 1px solid color-mix(in srgb, var(--accent) calc(var(--alpha-loop-band-stroke) * 100%), transparent);
+  border-right: 1px solid color-mix(in srgb, var(--accent) calc(var(--alpha-loop-band-stroke) * 100%), transparent);
+  pointer-events: none;
+}
+
+#roll-frame { flex: 1; display: flex; min-height: 0; position: relative; background: var(--surface-base); }
+#roll-frame .gutter { width: 54px; background: var(--gutter-bg); border-right: 1px solid var(--surface-3); flex-shrink: 0; user-select: none; position: relative; overflow: hidden; }
+#roll-frame .gutter-head { height: 48px; background: var(--surface-1); border-bottom: 1px solid var(--surface-3); display: flex; align-items: center; justify-content: center; font-size: 9px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-muted); }
+#roll-frame .gutter-labels { position: absolute; left: 0; right: 0; bottom: 0; }
+#roll-frame .gutter-row { position: absolute; left: 0; right: 0; padding-right: 6px; display: flex; align-items: center; justify-content: flex-end; font-size: 9px; font-weight: 700; color: var(--gutter-row-fg); font-family: var(--font-mono); line-height: 1; background: var(--gutter-row-bg); box-shadow: inset 0 0 0 1px #777; }
+#roll-frame .gutter-row.black { background: var(--gutter-row-black-bg); color: var(--gutter-row-black-fg); }
+/* The .octave class fires on every C row (absolute Do anchor, independent
+   of key); .tonic fires on the song's detected tonic. Both rules tint the
+   row's text label only — no background — so the keyboard rows stay
+   visually flat. When a row is both (key of C in scientific naming) the
+   tonic rule wins because it's listed after, which matches the priority
+   "song-specific signal beats universal anchor". */
+#roll-frame .gutter-row.octave { color: var(--gutter-row-octave-fg); }
+#roll-frame .gutter-row.tonic  { color: var(--gutter-row-tonic-fg); }
+/* Pitch-label octave subscript: smaller font and tight line-height so it
+   sits cleanly within compact rows (gutter, tooltip, vocal-range tag)
+   without expanding the parent's vertical box. */
+sub.pitch-oct { font-size: 0.72em; line-height: 1; vertical-align: sub; }
+#roll-frame .canvas-wrap { flex: 1; position: relative; overflow: hidden; }
+#roll-frame canvas.notes { position: absolute; left: 0; top: 0; display: block; cursor: default; }
+#roll-frame canvas.notes.dragging { cursor: grabbing; }
+#roll-frame svg.f0 { position: absolute; left: 0; top: 0; pointer-events: none; }
+#roll-frame .playhead { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--text-primary); box-shadow: 0 0 8px color-mix(in srgb, var(--text-primary) calc(var(--alpha-glow-strong) * 100%), transparent); z-index: 9; pointer-events: none; transform: translateX(-1px); }
+
+/* Hover tooltip — multiline DOM (one .tip-row per line). The transition
+   delay reads --tooltip-show-delay (set from tooltip-prefs.js) so the
+   user-controlled "Show delay" slider in Settings takes effect without
+   a JS rebind. State modifiers: on-grid (over empty grid), on-note (over
+   detected pitch), on-drum (over detected drum hit). */
+#roll-frame .hover-tip {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transform: scale(0.96);
+  transform-origin: top left;
+  transition: opacity .08s var(--tooltip-show-delay, 0ms),
+              transform .08s var(--tooltip-show-delay, 0ms);
+  background: color-mix(in srgb, var(--surface-1) 94%, transparent);
+  border: 1px solid var(--surface-3);
+  padding: 6px 9px;
+  border-radius: var(--radius-2);
+  font-size: var(--t-body);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  z-index: 12;
+  white-space: nowrap;
+  box-shadow: var(--el-2);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+}
+#roll-frame .hover-tip.show { opacity: 1; transform: scale(1); }
+#roll-frame .hover-tip .tip-row { line-height: 1.25; }
+#roll-frame .hover-tip .tip-head {
+  font-weight: 700;
+  font-size: calc(var(--t-body) + 3px);
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  margin-bottom: 1px;
+}
+#roll-frame .hover-tip .tip-physics {
+  color: var(--text-secondary);
+  font-size: calc(var(--t-body) - 1px);
+}
+#roll-frame .hover-tip .tip-event { color: var(--text-primary); }
+#roll-frame .hover-tip .tip-timing { color: var(--text-secondary); }
+#roll-frame .hover-tip .tip-analysis {
+  color: var(--text-muted);
+  font-style: italic;
+  font-size: calc(var(--t-body) - 1px);
+}
+/* State variants — the border colour and head colour shift together so
+   the user can see at a glance which region the cursor is over. */
+#roll-frame .hover-tip.on-grid {
+  border-color: var(--border-soft);
+}
+#roll-frame .hover-tip.on-grid .tip-head { color: var(--text-secondary); }
+#roll-frame .hover-tip.on-note {
+  border-color: var(--accent);
+  box-shadow: var(--el-2), 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
+}
+#roll-frame .hover-tip.on-note .tip-head { color: var(--accent); }
+/* on-drum tint is driven by --tip-drum-color, set inline by inspector.js
+   to the matching --drum-{kick|snare|toms|hihat|cymbals} CSS token for the
+   row under the cursor. Falls back to status-error if the var hasn't been
+   set yet (first frame, or a theme that omits the per-piece tokens). */
+#roll-frame .hover-tip.on-drum {
+  border-color: var(--tip-drum-color, var(--status-error));
+  box-shadow: var(--el-2), 0 0 0 1px color-mix(in srgb, var(--tip-drum-color, var(--status-error)) 30%, transparent);
+}
+#roll-frame .hover-tip.on-drum .tip-head { color: var(--tip-drum-color, var(--status-error)); }
+
+#roll-frame .hover-row { position: absolute; left: 0; right: 0; pointer-events: none; background: color-mix(in srgb, var(--text-primary) calc(var(--alpha-overlay-soft) * 100%), transparent); border-top: 1px solid color-mix(in srgb, var(--text-primary) calc(var(--alpha-overlay-soft) * 100%), transparent); border-bottom: 1px solid color-mix(in srgb, var(--text-primary) calc(var(--alpha-overlay-soft) * 100%), transparent); opacity: 0; z-index: 6; }
+#roll-frame .hover-row.show { opacity: 1; }
+#roll-frame .gutter-row.hovered { background: color-mix(in srgb, var(--text-primary) calc(var(--alpha-overlay-soft) * 100%), transparent); color: var(--text-primary); }
+
+#transport { display: flex; align-items: center; gap: 14px; padding: 8px 14px; background: var(--surface-1); border-top: 1px solid var(--surface-3); font-size: var(--t-body); color: var(--text-secondary); }
+#transport .play-btn { width: 28px; height: 28px; border-radius: 50%; background: var(--text-primary); color: var(--surface-base); display: flex; align-items: center; justify-content: center; font-size: var(--t-body); cursor: pointer; transition: filter 0.12s, background 0.12s; }
+#transport .play-btn:hover { filter: brightness(0.9); }
+#transport .auto-badge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: var(--ls-caps);
+  background: var(--text-primary);
+  color: var(--surface-base);
+  padding: 3px 8px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+  box-shadow: var(--el-1);
+}
+#transport .auto-badge.off {
+  background: var(--surface-2);
+  color: var(--text-muted);
+  box-shadow: none;
+}
+#transport .auto-badge:hover { filter: brightness(0.9); }
+#transport .mode-toggle {
+  display: flex;
+  border: 1px solid var(--surface-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+#transport .mode-toggle .mode-btn {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: var(--ls-caps);
+  background: transparent;
+  color: var(--text-muted);
+  padding: 3px 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+#transport .mode-toggle .mode-btn + .mode-btn { border-left: 1px solid var(--surface-3); }
+#transport .mode-toggle .mode-btn:hover:not(:disabled) { background: var(--surface-3); color: var(--text-primary); }
+#transport .mode-toggle .mode-btn.active { background: var(--accent); color: var(--accent-on); }
+#transport .mode-toggle .mode-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+#transport .time { font-family: var(--font-mono); color: var(--text-primary); font-size: 12px; min-width: 90px; }
+/* Scrub bar matches the AUTO/MODE pill height (~18px) so it's a real click
+   target instead of a 6px sliver. The fill keeps the same radius as the
+   track so the leading edge looks like a clean inset progress bar. */
+#transport .scrub { flex: 1; height: 18px; background: var(--surface-2); border-radius: 9px; position: relative; cursor: pointer; border: 1px solid var(--surface-3); }
+#transport .scrub .fill { position: absolute; left: 0; top: 0; bottom: 0; background: var(--text-primary); border-radius: 9px; opacity: .85; pointer-events: none; }
+#transport .scrub:hover { border-color: color-mix(in srgb, var(--text-primary) 35%, var(--surface-3)); }
+
+/* CENTER | EDGE auto-scroll anchor toggle. Same shape as the MIX/SRC pill
+   so they read as a related group of controls. */
+#transport .anchor-toggle {
+  display: flex;
+  border: 1px solid var(--surface-3);
+  border-radius: 10px;
+  overflow: hidden;
+}
+#transport .anchor-toggle .anchor-btn {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: var(--ls-caps);
+  background: transparent;
+  color: var(--text-muted);
+  padding: 3px 8px;
+  border: none;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+#transport .anchor-toggle .anchor-btn + .anchor-btn { border-left: 1px solid var(--surface-3); }
+#transport .anchor-toggle .anchor-btn:hover:not(.active) { background: var(--surface-3); color: var(--text-primary); }
+#transport .anchor-toggle .anchor-btn.active { background: var(--accent); color: var(--accent-on); }
+#transport .zoomgrp { display: flex; align-items: center; gap: var(--sp-1); background: var(--surface-base); padding: 3px 6px; border-radius: 4px; border: 1px solid var(--surface-3); }
+#transport .zoomgrp .zlbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .05em; }
+#transport .zoomgrp button { background: var(--surface-2); border: none; color: var(--text-primary); width: 18px; height: 18px; border-radius: 3px; font-size: var(--t-body); line-height: 1; cursor: pointer; transition: background 0.12s, color 0.12s; }
+#transport .zoomgrp button:hover { background: var(--surface-3); color: var(--text-primary); }
+
+@media (max-width: 1399px) {
+  #transport .zoomgrp .zlbl { display: none; }
+}
+
+.side-section { padding: var(--sp-3) 14px; border-bottom: 1px solid var(--surface-3); }
+.side-section h4 { font-size: 9px; text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); margin: 0 0 10px 0; font-weight: 600; }
+
+/* Plan A Task 11: Metadata card (summary.identify) — sits above Now Playing
+   and shares the .side-section padding/border treatment via .sidebar-card. */
+.sidebar-card.metadata-card { padding: var(--sp-3) 14px; border-bottom: 1px solid var(--surface-3); font-size: 75%; }
+.sidebar-card.metadata-card h3 { font-size: 9px; text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); margin: 0 0 10px 0; font-weight: 600; }
+.metadata-card .meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+.metadata-card .label {
+  color: var(--text-muted);
+  font-size: 0.85em;
+}
+.metadata-card .value {
+  font-weight: 500;
+}
+.metadata-card .mono .value {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+/* Value column can hold long release titles like "In My Secret Life (Ten New
+   Songs demo CD)" — let it wrap rather than overflow the card. The label
+   stays nowrap so it can't collapse next to a multi-line value. */
+.metadata-card .value { text-align: right; word-break: break-word; max-width: 70%; }
+.metadata-card .label { white-space: nowrap; }
+/* MusicBrainz links: subtle by default (inherit the value color, no underline),
+   underline on hover. Keeps the meta-rows visually quiet — the MB link is a
+   "if you need it" affordance, not a primary action. */
+.metadata-card .mb-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+}
+.metadata-card .mb-link:hover {
+  border-bottom-color: var(--text-muted);
+}
+/* Footer "via AcoustID · NN%" row — same muted scale as the field labels so
+   it reads as provenance, not as a data row. */
+.metadata-card .meta-footer {
+  margin-top: 8px;
+  font-size: 0.75em;
+  color: var(--text-muted);
+  text-align: right;
+}
+/* Round 4 D3: trust-signaling note rendered under the card title when the
+   identify stage matched via fallback paths (MB text-search or AcoustID
+   without enriched metadata). --text-muted keeps it informational rather
+   than warn-colored; cursor:help signals the hover tooltip is available. */
+.metadata-card-source-note {
+  font-style: italic;
+  font-size: 0.85em;
+  color: var(--text-muted);
+  margin-top: 2px;
+  cursor: help;
+}
+
+/* Plan B Task 4: Last.fm tags + similar artists card. Sits BELOW the
+   analysis sections, below Harmony stats. Shares the .sidebar-card outer
+   padding/border treatment with the metadata card above. */
+.sidebar-card.lastfm-card { padding: var(--sp-3) 14px; border-bottom: 1px solid var(--surface-3); font-size: 75%; }
+.sidebar-card.lastfm-card h3 { font-size: 9px; text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); margin: 0 0 10px 0; font-weight: 600; }
+.lastfm-card .tags-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 8px 0;
+}
+.lastfm-card .chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--surface-3);
+  color: var(--text-muted);
+  font-size: 0.8em;
+}
+.lastfm-card .similar-artists {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0 0;
+}
+.lastfm-card .similar-artists li {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+.lastfm-card .similar-artists .match {
+  color: var(--text-muted);
+  font-size: 0.8em;
+}
+/* Similar-artist name links to last.fm. Inherits the value color; gets a
+   dotted underline on hover. Same affordance pattern as .mb-link above. */
+.lastfm-card .lastfm-link {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px dotted transparent;
+}
+.lastfm-card .lastfm-link:hover {
+  border-bottom-color: var(--text-muted);
+}
+.lastfm-card .lastfm-attribution {
+  margin-top: 8px;
+  font-size: 0.75em;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+/* Plan C Task 7: Essentia Acoustic Profile card. Sits below Harmony stats
+   (analysis output) but ABOVE the Last.fm card (external context). */
+.sidebar-card.acoustic-profile { padding: var(--sp-3) 14px; border-bottom: 1px solid var(--surface-3); font-size: 75%; }
+.sidebar-card.acoustic-profile h3 { font-size: 9px; text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); margin: 0 0 10px 0; font-weight: 600; }
+.acoustic-profile .bar {
+  display: inline-block;
+  width: 60px;
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 3px;
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.acoustic-profile .bar-fill {
+  display: block;
+  height: 100%;
+  background: var(--text-primary);
+  border-radius: 3px;
+}
+.acoustic-profile .bar-pct {
+  font-size: 0.8em;
+  color: var(--text-muted);
+}
+.acoustic-profile .mood-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.acoustic-profile .mood-pill {
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--surface-3);
+  color: var(--text-muted);
+  font-size: 0.8em;
+}
+/* Acoustic Profile reuses the .meta-row pattern from the metadata card so the
+   two cards line up visually. The .secondary span carries the optional "1st
+   peak NN.N" tempo hint — muted, smaller, sits inline after the headline BPM. */
+.acoustic-profile .meta-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 2px 0;
+}
+.acoustic-profile .label { color: var(--text-muted); font-size: 0.85em; white-space: nowrap; }
+.acoustic-profile .value { font-weight: 500; text-align: right; }
+.acoustic-profile .secondary { color: var(--text-muted); font-size: 0.85em; font-weight: 400; }
+
+/* Plan C (sidebar surfacing): Cross-check card. Reuses the .xcheck-row styles
+   defined further down for the reanalyze modal so both surfaces look
+   identical — only the outer chrome (sidebar-card vs xcheck-block) differs. */
+.sidebar-card.crosscheck-card { padding: var(--sp-3) 14px; border-bottom: 1px solid var(--surface-3); }
+.sidebar-card.crosscheck-card h3 { font-size: 9px; text-transform: uppercase; letter-spacing: var(--ls-caps); color: var(--text-muted); margin: 0 0 10px 0; font-weight: 600; }
+.crosscheck-card .xcheck-row { padding: 3px 0; }
+.crosscheck-card .xcheck-row .value { font-size: 11px; }
+.crosscheck-card .xc-active {
+  font-size: 0.85em;
+  color: var(--status-info, var(--text-primary));
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+.track-row { display: grid; grid-template-columns: 12px 1fr 36px 56px 52px; align-items: center; gap: var(--sp-2); padding: 6px 0 8px 0; cursor: pointer; border-radius: 3px; position: relative; }
+.track-row:hover { background: var(--surface-3); transition: background 0.12s; }
+.track-row.highlighted { background: var(--surface-selected); box-shadow: inset 2px 0 0 0 var(--text-primary); padding-left: 6px; margin-left: -6px; grid-template-columns: 12px 1fr 36px 56px 52px; }
+.track-row .swatch { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+.track-row .name { font-size: 12px; color: var(--text-primary); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.track-row .count { font-size: var(--t-micro); color: var(--text-muted); font-family: var(--font-mono); text-align: right; }
+/* Slider track + fill — matches the zoom-slider visual (transport.js _zoomGroup):
+   6px tall, 3px radius (= ½ height, pill shape). Opacity-tiered against
+   --text-primary so the slider stays theme-portable: pure white in Jinn/HC,
+   near-black ink in Studio Light. Border 80% / fill 50% / empty 20% gives
+   a softer overall presence than the prior 100/70/30 tier while keeping the
+   empty-vs-filled contrast strong enough to read at a glance. Three sliders
+   in the UI (stem vol, mic offset, zoom) share this visual style; height
+   tuned 2026-05-24 (4px → 8px → 6px) and opacity tiers softened same day. */
+.track-row .vol {
+  width: 100%;
+  height: 6px;
+  background: color-mix(in srgb, var(--text-primary) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text-primary) 80%, transparent);
+  border-radius: 3px;
+  position: relative;
+  cursor: pointer;
+}
+.track-row .vol-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: color-mix(in srgb, var(--text-primary) 50%, transparent);
+  border-radius: 3px;
+  pointer-events: none;
+}
+/* (No highlighted-row override: the slider fill stays --text-primary on the
+   selected stem so it reads as the same control in both states.) */
+.track-row .ms { display: flex; gap: 3px; justify-content: flex-end; }
+/* 1px border-strong outline keeps the M/S button shape visible in Studio
+   Light, where surface-2 (#dcdce2) sits very close in luminance to the
+   surrounding surface-1 sidebar (#ececef) and the buttons would otherwise
+   read as faint white-on-white outlines (2026-05-09 iter-1 verdict). */
+.track-row .btn { width: 22px; height: 22px; border-radius: var(--radius-2); background: var(--surface-2); color: var(--text-secondary); font-size: var(--t-body); display: flex; align-items: center; justify-content: center; font-weight: 700; cursor: pointer; border: 1px solid var(--border-strong); transition: background 0.12s, color 0.12s, border-color 0.12s; }
+.track-row .btn:hover { background: var(--surface-3); color: var(--text-primary); border-color: var(--text-muted); }
+.track-row .btn.m.on { background: var(--surface-3); color: var(--text-disabled); text-decoration: line-through; }
+.track-row .btn.s.on { background: var(--accent); color: var(--accent-on); border-color: var(--accent); }
+
+/* Per-stem audio load-status indicator. The swatch keeps the stem color;
+   a small dot in its corner signals load state on top. */
+.track-row .swatch { position: relative; }
+.track-row .status-dot {
+  position: absolute; right: -3px; bottom: -3px;
+  width: 6px; height: 6px; border-radius: 50%;
+  border: 1px solid var(--surface-1);
+  background: var(--text-disabled);
+}
+.track-row.stem-loading .status-dot { background: var(--text-muted); animation: stem-pulse 1.2s ease-in-out infinite; }
+.track-row.stem-loaded  .status-dot { background: var(--status-dot-loaded); }
+.track-row.stem-missing .status-dot { background: var(--status-dot-missing); }
+@keyframes stem-pulse { 0%,100% { opacity: 0.35; } 50% { opacity: 1; } }
+
+/* Missing-stem rows: dim the swatch + name, disable mixer controls. */
+.track-row.stem-missing .swatch { opacity: 0.35; }
+.track-row.stem-missing .name   { color: var(--text-disabled); }
+.track-row.stem-missing .count  { color: var(--status-dot-missing); }
+.track-row.stem-missing .vol,
+.track-row.stem-missing .btn    { opacity: 0.4; cursor: not-allowed; pointer-events: none; }
+
+/* Suppressed-stem rows: pipeline presence gate fired (melodic stems only). */
+.track-row.stem-suppressed { opacity: 0.4; }
+.track-row.stem-suppressed .name { font-style: italic; color: var(--text-disabled); }
+.track-row.stem-suppressed .count { color: var(--text-disabled); }
+.track-row.stem-suppressed .vol,
+.track-row.stem-suppressed .btn  { cursor: not-allowed; pointer-events: none; }
+
+/* Feature 8: thin presence underline for healthy melodic stem rows.
+   Anchored to the row's bottom edge, width set inline to active_frame_ratio. */
+.track-row .presence-bar {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 2px;
+  border-radius: 1px;
+  opacity: 0.55;
+  pointer-events: none;
+  grid-column: 1 / -1;
+}
+.track-row.highlighted .presence-bar { opacity: 0.85; }
+.track-row.stem-suppressed .presence-bar,
+.track-row.stem-missing .presence-bar { display: none; }
+
+/* Sub-lines that appear under the row's main grid (f0 confidence on vocals,
+   drum tightness on drums). They span the full row width below the controls. */
+.track-row .f0-conf,
+.track-row .drum-tight {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  margin-top: -2px;
+  text-align: right;
+}
+.track-row .drum-tight {
+  grid-column: 2 / -1;
+}
+
+/* Vocals f0 meta-row: agreement reading on the left, contour toggles on
+   the right, both spanning the row's content columns. */
+.track-row .f0-meta {
+  grid-column: 2 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: -2px;
+}
+.track-row .f0-toggles {
+  display: flex;
+  gap: 10px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+.track-row .f0-toggles label {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  user-select: none;
+}
+.track-row .f0-toggles input[type="checkbox"] {
+  margin: 0;
+  cursor: pointer;
+}
+/* Feature 6: function distribution bar. Wide, labeled variant lives in
+   its own sidebar section after Loop; the bare .fn-bar baseline still
+   supports the old narrow form should it be used elsewhere. */
+.fn-bar {
+  display: flex;
+  width: 100%;
+  max-width: 180px;
+  height: 8px;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 4px;
+  background: var(--surface-2);
+}
+.fn-seg { height: 100%; min-width: 1px; }
+
+.fn-bar-wide {
+  max-width: none;
+  height: 28px;
+  border-radius: 4px;
+  margin-top: 0;
+}
+.fn-bar-wide .fn-seg {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  font-family: var(--font-mono);
+  color: var(--fn-on);
+  overflow: hidden;
+  padding: 0 2px;
+  white-space: nowrap;
+}
+.fn-bar-wide .fn-seg-label {
+  font-size: 9px;
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+  font-weight: 600;
+  opacity: 0.85;
+  line-height: 1;
+}
+.fn-bar-wide .fn-seg-pct {
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+/* In narrow segments the label/pct just clip via overflow:hidden on the
+   segment. The full name + count stays available in the title tooltip. */
+.fn-bar-wide .fn-seg-label,
+.fn-bar-wide .fn-seg-pct { max-width: 100%; overflow: hidden; text-overflow: clip; }
+
+/* Stems section header row: title + optional pill toggle on the right. */
+.side-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.side-section-header h4 { margin: 0; }
+.show-suppressed-btn {
+  background: transparent;
+  border: 1px solid var(--surface-3);
+  color: var(--text-secondary);
+  font-size: var(--t-micro);
+  letter-spacing: var(--ls-caps);
+  padding: 2px 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  text-transform: uppercase;
+  transition: background 0.12s, color 0.12s;
+}
+.show-suppressed-btn:hover { background: var(--surface-3); color: var(--text-primary); }
+
+/* Now-playing card: vertical stack with a 2-column main row (chord NAME
+   and chord FUNCTION, both big and centered) on top, and a meta row
+   (function-category tag + playhead time) below. Idle state reuses the
+   structure: tonic letter in the name column, scale string in the
+   function column at smaller size since scale text can be multi-word. */
+.now-card { background: var(--surface-base); border: 1px solid var(--surface-3); border-radius: 6px;
+            padding: var(--sp-3); display: flex; flex-direction: column; gap: 10px;
+            min-height: 110px; box-sizing: border-box; }
+.now-card .now-main { display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+                      align-items: center; flex: 1; min-height: 0; }
+.now-card .now-col { text-align: center; line-height: 1; min-width: 0;
+                     overflow-wrap: anywhere; word-break: break-word; }
+.now-card .now-col-name { font-size: 36px; font-weight: 700; color: var(--text-primary);
+                          font-family: var(--font-mono); }
+.now-card .now-col-fn   { font-size: 36px; font-weight: 700; color: var(--accent);
+                          font-family: var(--font-numeral); }
+/* Idle variants: tonic still big in the name slot; scale text drops to a
+   readable smaller size with a softer tone, since "E natural minor" et al.
+   would crowd at 36px and aren't a single-glyph anchor like a Roman is. */
+.now-card .now-col-tonic { color: var(--text-secondary); }
+.now-card .now-col-scale { font-size: 14px; font-weight: 600; color: var(--text-muted);
+                           font-family: var(--font-mono); line-height: 1.2; }
+.now-card .now-meta-row { display: flex; align-items: center; gap: var(--sp-2);
+                          min-height: 22px; }
+.now-card .now-meta-row .now-time { font-size: 16px; font-family: var(--font-mono);
+                                    color: var(--text-primary); line-height: 1;
+                                    margin-left: auto; }
+
+.tag { display: inline-block; padding: 3px 8px; border-radius: 10px; font-size: var(--t-micro); font-weight: 600; }
+.tag.rn { background: var(--accent-soft-bg); color: var(--accent-soft-fg); font-family: var(--font-numeral); padding: 4px 9px; }
+/* Function tags become outlined micro-caps so the Roman-numeral pill stays
+   the primary visual anchor in the now-card. */
+.tag.fn-tonic,
+.tag.fn-dominant,
+.tag.fn-predominant,
+.tag.fn-modal_interchange {
+  background: transparent;
+  border: 1px solid currentColor;
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+}
+.tag.fn-tonic { color: var(--fn-tonic-fg); }
+.tag.fn-dominant { color: var(--fn-dominant-fg); }
+.tag.fn-predominant { color: var(--fn-predominant-fg); }
+.tag.fn-modal_interchange { color: var(--fn-modal-fg); }
+/* Idle "vocal range …" pill — neutral, outlined, same scale as fn tags. */
+.tag.tag-context {
+  background: transparent;
+  border: 1px solid var(--surface-3);
+  color: var(--text-muted);
+  padding: 2px 6px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: var(--ls-caps);
+  text-transform: uppercase;
+}
+
+/* Modal × close affordance — anchored to top-right of panel (which has
+   position: relative). Used by Settings, Tools, and Shortcuts modals. */
+.modal-close {
+  position: absolute;
+  top: var(--sp-2);
+  right: var(--sp-2);
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 22px;
+  font-weight: 300;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.12s, color 0.12s;
+}
+.modal-close:hover { background: var(--surface-3); color: var(--text-primary); }
+
+/* Reanalyze modal — confirmation pre-state. The destructive button uses a
+   warm-red palette matching the Tools modal's "Reanalyze" entry color. */
+.reanalyze-warn { color: var(--text-secondary); margin-bottom: var(--sp-3); line-height: 1.5; }
+.reanalyze-warn code { background: var(--surface-3); padding: 1px 5px; border-radius: 3px; font-family: var(--font-mono); font-size: var(--t-body); }
+.reanalyze-quality { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 4px; }
+.reanalyze-quality-label { color: var(--text-muted); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .04em; }
+.reanalyze-quality-seg { display: flex; gap: 0; border: 1px solid var(--surface-3); border-radius: 4px; overflow: hidden; }
+.reanalyze-quality-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; background: var(--surface-2); color: var(--text-secondary); border: none; border-right: 1px solid var(--surface-3); cursor: pointer; font-size: var(--t-body); transition: background 0.12s, color 0.12s; }
+.reanalyze-quality-btn:last-child { border-right: none; }
+.reanalyze-quality-btn:hover { background: var(--surface-3); color: var(--text-primary); }
+.reanalyze-quality-btn.active { background: var(--info-soft-bg); color: var(--info-soft-fg); box-shadow: inset 0 -2px 0 var(--focus-ring); }
+.reanalyze-quality-btn-label { font-weight: 600; }
+.reanalyze-quality-btn-blurb { color: var(--text-muted); font-size: var(--t-micro); font-family: var(--font-mono); }
+.reanalyze-quality-btn.active .reanalyze-quality-btn-blurb { color: var(--info-soft-fg); }
+.reanalyze-actions { display: flex; gap: var(--sp-2); justify-content: flex-end; }
+.reanalyze-actions button { padding: var(--sp-2) var(--sp-3); border-radius: 4px; border: 1px solid var(--surface-3); cursor: pointer; transition: background 0.12s; font-size: var(--t-body); }
+.reanalyze-actions .btn-cancel { background: var(--surface-2); color: var(--text-secondary); }
+.reanalyze-actions .btn-cancel:hover { background: var(--surface-3); }
+.reanalyze-actions .btn-confirm { background: var(--error-emphasis-bg); color: var(--status-error); border-color: var(--error-emphasis-bd); }
+.reanalyze-actions .btn-confirm:hover { background: var(--error-emphasis-bd); color: var(--text-primary); }
+
+/* Toast notification stack — top-right; auto-dismiss after 5s; click-to-dismiss.
+   Driven by static/js/ui/toast.js, used by api.js fetchJSON for 4xx/5xx. */
+#toast-stack {
+  position: fixed;
+  top: var(--sp-3);
+  right: var(--sp-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  z-index: 100;
+  pointer-events: none;
+}
+.toast {
+  padding: var(--sp-2) var(--sp-3);
+  border-radius: 6px;
+  background: var(--surface-2);
+  color: var(--text-primary);
+  font-size: var(--t-body);
+  box-shadow: var(--el-3);
+  pointer-events: auto;
+  cursor: pointer;
+  max-width: 400px;
+  animation: toast-slide 0.18s ease-out;
+}
+.toast-error { background: var(--status-error-bg); color: var(--status-error); border: 1px solid var(--error-emphasis-bd); }
+.toast-info  { background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--surface-3); }
+@keyframes toast-slide { from { transform: translateY(-12px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* ---- Sidebar tab strip ----------------------------------------------- */
+.tab-strip {
+  display: flex;
+  border-bottom: 1px solid var(--surface-3);
+  background: var(--surface-1);
+}
+.tab-strip .tab {
+  flex: 1;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: var(--ls-caps);
+  color: var(--text-muted);
+  font-weight: 600;
+  padding: 10px 12px;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  text-align: center;
+}
+.tab-strip .tab:hover { color: var(--text-secondary); }
+.tab-strip .tab.active {
+  color: var(--text-secondary);
+  border-bottom-color: var(--stem-vocals);
+}
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.loop-chip {
+  font-size: 11px;
+  color: var(--accent-soft-fg);
+  background: color-mix(in srgb, var(--accent) calc(var(--alpha-overlay-soft) * 100%), transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) calc(var(--alpha-overlay-med) * 100%), transparent);
+  border-radius: var(--radius-pill);
+  padding: 3px 9px;
+  cursor: pointer;
+  margin-left: 8px;
+  font-family: inherit;
+  white-space: nowrap;
+}
+.loop-chip:hover { background: color-mix(in srgb, var(--accent) calc(var(--alpha-overlay-med) * 100%), transparent); }
+
+.lyrics-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 14px; border-bottom: 1px solid var(--surface-3);
+  font-size: 12px; color: var(--text-secondary);
+}
+.lyrics-artist, .lyrics-title { outline: none; color: var(--text-secondary); }
+.lyrics-artist:focus, .lyrics-title:focus { color: var(--stem-vocals); }
+.lyrics-artist.is-placeholder, .lyrics-title.is-placeholder {
+  color: var(--text-muted); font-style: italic;
+}
+.lyrics-sep { color: var(--text-muted); }
+.lyrics-refresh {
+  margin-left: auto; background: transparent; border: 1px solid var(--surface-3);
+  color: var(--text-muted); border-radius: 4px; padding: 2px 8px; cursor: pointer; font-size: 12px;
+}
+.lyrics-refresh:hover { color: var(--text-secondary); border-color: var(--stem-vocals); }
+
+.lyrics-scroll {
+  height: calc(100% - 44px); overflow-y: auto;
+  padding: 12px 14px;
+}
+.lyric-line {
+  font-size: 13px; line-height: 1.5; color: var(--text-muted);
+  padding: 4px 8px; border-left: 2px solid transparent;
+  cursor: pointer; transition: color .15s ease;
+}
+.lyric-line:hover { color: var(--text-secondary); }
+.lyric-line.active {
+  color: var(--accent); font-weight: 700; font-size: 14px;
+  border-left-color: var(--accent);
+}
+.lyrics-plain { color: var(--text-muted); white-space: pre-wrap; font-size: 13px; }
+.lyrics-banner {
+  margin-top: 10px; font-size: 11px; color: var(--text-muted); padding: 6px 8px;
+  border: 1px dashed var(--surface-3); border-radius: 4px;
+}
+.lyrics-empty { color: var(--text-muted); text-align: center; padding: 32px 12px; font-size: 13px; }
+.lyrics-error { color: var(--status-error); }
+
+.lyrics-refresh-wrap { position: relative; margin-left: auto; }
+.lyrics-refresh-menu {
+  position: absolute; right: 0; top: 100%;
+  background: var(--surface-2); border: 1px solid var(--surface-3); border-radius: 4px;
+  display: flex; flex-direction: column; min-width: 200px; z-index: 50;
+  box-shadow: var(--el-2);
+  margin-top: 4px;
+}
+.lyrics-refresh-menu.hidden { display: none; }
+.lyrics-refresh-menu .menu-item {
+  background: transparent; border: none; color: var(--text-secondary);
+  padding: 8px 12px; text-align: left; font-size: 12px; cursor: pointer;
+  font-family: inherit;
+}
+.lyrics-refresh-menu .menu-item:hover { background: var(--surface-3); }
+
+.paste-overlay {
+  position: fixed; inset: 0; background: rgb(0 0 0 / var(--alpha-scrim));
+  display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.paste-card {
+  background: var(--surface-1); border: 1px solid var(--surface-3); border-radius: 6px;
+  padding: 16px; width: min(560px, 90vw); display: flex; flex-direction: column; gap: 10px;
+}
+.paste-textarea {
+  background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--surface-3);
+  padding: 8px; font-family: monospace; font-size: 12px; resize: vertical; min-height: 200px;
+  border-radius: 4px;
+}
+.paste-card .row { display: flex; gap: 8px; justify-content: flex-end; }
+.paste-card .btn {
+  background: transparent; border: 1px solid var(--surface-3); color: var(--text-secondary);
+  padding: 6px 14px; border-radius: 4px; cursor: pointer; font-size: 12px;
+  font-family: inherit;
+}
+.paste-card .btn:hover { background: var(--surface-3); }
+
+/* ---- Claude tab (Tab 2) ---- */
+.claude-header {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 12px; border-bottom: 1px solid var(--surface-3);
+}
+.claude-header .btn {
+  background: transparent; border: 1px solid var(--surface-3); color: var(--text-muted);
+  padding: 3px 10px; border-radius: 4px; font-size: 11px; cursor: pointer;
+  font-family: inherit;
+}
+.claude-header .btn:hover:not([disabled]) { color: var(--text-secondary); border-color: var(--stem-vocals); }
+.claude-header .btn[disabled] { opacity: .4; cursor: not-allowed; }
+.claude-tokens { font-size: 10px; color: var(--text-muted); font-family: monospace; }
+.claude-status { margin-left: auto; font-size: 11px; color: var(--text-muted); font-style: italic; padding: 0 6px; }
+
+.claude-transcript {
+  height: calc(100% - 110px); overflow-y: auto;
+  padding: 10px 12px; display: flex; flex-direction: column; gap: 8px;
+}
+.msg { padding: 8px 10px; border-radius: 5px; font-size: 12px; line-height: 1.5; max-width: 100%; min-width: 0; box-sizing: border-box; overflow-wrap: anywhere; }
+/* User bubble lifted to --surface-3 so the user/assistant rhythm reads
+   without relying on alignment alone. In studio-light --surface-2
+   (#dcdce2) was only ~7% luminance below --surface-base (#f6f6f8) and
+   the bubble looked like an unfilled rectangle (iter-3 minor). At
+   --surface-3 (#c8c8cf) the delta is ~13% — clearly visible — and dark
+   presets only see surface-3 sit one shade above surface-2 (deliberate). */
+.msg-user { background: var(--surface-3); color: var(--text-secondary); align-self: flex-end; max-width: 85%; }
+.msg-assistant { background: color-mix(in srgb, var(--accent) 6%, transparent); border-left: 2px solid var(--accent); color: var(--text-secondary); max-width: 100%; align-self: stretch; }
+.msg.streaming::after { content: "▌"; color: var(--accent); animation: blink 1s step-end infinite; margin-left: 2px; }
+@keyframes blink { 50% { opacity: 0; } }
+.msg-error { background: color-mix(in srgb, var(--status-error) 10%, transparent); border-left: 2px solid var(--status-error); color: var(--status-error); padding: 8px 10px; border-radius: 5px; font-size: 12px; }
+.msg-text { white-space: pre-wrap; }
+/* Tool-call NDJSON chip — switched from inline-block to block-level so the
+   chip lays out within the assistant bubble's flex column instead of
+   escaping the bubble's right edge with a long unbreakable JSON payload
+   (2026-05-09 iter-1 verdict, four presets affected). max-width:100%
+   keeps the chip clamped to the bubble; overflow-wrap:anywhere handles
+   the no-space JSON; the monospace font keeps `select:foo,bar` legible. */
+.tool-chip {
+  display: block;
+  margin-top: 6px;
+  max-width: 100%;
+  box-sizing: border-box;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  border-radius: var(--radius-2);
+  border: 1px solid var(--border-soft);
+  cursor: pointer;
+  user-select: none;
+}
+.tool-chip.fail { color: var(--status-error); border-color: var(--error-emphasis-bd); }
+.tool-chip.ok   { color: var(--text-secondary); }
+.tool-chip.pending { opacity: 0.85; }
+.tool-chip-head {
+  display: flex; align-items: baseline; gap: 6px; padding: 4px 8px;
+  overflow: hidden;
+}
+.tool-chip-name   { font-weight: 600; flex-shrink: 0; }
+.tool-chip-args   { color: var(--text-muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tool-chip-status { flex-shrink: 0; opacity: 0.7; }
+.tool-chip-body   {
+  border-top: 1px solid var(--border-soft);
+  padding: 6px 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.tool-chip-body[hidden] { display: none; }
+.tool-chip-detail-label {
+  font-size: 9px; text-transform: uppercase; letter-spacing: 0.05em;
+  color: var(--text-muted); opacity: 0.7;
+}
+.tool-chip-detail {
+  margin: 0; font-size: 11px; white-space: pre-wrap; word-break: break-all;
+  overflow-wrap: anywhere; color: var(--text-secondary);
+  background: transparent;
+}
+.tool-chip-result { color: var(--text-muted); }
+.tool-chip.fail .tool-chip-result { color: var(--status-error); }
+
+/* Pre-first-byte placeholder while we're still awaiting the model's first
+   event. Replaced by the streaming `▌` cursor once any text/tool arrives. */
+.claude-spinner {
+  display: inline-flex; align-items: center; gap: 6px;
+  color: var(--text-muted); font-style: italic; font-size: 12px;
+}
+.claude-spinner::before {
+  content: ""; width: 10px; height: 10px; border-radius: 50%;
+  border: 2px solid var(--border-soft); border-top-color: var(--accent);
+  animation: claude-spinner-rot 0.9s linear infinite;
+}
+@keyframes claude-spinner-rot { to { transform: rotate(360deg); } }
+
+/* Stop button gets a subtle "live" accent while a turn is in flight so the
+   user has visual confirmation that clicking it will do something. */
+.claude-header .btn.claude-stop.active {
+  color: var(--status-error);
+  border-color: var(--status-error);
+}
+
+.claude-composer {
+  display: flex; gap: 6px; padding: 10px 12px; border-top: 1px solid var(--surface-3);
+}
+.claude-textarea {
+  flex: 1; background: var(--surface-2); color: var(--text-secondary); border: 1px solid var(--surface-3);
+  padding: 6px 8px; font-size: 12px; resize: vertical; min-height: 40px; max-height: 140px;
+  font-family: inherit; border-radius: 4px;
+}
+/* Send button: --fn-on (theme-aware "text on saturated fill") instead of
+   --accent-on so studio-light renders white text on hot-pink stem-vocals
+   (#c2185b) — #1a1a25 dark text on #c2185b is 2.93:1 (AA fail, iter-3
+   blocker). --fn-on is #ffffff in studio-light → 5.89:1, and stays
+   ≤#0a0a0a in the three dark presets so visuals are unchanged there. */
+.claude-composer .btn {
+  background: var(--stem-vocals); color: var(--fn-on); border: none;
+  padding: 6px 16px; border-radius: 4px; font-weight: 600; font-size: 12px; cursor: pointer;
+  font-family: inherit;
+}
+.claude-composer .btn:disabled { opacity: .4; cursor: not-allowed; }
+
+.auth-card {
+  background: color-mix(in srgb, var(--status-error) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--status-error) 40%, transparent);
+  border-radius: 5px; padding: 16px; display: flex; flex-direction: column; gap: 8px;
+}
+.auth-title { font-size: 13px; font-weight: 700; color: var(--status-error); }
+.auth-body { font-size: 12px; color: var(--text-muted); }
+.auth-card .btn {
+  align-self: flex-start; background: transparent; border: 1px solid var(--status-error); color: var(--status-error);
+  padding: 4px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;
+  font-family: inherit;
+}
+
+/* Topbar pencil — minimal affordance next to the track title pill. */
+.title-edit {
+  background: transparent; border: none; color: var(--text-muted);
+  font-size: 13px; cursor: pointer; padding: 0 6px; line-height: 1;
+}
+.title-edit:hover { color: var(--stem-vocals); }
+.title-edit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Rename modal — full-screen dim + centered panel. Buttons self-scoped to
+   .rename-modal-actions because the codebase has no global .btn (each
+   container scopes its own button styles). */
+.rename-modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgb(0 0 0 / var(--alpha-scrim));
+  display: flex; align-items: center; justify-content: center;
+}
+.rename-modal-panel {
+  background: var(--surface-1, #1a1a1a); border: 1px solid var(--surface-3);
+  border-radius: 6px; padding: 18px 20px;
+  width: min(480px, 92vw);
+  display: flex; flex-direction: column; gap: 10px;
+  box-shadow: 0 12px 32px rgb(0 0 0 / var(--alpha-scrim));
+}
+.rename-modal-title { margin: 0; font-size: 15px; color: var(--text-secondary); }
+.rename-modal-input {
+  background: var(--surface-base, #0d0d0d); color: var(--text-secondary);
+  border: 1px solid var(--surface-3); border-radius: 4px;
+  padding: 8px 10px; font-size: 13px; font-family: inherit;
+  width: 100%; box-sizing: border-box;
+}
+.rename-modal-input:focus { outline: none; border-color: var(--stem-vocals); }
+.rename-modal-hint { margin: 0; color: var(--text-muted); font-size: 11px; }
+.rename-modal-error {
+  padding: 8px 10px; border: 1px solid var(--status-error); border-radius: 4px;
+  color: var(--status-error); font-size: 12px; background: color-mix(in srgb, var(--status-error) 8%, transparent);
+}
+.rename-modal-actions {
+  display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px;
+}
+.rename-modal-actions .btn {
+  background: var(--surface-2); color: var(--text-secondary);
+  border: 1px solid var(--surface-3); border-radius: 4px;
+  padding: 6px 14px; font-size: 12px; cursor: pointer;
+  font-family: inherit;
+}
+.rename-modal-actions .btn:hover:not(:disabled) {
+  background: var(--surface-3); color: var(--text-primary);
+}
+.rename-modal-actions .btn.primary {
+  background: var(--stem-vocals); color: var(--text-primary); border-color: transparent;
+}
+.rename-modal-actions .btn.primary:hover:not(:disabled) {
+  filter: brightness(1.1);
+}
+.rename-modal-actions .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Plan C Task 8: Essentia cross-check rows in the reanalyze stats panel.
+   Sits at the bottom of the post-run stats panel, separated by a thin
+   border-top so it's visually distinguished from the pipeline's own
+   stats. Uses --status-success / --status-warning tokens from tokens.css. */
+.xcheck-block { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--surface-3); }
+.xcheck-block h4 { margin: 0 0 4px 0; font-size: 0.9em; color: var(--text-muted); font-weight: 600; }
+.xcheck-row { display: flex; gap: 8px; align-items: center; padding: 2px 0; font-size: 12px; }
+.xcheck-row .label { color: var(--text-muted); font-size: 0.85em; min-width: 50px; }
+.xcheck-row .value { flex: 1; color: var(--text-secondary); }
+.xcheck-icon.ok { color: var(--status-success); }
+
+/* ---- Live Input row (mic-pitch layer, 2026-05-22) -----------------------
+   Mirrors the regular stem-row grid (see .track-row above) but repurposes
+   the count+vol cells as a wider readout cell, and uses only the M button
+   (no S; solo of mic input has no meaning). The Match/Offset controls live
+   on a sub-meta line below, spanning grid-column 2 / -1 — same pattern as
+   .f0-meta and .drum-tight. */
+:root {
+  /* Mic overlay stroke colours + sidebar swatch. Four semantics — all four
+     must stay visually distinct so the user can read pitch grade and match
+     state at a glance. Decoupled from --ok / --err so recolouring the
+     ribbon (Settings → Pitch lines → Colours) doesn't bleed into the
+     success/error tags used elsewhere in the app. Theme presets override
+     these per-theme; see webui/static/js/theme/presets.js. */
+  --mic-in:       #7fdc20;   /* matched: within ±100¢ of target stem's note */
+  --mic-off:      #e7574a;   /* unmatched: more than a semitone off */
+  --mic-neutral:  #5ab4ff;   /* matched to a stem, but stem has no note here */
+  --mic-no-match: #a48cff;   /* match dropdown set to "none" — and the sidebar swatch */
+}
+.mic-row-host { padding: 0; margin-bottom: 8px; }
+
+.track-row.mic {
+  /* Match the stem row's 5-column grid (swatch | name | count | vol | ms)
+     so swatch / name / readout-right-edge / M-button columns line up with
+     the stem rows below. The readout spans cols 3-4 (where stems put
+     count + vol). */
+  grid-template-columns: 12px 1fr 36px 56px 52px;
+  cursor: default;  /* no click-to-highlight semantics here */
+  /* Now-card box treatment for visual kinship with the Now Playing card. */
+  background: var(--surface-base);
+  border: 1px solid var(--surface-3);
+  border-radius: 6px;
+  padding: 6px 6px 8px 6px;
+  /* Pull the box outward by (border 1px + padding 6px) on each side so the
+     inner grid tracks land at the same x-positions as the un-padded stem
+     rows. With box-sizing:border-box this keeps swatch/name/M-button
+     columns aligned across the boxed mic row and the stems below. */
+  margin: 0 -7px;
+}
+.track-row.mic:hover { background: var(--surface-base); }
+
+/* Status dot lives inside the swatch (same as other rows). Idle = subtle
+   grey; mic-on = green glow that pulses gently. */
+.track-row.mic .status-dot {
+  background: var(--text-muted);
+  box-shadow: none;
+}
+.track-row.mic.mic-on .status-dot {
+  background: var(--ok, #7fdc20);
+  box-shadow: 0 0 5px var(--ok, #7fdc20);
+  animation: stem-pulse 1.6s ease-in-out infinite;
+}
+
+/* Readout uses the count cell's mono+muted styling; widen it for note + cents.
+   Spans cols 3-4 (count+vol slots of the stem grid) so its right edge
+   aligns with the right edge of the stem volume sliders. */
+.track-row.mic .mic-readout {
+  grid-column: 3 / span 2;
+  font-size: var(--t-micro);
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+/* Lone M button — pad-right by S(22) + gap(3) so the button sits at the
+   same +5px offset within the 52-px ms cell as the stem M button does. */
+.track-row.mic .ms { padding-right: 25px; }
+.track-row.mic.mic-on .mic-readout { color: var(--text-secondary); }
+
+/* M button "live" state: accent (green) bg + white text, NOT the existing
+   .btn.m.on (which is the "muted" state and applies strikethrough). */
+.track-row.mic .btn.m.mic-live {
+  background: var(--ok, #7fdc20);
+  color: #000;
+  border-color: var(--ok, #7fdc20);
+  text-decoration: none;
+}
+.track-row.mic .btn.m.mic-live:hover { background: var(--ok, #7fdc20); }
+
+/* Title doubles as the collapse toggle — pointer cursor + non-selectable
+   so a quick click doesn't paint a text selection. Chevron is muted and
+   sits flush against the label. */
+.track-row.mic .name.mic-name {
+  cursor: pointer;
+  user-select: none;
+}
+.track-row.mic .name.mic-name .chev {
+  display: inline-block;
+  color: var(--text-muted);
+  font-size: 9px;
+  width: 9px;
+  margin-right: 1px;
+  text-align: center;
+  /* Pull chev + following text 10px left (chev width 9 + margin 1) so the
+     "Live Input" label starts at the same x as "Vocals" / "Piano" / etc.;
+     the chev itself sits in the gap between swatch and name. */
+  margin-left: -10px;
+}
+.track-row.mic .name.mic-name:hover .chev { color: var(--text-secondary); }
+
+/* Sub-meta line: Match dropdown + offset slider. Spans content columns. */
+.track-row.mic .mic-meta {
+  grid-column: 2 / -1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 1px;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  min-width: 0;
+}
+.track-row.mic.mic-meta-collapsed .mic-meta { display: none; }
+.track-row.mic .mic-meta-label { letter-spacing: 0.02em; }
+.track-row.mic .mic-ref {
+  background: var(--surface-2);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-2);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  padding: 1px 4px;
+  cursor: pointer;
+}
+.track-row.mic .mic-ref:hover { border-color: var(--text-muted); }
+/* Mic offset slider — uses the same .vol + .vol-fill div pair as the
+   stem volume bars. Only the flex sizing is mic-specific; styling lives
+   on .vol / .vol-fill above. */
+.track-row.mic .mic-meta .vol.mic-offset {
+  flex: 1;
+  min-width: 0;
+  margin: 0 2px;
+}
+.track-row.mic .mic-offset-label {
+  font-size: 10px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 36px;
+  text-align: right;
+}
+.xcheck-icon.warn { color: var(--status-warning); }

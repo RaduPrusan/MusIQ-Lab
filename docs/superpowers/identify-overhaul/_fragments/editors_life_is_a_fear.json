@@ -1,0 +1,43 @@
+{
+  "slug": "editors_life_is_a_fear",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 264,
+  "duration_sec": 264.25,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Editors Life",
+  "title_guess_raw": "Is A Fear",
+  "artist_guess_clean": "Editors Life",
+  "title_guess_clean": "Is A Fear",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEkkKUkSeVHQNx2eF__QMEZHLcWPHr7QNx2e",
+  "fingerprint_length": 3263,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "7011c20e-21ba-4463-97ea-7ae7a884391d",
+      "score": 0.9930775,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "ce0d7801-7c20-4baf-9511-961910d6c45e",
+          "title": "Life Is a Fear",
+          "artists": [
+            "Editors"
+          ],
+          "duration": 264.0,
+          "releasegroups": [
+            "Pure FM Volume 6",
+            "Amphi Festival 2016",
+            "De Afrekening 59"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "Z",
+  "notes": ""
+}

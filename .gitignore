@@ -1,0 +1,107 @@
+# ===== Python =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+*.egg
+build/
+dist/
+
+# ===== Node =====
+node_modules/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# ===== Editor / OS =====
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ===== Brainstorming session state =====
+# Active sessions only — checked-in mockups live under docs/webui/mockups/
+.superpowers/
+
+# ===== Git worktrees =====
+.worktrees/
+
+# ===== Local API keys (AcoustID / Last.fm / etc.) =====
+.env
+.env.local
+
+# ===== Claude Code local settings & autonomous loop state =====
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.claude/worktrees/
+.omx/
+
+# ===== Pipeline-generated artifacts =====
+# Stems, MIDI, F0 arrays, JAMS, and summary JSONs — all regenerable from the
+# source MP3 via `python -m analyze`. Tests use synthetic fixtures (see
+# webui/tests/conftest.py); the integration test against a real cache skips
+# cleanly when the cache is absent. Nothing under cache/ is source code.
+cache/
+
+# ===== Vendored third-party models =====
+# Populated by scripts/install-*.sh from the original sources. We don't
+# redistribute the code or weights through this repo; see analyze/vendor/README.md.
+analyze/vendor/larsnet/*
+!analyze/vendor/larsnet/.gitkeep
+
+# Chromaprint fpcalc binary (vendored by scripts/install-chromaprint.sh,
+# v1.5.1 Linux x86_64 build, ~1MB). Not redistributed through this repo.
+analyze/vendor/chromaprint/*
+!analyze/vendor/chromaprint/.gitkeep
+
+# Essentia high-level SVM models (downloaded by scripts/install-essentia.sh,
+# hosted by MTG, CC BY-NC-SA 4.0 — see analyze/vendor/README.md).
+# ~14MB total, not redistributed through this repo.
+analyze/vendor/essentia-models/*
+!analyze/vendor/essentia-models/.gitkeep
+
+# ===== Build artifacts =====
+*.log
+*.log.err
+*.log.failed-*
+.coverage
+htmlcov/
+
+# ===== webui runtime state (managed by webui.ps1) =====
+webui/.webui.pid
+webui/webui.log
+webui/webui.log.err
+
+# ===== Scratch / personal =====
+.scratch/
+.research/scratch/
+
+# ===== webui audit / debug artifacts =====
+audit-*.png
+overflow-*.png
+webui-*.png
+picker.png
+settings.png
+tools.png
+verify-*.png
+webui/tests-e2e/test-output.txt
+webui/tests-e2e/test-output/
+.playwright-mcp/
+
+# ===== Scratch / personal =====
+*.bck/
+*.bak
+*.live
+
+# ===== Test corpus mp3s (regenerable via scripts/fetch-test-fixtures.sh, WI-2) =====
+tests/mp3/
+
+# ===== Phase A benchmark snapshots (regenerable via benchmark-pipeline.sh, WI-2) =====
+tests/corpus/snapshots/

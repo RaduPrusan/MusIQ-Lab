@@ -1,0 +1,45 @@
+Research request: best open-source Python stack for music analysis in 2026.
+
+USE CASE
+A user wants to analyze MP3 songs for educational purposes — to learn music theory, harmony, song structure, and to practice. They want a pipeline that takes an MP3 file and outputs a structured JSON containing:
+- Chord progression (with timestamps and labels)
+- Beats, downbeats, tempo (BPM)
+- Musical key
+- Section structure (intro / verse / chorus / bridge / outro)
+- Per-instrument note transcription (pitches, durations, MIDI events) — separated by stem (vocals, bass, drums, other)
+- Vocal melody f0 contour (continuous pitch curve)
+
+CONSTRAINTS
+- Open-source, pip-installable Python packages preferred (apt-installable system libs OK if needed)
+- Linux: Ubuntu 24.04 in WSL2, NVIDIA RTX 3090 (24 GB VRAM), CUDA passthrough working
+- Quality > speed — willing to wait several minutes per song for high-quality analysis
+- Favor MODERN 2024–2026 state-of-the-art approaches over older 2018-era classics; the field has changed substantially in recent years (transformer architectures, joint multi-task models, demixed-input networks)
+- The user values accuracy because the goal is musical learning
+
+DELIVERABLE
+For each task below, recommend:
+1. The Python package name (pip-installable, with PyPI or git+ URL)
+2. The underlying model / algorithm
+3. Why it's the current best choice (year of release, benchmark score if known, why it beats predecessors)
+4. Caveats (Python version compatibility, GPU requirements, known install pain on Linux/WSL)
+
+Tasks to cover:
+1. Stem separation (vocals / drums / bass / other, ideally also guitar / piano)
+2. Chord recognition (rich vocabulary including 7ths, sus, slash chords)
+3. Beat + downbeat tracking
+4. Tempo (BPM) estimation
+5. Musical key detection
+6. Section / structural analysis (intro / verse / chorus / bridge / outro labeling)
+7. Polyphonic note transcription per stem (MIDI output ideal)
+8. Monophonic pitch contour for the isolated vocal stem (f0 over time)
+
+BONUS — also address:
+- Is there any "all-in-one" framework that joinly performs several of these tasks in a single neural network? If so, recommend it.
+- Self-supervised music representation models (BERT-for-music style) — relevant?
+- Any LLM-orchestrator patterns where the LLM cross-validates outputs from multiple MIR tools?
+- Recommended output format for the JSON (custom schema vs JAMS vs MusicXML)?
+
+REQUIREMENT
+Be SPECIFIC and CURRENT. Don't recommend something just because it's well-known if there's a clearly better modern alternative. Prioritize models / packages that have published in 2024 or 2025 over those that haven't been updated since 2018-2021.
+
+Output a structured response with one section per task plus the bonus items, naming concrete pip packages.

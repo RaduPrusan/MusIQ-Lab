@@ -1,0 +1,41 @@
+{
+  "slug": "buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 227,
+  "duration_sec": 227.23,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Buddha",
+  "title_guess_raw": "Bar-ali Kuru Yuregine Deprem",
+  "artist_guess_clean": "Buddha",
+  "title_guess_clean": "Bar-ali Kuru Yuregine Deprem",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtFmiKGGyJJngD--Ow7tWiDJx8zjOw4dxOFOK",
+  "fingerprint_length": 3132,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "5c5b4c9b-1cae-4a82-89ba-068487300d2f",
+      "score": 0.9729035,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "d9606420-d8f5-449b-af9e-4497e582e38d",
+          "title": "Yuregine Deprem",
+          "artists": [
+            "Ali Kuru"
+          ],
+          "duration": 227.0,
+          "releasegroups": [
+            "Buddha\u2010Bar Elements"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "Z",
+  "notes": ""
+}

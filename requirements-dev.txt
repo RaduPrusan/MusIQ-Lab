@@ -1,0 +1,2 @@
+# Test-time only; not constrained by constraints-torch27-cu126.txt
+pytest>=9.0.3,<10

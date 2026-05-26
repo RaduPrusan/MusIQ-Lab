@@ -1,0 +1,42 @@
+{
+  "slug": "notre-dame_est-3frubz9yhim",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 147,
+  "duration_sec": 147.17,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.9019999999999868,
+  "artist_guess_raw": "Notre",
+  "title_guess_raw": "Dame Est",
+  "artist_guess_clean": "Notre",
+  "title_guess_clean": "Dame Est",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtMmoJQ8hzsegHzxyjIcrog9x7ULD2Ah_aM88",
+  "fingerprint_length": 3834,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "b862a64f-9ed5-49b3-a920-efe54195b6bd",
+      "score": 0.9803863,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "a8fb3076-98ba-42c3-9f0b-979ea81bc37a",
+          "title": "Notre-Dame Est",
+          "artists": [
+            "Anomalie"
+          ],
+          "duration": 147.0,
+          "releasegroups": [
+            "M\u00e9tropole 1|2",
+            "M\u00e9tropole, Part II"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

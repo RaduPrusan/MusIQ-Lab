@@ -1,0 +1,201 @@
+/* tokens.css — full design-token surface.
+   Loaded BEFORE theme.css. Default values represent the Classic Dark preset;
+   theme.css applies the preset semantically, the theme engine overrides per
+   user preference at runtime via documentElement.style.setProperty. */
+
+:root {
+  /* ---- Typography (unchanged from 2026-05-02) ---------------------- */
+  --font-sans:    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono:    ui-monospace, "JetBrains Mono", Menlo, Consolas, monospace;
+  --font-numeral: ui-serif, Georgia, "Iowan Old Style", serif;
+
+  --t-micro:    10px;
+  --t-body:     11px;
+  --t-prose:    13px;
+  --t-display:  24px;
+
+  --ls-caps:    0.07em;
+
+  /* ---- Spacing (unchanged) ----------------------------------------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+
+  /* ---- Elevation (unchanged) --------------------------------------- */
+  --el-1: 0 1px 4px rgba(0,0,0,0.4);
+  --el-2: 0 4px 12px rgba(0,0,0,0.5);
+  --el-3: 0 12px 32px rgba(0,0,0,0.6);
+
+  /* ---- Surfaces (background layers, base → most-elevated) ---------- */
+  --surface-base:        #0e0e10;
+  --surface-1:           #15151a;
+  --surface-2:           #1f1f25;
+  --surface-3:           #2a2a30;
+
+  /* ---- Text -------------------------------------------------------- */
+  --text-primary:        #e7e7ea;
+  --text-secondary:      #c6c6cc;
+  --text-muted:          #a8a8b0;       /* bumped from #888 — passes 4.5:1 on
+                                            surface-1/2 without losing the
+                                            secondary↔muted hierarchy */
+  --text-disabled:       #92929a;       /* bumped from #828288 — needs to clear
+                                            AA on the *selected*-row tier
+                                            (--surface-selected #1f1f28) where
+                                            .tp-row .nm .sub renders. The
+                                            previous #828288 hit 4.27:1 there
+                                            per the 2026-05-09 axe scan. */
+
+  /* ---- Accent ------------------------------------------------------ */
+  --accent:              #ffb86b;
+  --accent-emphasis:     #ffc888;
+  --accent-on:           #1a1a25;
+
+  /* ---- Focus ring -------------------------------------------------- */
+  --focus-ring:          #6cf;
+
+  /* ---- Semantic ---------------------------------------------------- */
+  --status-error:        #ff8a8a;
+  --status-error-bg:     #2a0e0e;
+  --status-warning:      #f0c98a;
+  --status-success:      #9c9;
+  --status-info:         #9cf;
+
+  /* ---- Stems ------------------------------------------------------- */
+  --stem-vocals:         #ff7eaa;
+  --stem-bass:           #7ecaff;
+  --stem-guitar:         #bcff7e;
+  --stem-piano:          #ffc97e;
+  --stem-other:          #cf7eff;
+  --stem-drums:          #888;
+
+  /* ---- Drum sub-stems --------------------------------------------- */
+  /* Per-piece colors painted on the drum lane (kick / snare / toms /
+     hihat / cymbals). Tokenized 2026-05-10 — previously hardcoded as
+     DRUM_COLORS_LITERAL in render/pianoroll.js. */
+  --drum-kick:           #ff6b6b;
+  --drum-snare:          #ffd93d;
+  --drum-toms:           #cf7eff;
+  --drum-hihat:          #7eddff;
+  --drum-cymbals:        #cccccc;
+
+  /* ---- Harmonic-function colors ----------------------------------- */
+  --fn-tonic-bg:         #1a261a;
+  --fn-tonic-fg:         #9c9;
+  --fn-dominant-bg:      #26221a;
+  --fn-dominant-fg:      #fc9;
+  --fn-modal-bg:         #2a1a26;
+  --fn-modal-fg:         #e3c3ff;
+  --fn-predominant-bg:   #1f262e;       /* canvas fill for predominant chords;
+                                            previously hardcoded in pianoroll.js
+                                            FN_BG before 2026-05-09-iter-2 */
+  --fn-predominant-fg:   #9cf;
+  /* Canvas chord-strip surfaces — fill colors for cells with unknown
+     function or no chord. Both stay theme-aware so the strip blends with
+     the chosen surface palette in light/midnight/HC. */
+  --chord-default-bg:    #1a1a20;
+  --chord-no-bg:         #101014;
+  --drum-lane-bg:        #0e0e12;
+
+  /* ---- Borders ----------------------------------------------------- */
+  --border-soft:         #1f1f24;
+  --border-strong:       #2a2a30;
+
+  /* ---- Surface accents (selected rows, hovers) -------------------- */
+  --surface-selected:    #1f1f28;       /* tp-row.current, track-row.highlighted */
+  --surface-hover:       #1c1c22;       /* row hovers on surface-base/1 */
+  --surface-hover-2:     #23232a;       /* hovers on surface-2 (track picker) */
+  --surface-pill-hover:  #26262e;       /* pill hovers in track-picker controls */
+  --picker-divider:      #16161a;       /* tp-row bottom border */
+  --gutter-bg:           #101014;       /* piano-roll gutter strip */
+  --gutter-row-bg:       #3a3a42;       /* gutter-row default */
+  --gutter-row-black-bg: #08080b;       /* gutter-row.black (sharps/flats) */
+  --gutter-row-fg:        #a8a8b0;      /* gutter-row default (white keys) label */
+  --gutter-row-black-fg:  #92929a;      /* gutter-row.black (sharps/flats) label */
+  --gutter-row-octave-fg: #f0f0f4;      /* gutter-row.octave label */
+  /* (Retired 2026-05-23: --vol-track-bg + --vol-fill-bg. The stem volume
+     bars now reuse --surface-2 / --text-primary so all four sliders in
+     the app — stem vol, mic offset, zoom, scrub — share one visual
+     style. Fill recolored from --focus-ring to --text-primary
+     2026-05-23.) */
+
+  /* ---- Soft semantic backgrounds (badge / tag fills) -------------- */
+  --accent-soft-bg:      #3a2a1a;       /* .tag.rn — accent text on soft bg */
+  --success-soft-bg:     #2a3a2a;       /* status-success text on soft bg */
+  --info-soft-bg:        #2a3a3a;       /* status-info text on soft bg */
+  --warn-soft-bg:        #3a2f1f;       /* status-warning text on soft bg */
+  --modal-soft-bg:       #3a2a4a;       /* fn-modal-fg text on soft bg */
+  --error-emphasis-bg:   #4a1a1a;       /* btn-confirm filled */
+  --error-emphasis-bd:   #5a2a2a;       /* btn-confirm border / hover bg */
+  --status-dot-loaded:   #6c6;          /* track-row stem-loaded indicator */
+  --status-dot-missing:  #c44;          /* track-row stem-missing indicator */
+
+  /* ---- Soft semantic FOREGROUNDS (legible text on the pale *-soft-bg
+         tints in light themes; in dark themes these can equal the headline
+         accent/status color since the soft-bg tile is dark enough to support
+         a saturated foreground). Introduced 2026-05-09 to fix the cluster
+         of axe failures where light-theme accent tags rendered #d97706
+         text on its own #fed7aa tint at 2.35:1. -------------------- */
+  --accent-soft-fg:      #ffb86b;       /* same as --accent on dark */
+  --success-soft-fg:     #99cc99;       /* same as --status-success on dark */
+  --info-soft-fg:        #99ccff;       /* same as --status-info on dark */
+  --warn-soft-fg:        #f0c98a;       /* same as --status-warning on dark */
+  --modal-soft-fg:       #e3c3ff;       /* same as --fn-modal-fg on dark */
+
+  /* ---- Function-bar text overlay --------------------------------- */
+  --fn-on:               #0a0a0a;       /* text painted on saturated fn-bar
+                                            segments (.fn-bar-wide .fn-seg);
+                                            bg there is a fn-*-fg color used
+                                            *as* a fill, so we need a contrast
+                                            partner that flips per theme */
+
+  /* ---- F0 overlay strokes ----------------------------------------- */
+  /* Canvas-painted contour colors for the vocals F0 overlay (consensus +
+     PESTO raw). Previously hardcoded as literals at the top of
+     `f0-overlay.js`; tokenized 2026-05-09-iter-5 because the off-white
+     consensus stroke (#f0f0f0) reads as a low-contrast washed-grey on
+     Studio Light's cream canvas (--surface-base #f6f6f8). Studio Light
+     overrides both to dark inks; dark presets keep the existing values. */
+  --f0-consensus-stroke: #f0f0f0;
+  --f0-fcpe-stroke:      #ff00ff;
+  --f0-pesto-stroke:     #7eddff;
+
+  /* ---- Alpha tokens (every transparency named) -------------------- */
+  --alpha-scrim:           0.55;
+  --alpha-overlay-soft:    0.08;
+  --alpha-overlay-med:     0.20;
+  --alpha-overlay-strong:  0.55;
+  --alpha-glow-soft:       0.30;
+  --alpha-glow-strong:     0.70;
+  --alpha-grid-line:       0.10;
+  --alpha-stem-fill:       0.85;
+  --alpha-loop-band-fill:    0.05;   /* canvas analyzed-loop bands (faint) +
+                                        minimap playback-loop band fill */
+  --alpha-loop-band-stroke:  0.225;  /* their edges */
+  --alpha-play-band-fill:    0.10;   /* canvas user-playback loop band — by
+                                        design brighter than the analyzed
+                                        bands above so the user's selection
+                                        reads as a deliberate marker */
+  --alpha-play-band-stroke:  0.55;
+  /* Multiplier on --text-primary for the canvas-painted bar-number labels
+     ("1", "2", "3", "4" above each downbeat). Per-theme so Studio Light's
+     dark text on cream can read at higher perceived weight than dark themes
+     using the same multiplier (the perceptual issue flagged in the iter-4
+     verdict's second minor: bar numerals "slightly recessed" on cream
+     surface). 2026-05-09-iter-5. */
+  --alpha-bar-number:      0.60;
+
+  /* ---- Radii ------------------------------------------------------- */
+  --radius-1:    3px;
+  --radius-2:    4px;
+  --radius-3:    6px;
+  --radius-4:    10px;
+  --radius-pill: 9999px;
+
+  /* ---- Motion ------------------------------------------------------ */
+  --motion-fast:   0.12s;
+  --motion-medium: 0.18s;
+  --motion-slow:   0.30s;
+
+}

@@ -1,0 +1,53 @@
+{
+  "slug": "baxter_dury-prince_of_tears-zppakk4xk74",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 189,
+  "duration_sec": 188.76,
+  "leading_silence_sec": 3.20565,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Baxter Dury",
+  "title_guess_raw": "Prince Of Tears",
+  "artist_guess_clean": "Baxter Dury",
+  "title_guess_clean": "Prince Of Tears",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEmUaEkSRZEGAMCz4wd-qPhxHFD1pviC5sGl",
+  "fingerprint_length": 3748,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "1c41d254-5802-4443-91a4-c5e22406c83b",
+      "score": 0.9575422,
+      "recording_count": 2,
+      "recordings": [
+        {
+          "mbid": "c1b43dcf-b152-42ed-9d93-9e196001684c",
+          "title": "Prince of Tears",
+          "artists": [
+            "Baxter Dury"
+          ],
+          "duration": 185.0,
+          "releasegroups": [
+            "Mr. Maserati - The Best of Baxter Dury 2001 - 2021"
+          ]
+        },
+        {
+          "mbid": "c45ee266-4d59-4de2-b0a4-3d3247b11c1a",
+          "title": "Prince of Tears",
+          "artists": [
+            "Baxter Dury"
+          ],
+          "duration": 185.0,
+          "releasegroups": [
+            "Prince of Tears",
+            "La Bande\u2010son de l\u2019automne 2017"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

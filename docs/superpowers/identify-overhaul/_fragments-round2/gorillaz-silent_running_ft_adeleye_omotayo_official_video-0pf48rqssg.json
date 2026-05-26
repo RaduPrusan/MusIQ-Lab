@@ -1,0 +1,42 @@
+{
+  "slug": "gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 215,
+  "duration_sec": 215.06,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.4399999999999977,
+  "artist_guess_raw": "Gorillaz",
+  "title_guess_raw": "Silent Running Ft Adeleye Omotayo Official Video-0pf48rqssg",
+  "artist_guess_clean": "Gorillaz",
+  "title_guess_clean": "Silent Running Adeleye Omotayo -0pf48rqssg",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtNSZJImUCE8V7MpI5CE0PTkyKQvqZajWHPTx",
+  "fingerprint_length": 3819,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "eda89baa-93a8-45b6-99ed-0a4203c6efa4",
+      "score": 0.9900119,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "8d74e3f5-3e94-4d6f-bff2-66883f906999",
+          "title": "Silent Running",
+          "artists": [
+            "Allan McLoud",
+            "Fraser"
+          ],
+          "duration": 215.0,
+          "releasegroups": [
+            "100% Eurotrance 3"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

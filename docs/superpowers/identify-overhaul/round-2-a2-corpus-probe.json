@@ -1,0 +1,1154 @@
+{
+  "schema": 1,
+  "generated_at_utc": "2026-05-12T18:20:41Z",
+  "wall_sec": 86.13,
+  "corpus": [
+    "awolnation-run_official_audio-mw2kkyju9gy",
+    "baleen_unmedicated",
+    "baxter_dury-prince_of_tears-zppakk4xk74",
+    "buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w",
+    "crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c",
+    "editors_life_is_a_fear",
+    "editors_life_is_a_fear_alternative",
+    "emika-sing_to_me-k9sdbzm8pgk",
+    "fanfare_ciocarlia_asfalt_tango",
+    "flunk_on_my_balcony",
+    "gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg",
+    "hurt-ty-bldf8bsw",
+    "notre-dame_est-3frubz9yhim",
+    "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+    "balthazar-changes_official_video-p3jb998acqo",
+    "charlie_puth_attention",
+    "cvt_380_m",
+    "it_could_happen_to_you_2_render",
+    "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+    "joesef_comedown_official_video_zaprrzdhyiw",
+    "moderat-reminder_official_video-cjwsnuoazug",
+    "nightbus-angles_mortz_official_video-igxitfxkd1i",
+    "olivia_dean_dive_acoustic_yylsa4m2zzm",
+    "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+    "ren_x_chinchilla_chalk_outlines",
+    "she_s_hot_tea-p_3xutn8res",
+    "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+    "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+    "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+    "warhaus_love_s_a_stranger_official_video_gsjdhd0stag"
+  ],
+  "records": [
+    {
+      "slug": "awolnation-run_official_audio-mw2kkyju9gy",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 242,
+      "duration_sec": 241.94,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.46299999999999386,
+      "artist_guess_raw": "Awolnation",
+      "title_guess_raw": "Run Official Audio",
+      "artist_guess_clean": "Awolnation",
+      "title_guess_clean": "Run",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtFLkMkmG2BmaSDmeHDqs6XgT4vuOZkb_YY8u",
+      "fingerprint_length": 3562,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "dd06dc12-b43d-4e80-980c-5f7c20df73ce",
+          "score": 0.9874882,
+          "recording_count": 2,
+          "recordings": [
+            {
+              "mbid": "36268ba8-c787-4a53-bd0c-78e17236fff6",
+              "title": "Run (Beautiful Things)",
+              "artists": [
+                "AWOLNATION"
+              ],
+              "duration": 242.024,
+              "releasegroups": [
+                "Promo Only: Modern Rock Radio, August 2016"
+              ]
+            },
+            {
+              "mbid": "77678dce-44a8-4fae-9cc4-ed8e22943230",
+              "title": "Run",
+              "artists": [
+                "AWOLNATION"
+              ],
+              "duration": 241.0,
+              "releasegroups": [
+                "Run"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "baleen_unmedicated",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 194,
+      "duration_sec": 193.85,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Baleen",
+      "title_guess_raw": "Unmedicated",
+      "artist_guess_clean": "Baleen",
+      "title_guess_clean": "Unmedicated",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtPk34jy-TMEnoaQg_MOFrTmeBdqX48uDZ8GP",
+      "fingerprint_length": 3523,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "92b9c323-a357-4fa7-b1eb-182d4e62ac4a",
+          "score": 0.98213345,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "d8de10d1-d9dc-47db-bf95-92b09a47adf3",
+              "title": "Unmedicated",
+              "artists": [
+                "Baleen"
+              ],
+              "duration": 195.8,
+              "releasegroups": [
+                "Petri Disc"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "baxter_dury-prince_of_tears-zppakk4xk74",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 189,
+      "duration_sec": 188.76,
+      "leading_silence_sec": 3.20565,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Baxter Dury",
+      "title_guess_raw": "Prince Of Tears",
+      "artist_guess_clean": "Baxter Dury",
+      "title_guess_clean": "Prince Of Tears",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEmUaEkSRZEGAMCz4wd-qPhxHFD1pviC5sGl",
+      "fingerprint_length": 3748,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "1c41d254-5802-4443-91a4-c5e22406c83b",
+          "score": 0.9575422,
+          "recording_count": 2,
+          "recordings": [
+            {
+              "mbid": "c1b43dcf-b152-42ed-9d93-9e196001684c",
+              "title": "Prince of Tears",
+              "artists": [
+                "Baxter Dury"
+              ],
+              "duration": 185.0,
+              "releasegroups": [
+                "Mr. Maserati - The Best of Baxter Dury 2001 - 2021"
+              ]
+            },
+            {
+              "mbid": "c45ee266-4d59-4de2-b0a4-3d3247b11c1a",
+              "title": "Prince of Tears",
+              "artists": [
+                "Baxter Dury"
+              ],
+              "duration": 185.0,
+              "releasegroups": [
+                "Prince of Tears",
+                "La Bande‐son de l’automne 2017"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 227,
+      "duration_sec": 227.23,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Buddha",
+      "title_guess_raw": "Bar-ali Kuru Yuregine Deprem",
+      "artist_guess_clean": "Buddha",
+      "title_guess_clean": "Bar-ali Kuru Yuregine Deprem",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtFmiKGGyJJngD--Ow7tWiDJx8zjOw4dxOFOK",
+      "fingerprint_length": 3132,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "5c5b4c9b-1cae-4a82-89ba-068487300d2f",
+          "score": 0.9729035,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "d9606420-d8f5-449b-af9e-4497e582e38d",
+              "title": "Yuregine Deprem",
+              "artists": [
+                "Ali Kuru"
+              ],
+              "duration": 227.0,
+              "releasegroups": [
+                "Buddha‐Bar Elements"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 188,
+      "duration_sec": 188.04,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Crippled Black Phoenix",
+      "title_guess_raw": "In Bad Dreams",
+      "artist_guess_clean": "Crippled Black Phoenix",
+      "title_guess_clean": "In Bad Dreams",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtMoiKlyOg5-xHz7-HMlzPLrR6UheFI-WBMcT",
+      "fingerprint_length": 3246,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "f74df91e-28e0-4922-a1d7-129f241ea2cd",
+          "score": 0.9756725,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "2899a0fa-8907-41d8-9f7d-e1a209d219cc",
+              "title": "In Bad Dreams",
+              "artists": [
+                "Crippled Black Phoenix"
+              ],
+              "duration": 187.973,
+              "releasegroups": [
+                "Horrific Honorifics",
+                "Various Types of Dread (A Collection of Confusion)"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "editors_life_is_a_fear",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 264,
+      "duration_sec": 264.25,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Editors Life",
+      "title_guess_raw": "Is A Fear",
+      "artist_guess_clean": "Editors Life",
+      "title_guess_clean": "Is A Fear",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEkkKUkSeVHQNx2eF__QMEZHLcWPHr7QNx2e",
+      "fingerprint_length": 3263,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "7011c20e-21ba-4463-97ea-7ae7a884391d",
+          "score": 0.9930775,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "ce0d7801-7c20-4baf-9511-961910d6c45e",
+              "title": "Life Is a Fear",
+              "artists": [
+                "Editors"
+              ],
+              "duration": 264.0,
+              "releasegroups": [
+                "Pure FM Volume 6",
+                "Amphi Festival 2016",
+                "De Afrekening 59"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "editors_life_is_a_fear_alternative",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 303,
+      "duration_sec": 303.41,
+      "leading_silence_sec": 0.638639,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Editors Life",
+      "title_guess_raw": "Is A Fear Alternative",
+      "artist_guess_clean": "Editors Life",
+      "title_guess_clean": "Is A Fear",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEy2RNEiBjt-_MeL4zt6HF-Oc0KcBNXxHGKu",
+      "fingerprint_length": 3444,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "72bf105e-e18b-4cfe-92be-c36d6233c617",
+          "score": 0.9992748,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "0cd265db-6b19-402b-b7da-a8bde6268d00",
+              "title": "Alternative: Life Is a Fear",
+              "artists": [
+                "Editors"
+              ],
+              "duration": 303.372,
+              "releasegroups": [
+                "In Dream"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "emika-sing_to_me-k9sdbzm8pgk",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 253,
+      "duration_sec": 253.03,
+      "leading_silence_sec": 0.323479,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Emika",
+      "title_guess_raw": "Sing To Me",
+      "artist_guess_clean": "Emika",
+      "title_guess_clean": "Sing To Me",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtM2USFEd5JJy6NLxB8pqHw-DNGIufJfhXugZ",
+      "fingerprint_length": 3488,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "d096a114-6d74-430d-a7c6-5cb990740f5b",
+          "score": 0.9528943,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "3518434b-406a-4581-93ec-ebfcbb577717",
+              "title": "Sing to Me",
+              "artists": [
+                "Emika"
+              ],
+              "duration": 253.0,
+              "releasegroups": [
+                "Dva",
+                "Searching"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "fanfare_ciocarlia_asfalt_tango",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 373,
+      "duration_sec": 372.95,
+      "leading_silence_sec": 1.04918,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Fanfare Ciocarlia",
+      "title_guess_raw": "Asfalt Tango",
+      "artist_guess_clean": "Fanfare Ciocarlia",
+      "title_guess_clean": "Asfalt Tango",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtJukJFHURMF3BdsTPUh6H3GOR4OXiMePH81D",
+      "fingerprint_length": 3760,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "bbfe7563-7ecc-4ddf-bcc4-49b9564d3b98",
+          "score": 0.99133044,
+          "recording_count": 5,
+          "recordings": [
+            {
+              "mbid": "0e1474c0-75de-47c7-9513-ac62145bd75d",
+              "title": "Asfalt Tango",
+              "artists": [
+                "Fanfare Ciocărlia"
+              ],
+              "duration": 371.0,
+              "releasegroups": [
+                "Indestructible Balkan Beats"
+              ]
+            },
+            {
+              "mbid": "3f992092-6aee-4382-bd7e-76c6db242580",
+              "title": "Asfalt tango",
+              "artists": [
+                "Fanfare Ciocărlia"
+              ],
+              "duration": 372.893,
+              "releasegroups": [
+                "Baro Biao: World Wide Wedding",
+                "Oh, Danube, ma Danube!",
+                "The Rough Guide to the Music of the Balkans"
+              ]
+            },
+            {
+              "mbid": "6c4cc355-131e-499e-aed8-43d1f161cd8b",
+              "title": "Asfalt Tango",
+              "artists": [
+                "Fanfare Ciocărlia"
+              ],
+              "duration": 374.0,
+              "releasegroups": [
+                "Best of Gypsy Brass"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "flunk_on_my_balcony",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 180,
+      "duration_sec": 179.59,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Flunk On",
+      "title_guess_raw": "My Balcony",
+      "artist_guess_clean": "Flunk On",
+      "title_guess_clean": "My Balcony",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEqSJ4uaKEE-_OnwZHzgiOmGnWqhC2GOUxnx",
+      "fingerprint_length": 3646,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "6e95577f-a06b-4aac-a6be-a9cc0dfc518f",
+          "score": 0.9690137,
+          "recording_count": 3,
+          "recordings": [
+            {
+              "mbid": "0985f617-3d4f-45ea-91ee-d3d6904436bb",
+              "title": "On My Balcony",
+              "artists": [
+                "Flunk"
+              ],
+              "duration": 184.28,
+              "releasegroups": [
+                "Samsung Chillout Sessions, Volume 3"
+              ]
+            },
+            {
+              "mbid": "125478ab-86bc-4b5d-83eb-97b1bb0e9993",
+              "title": "On My Balcony",
+              "artists": [
+                "Flunk"
+              ],
+              "duration": 190.533,
+              "releasegroups": [
+                "Morning Star"
+              ]
+            },
+            {
+              "mbid": "423eeb11-a7d6-4276-8c02-3759fde57484",
+              "title": "On My Balcony (radio edit)",
+              "artists": [
+                "Flunk"
+              ],
+              "duration": 179.0,
+              "releasegroups": [
+                "On My Balcony"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 215,
+      "duration_sec": 215.06,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.4399999999999977,
+      "artist_guess_raw": "Gorillaz",
+      "title_guess_raw": "Silent Running Ft Adeleye Omotayo Official Video-0pf48rqssg",
+      "artist_guess_clean": "Gorillaz",
+      "title_guess_clean": "Silent Running Adeleye Omotayo -0pf48rqssg",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtNSZJImUCE8V7MpI5CE0PTkyKQvqZajWHPTx",
+      "fingerprint_length": 3819,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "eda89baa-93a8-45b6-99ed-0a4203c6efa4",
+          "score": 0.9900119,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "8d74e3f5-3e94-4d6f-bff2-66883f906999",
+              "title": "Silent Running",
+              "artists": [
+                "Allan McLoud",
+                "Fraser"
+              ],
+              "duration": 215.0,
+              "releasegroups": [
+                "100% Eurotrance 3"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "hurt-ty-bldf8bsw",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 374,
+      "duration_sec": 374.47,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.75,
+      "artist_guess_raw": "Hurt",
+      "title_guess_raw": "",
+      "artist_guess_clean": "Hurt",
+      "title_guess_clean": "",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtIkUZWIm4j9qXDtOHO54FD-KF_6Dm8ePV_BJ",
+      "fingerprint_length": 3202,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "b302caad-9aa1-47f9-bcd8-a2abf4fbc001",
+          "score": 0.97791404,
+          "recording_count": 3,
+          "recordings": [
+            {
+              "mbid": "2eb2a914-80b5-447e-8a46-cc9fa02ccc9d",
+              "title": null,
+              "artists": [],
+              "duration": null,
+              "releasegroups": []
+            },
+            {
+              "mbid": "a12048fe-f535-4a94-bed0-60bf60d0f3c9",
+              "title": "Hurt",
+              "artists": [
+                "Nine Inch Nails"
+              ],
+              "duration": 373.0,
+              "releasegroups": [
+                "The Downward Spiral"
+              ]
+            },
+            {
+              "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+              "title": "Hurt",
+              "artists": [
+                "Nine Inch Nails"
+              ],
+              "duration": 374.066,
+              "releasegroups": [
+                "The Downward Spiral",
+                "The Downward Spiral + With Teeth",
+                "The Ultimate Headphone & Hi‐Fi Album"
+              ]
+            }
+          ]
+        },
+        {
+          "acoustid_id": "8aefb025-ea59-42da-9739-d5bb41b2672d",
+          "score": 0.90529406,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+              "title": "Hurt",
+              "artists": [
+                "Nine Inch Nails"
+              ],
+              "duration": 374.066,
+              "releasegroups": [
+                "The Downward Spiral",
+                "The Downward Spiral + With Teeth",
+                "The Ultimate Headphone & Hi‐Fi Album"
+              ]
+            }
+          ]
+        },
+        {
+          "acoustid_id": "581e117c-c870-4229-bae9-9a024969e485",
+          "score": 0.81775326,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+              "title": "Hurt",
+              "artists": [
+                "Nine Inch Nails"
+              ],
+              "duration": 374.066,
+              "releasegroups": [
+                "The Downward Spiral",
+                "The Downward Spiral + With Teeth",
+                "The Ultimate Headphone & Hi‐Fi Album"
+              ]
+            }
+          ]
+        },
+        {
+          "acoustid_id": "62e85751-9c2f-4aac-81fb-a8005d3d3943",
+          "score": 0.7138054,
+          "recording_count": 0,
+          "recordings": []
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "notre-dame_est-3frubz9yhim",
+      "snapshot_bucket": "mb_503",
+      "expected_duration_sec": 147,
+      "duration_sec": 147.17,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.9019999999999868,
+      "artist_guess_raw": "Notre",
+      "title_guess_raw": "Dame Est",
+      "artist_guess_clean": "Notre",
+      "title_guess_clean": "Dame Est",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtMmoJQ8hzsegHzxyjIcrog9x7ULD2Ah_aM88",
+      "fingerprint_length": 3834,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "b862a64f-9ed5-49b3-a920-efe54195b6bd",
+          "score": 0.9803863,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "a8fb3076-98ba-42c3-9f0b-979ea81bc37a",
+              "title": "Notre-Dame Est",
+              "artists": [
+                "Anomalie"
+              ],
+              "duration": 147.0,
+              "releasegroups": [
+                "Métropole 1|2",
+                "Métropole, Part II"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "R",
+      "notes": ""
+    },
+    {
+      "slug": "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 260,
+      "duration_sec": 259.63,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.6970000000000027,
+      "artist_guess_raw": "Angus Julia Stone",
+      "title_guess_raw": "Harvest Moon-11 17 2017-paste Studios New York Ny",
+      "artist_guess_clean": "Angus Julia Stone",
+      "title_guess_clean": "Harvest Moon- -",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEkWpWGiJAWdREej-YL2oc_hHzpxeYg_XIf1",
+      "fingerprint_length": 3666,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "2c1cb869-cc59-48e1-9e83-2947bcc4cc68",
+          "score": 0.9428402,
+          "recording_count": 0,
+          "recordings": []
+        }
+      ],
+      "bucket": "B",
+      "notes": ""
+    },
+    {
+      "slug": "balthazar-changes_official_video-p3jb998acqo",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 200,
+      "duration_sec": 200.06,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Balthazar",
+      "title_guess_raw": "Changes Official Video",
+      "artist_guess_clean": "Balthazar",
+      "title_guess_clean": "Changes",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtGSTKlmSBE_2HKeI8txws0imHvmJ93h8OPuG",
+      "fingerprint_length": 3632,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "charlie_puth_attention",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 302,
+      "duration_sec": 301.73,
+      "leading_silence_sec": 0.453424,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Charlie Puth",
+      "title_guess_raw": "Attention",
+      "artist_guess_clean": "Charlie Puth",
+      "title_guess_clean": "Attention",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtGoWNZIW4RnRx0ey3EWYh-iPb1EeyMsenMKD",
+      "fingerprint_length": 3822,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "cvt_380_m",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 7,
+      "duration_sec": 7.39,
+      "leading_silence_sec": null,
+      "trailing_silence_sec": null,
+      "artist_guess_raw": "Cvt 380",
+      "title_guess_raw": "M",
+      "artist_guess_clean": "Cvt 380",
+      "title_guess_clean": "M",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQAAJooSLSGVZUifI9kT4g7yftARH97xPMJ1MF8U",
+      "fingerprint_length": 139,
+      "acoustid_status": null,
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "F",
+      "notes": "Duration 7.4s < 30s — Chromaprint below useful range."
+    },
+    {
+      "slug": "it_could_happen_to_you_2_render",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 139,
+      "duration_sec": 139.23,
+      "leading_silence_sec": 0.819955,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "It Could",
+      "title_guess_raw": "Happen To You 2 Render",
+      "artist_guess_clean": "It Could",
+      "title_guess_clean": "Happen To You 2 Render",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEmSKHoSTUK-LBSuYYd_hPuHfkdMEc_UGSX-",
+      "fingerprint_length": 3772,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 208,
+      "duration_sec": 207.6,
+      "leading_silence_sec": 1.94406,
+      "trailing_silence_sec": 0.5109999999999957,
+      "artist_guess_raw": "Jamel Debbouze Stromae",
+      "title_guess_raw": "Alors On Danse Le Tube-made In Jamel 2010",
+      "artist_guess_clean": "Jamel Debbouze Stromae",
+      "title_guess_clean": "Alors On Danse Le Tube-",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtJGiMIqiKBEyH9eL5zKOHc2eKch7KB_ScBme",
+      "fingerprint_length": 3563,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "joesef_comedown_official_video_zaprrzdhyiw",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 272,
+      "duration_sec": 272.04,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Joesef Comedown",
+      "title_guess_raw": "Official Video Zaprrzdhyiw",
+      "artist_guess_clean": "Joesef Comedown",
+      "title_guess_clean": "Zaprrzdhyiw",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtFSSJIoixviR80iy4zwaB53p48xxIvSC5MWL",
+      "fingerprint_length": 3582,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "moderat-reminder_official_video-cjwsnuoazug",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 206,
+      "duration_sec": 206.09,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Moderat",
+      "title_guess_raw": "Reminder Official Video-cjwsnuoazug",
+      "artist_guess_clean": "Moderat",
+      "title_guess_clean": "Reminder -cjwsnuoazug",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtFHiR5KiBH3OQ6eIwz_2tTnCH1PY48fDoI9u",
+      "fingerprint_length": 3222,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "a1442ad5-389e-4e98-8111-6e73a4b6eda1",
+          "score": 0.9381593,
+          "recording_count": 0,
+          "recordings": []
+        },
+        {
+          "acoustid_id": "8bf77d72-3590-48b7-bc31-b9dfd3bf64c2",
+          "score": 0.65384364,
+          "recording_count": 0,
+          "recordings": []
+        }
+      ],
+      "bucket": "B",
+      "notes": ""
+    },
+    {
+      "slug": "nightbus-angles_mortz_official_video-igxitfxkd1i",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 269,
+      "duration_sec": 268.87,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Nightbus",
+      "title_guess_raw": "Angles Mortz Official Video",
+      "artist_guess_clean": "Nightbus",
+      "title_guess_clean": "Angles Mortz",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtGmUJMlxNJQf9MfRF1q0LceDH82DihsuwA9y",
+      "fingerprint_length": 3388,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "olivia_dean_dive_acoustic_yylsa4m2zzm",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 199,
+      "duration_sec": 199.39,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.8129999999999882,
+      "artist_guess_raw": "Olivia Dean",
+      "title_guess_raw": "Dive Acoustic",
+      "artist_guess_clean": "Olivia Dean",
+      "title_guess_clean": "Dive",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtIqsJGMWCU2Vh-ClIfvxC4nMHZVGRYT1oueH",
+      "fingerprint_length": 3735,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 327,
+      "duration_sec": 326.53,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Orchestral Suite",
+      "title_guess_raw": "No 3 In D Major Ii Air On A G String Arr For Cello Quintet",
+      "artist_guess_clean": "Orchestral Suite",
+      "title_guess_clean": "No 3 In D Major Ii Air On A G String",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtJoUJcqUGTn6QTiBNxBeQzt8tI-PksgPXwr6",
+      "fingerprint_length": 3224,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "e4c7f325-9a8d-4260-8737-976442a8326f",
+          "score": 0.9859902,
+          "recording_count": 0,
+          "recordings": []
+        }
+      ],
+      "bucket": "B",
+      "notes": ""
+    },
+    {
+      "slug": "ren_x_chinchilla_chalk_outlines",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 345,
+      "duration_sec": 344.74,
+      "leading_silence_sec": 6.47152,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Ren X",
+      "title_guess_raw": "Chinchilla Chalk Outlines",
+      "artist_guess_clean": "Ren X",
+      "title_guess_clean": "Chinchilla Chalk Outlines",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtDSjZFWEPBG0_AhvzFmW49rRM0UTE__x4d-C",
+      "fingerprint_length": 3260,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "she_s_hot_tea-p_3xutn8res",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 360,
+      "duration_sec": 359.71,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "She S",
+      "title_guess_raw": "Hot Tea",
+      "artist_guess_clean": "She S",
+      "title_guess_clean": "Hot Tea",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEmUJFKUTQUrDhiBK8Rx_DD64ccj4vCFE4-o",
+      "fingerprint_length": 3174,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 283,
+      "duration_sec": 282.84,
+      "leading_silence_sec": 1.48779,
+      "trailing_silence_sec": 0.5720000000000027,
+      "artist_guess_raw": "Sting",
+      "title_guess_raw": "Shape Of My Heart Live At The Rijksmuseum",
+      "artist_guess_clean": "Sting",
+      "title_guess_clean": "Shape Of My Heart The Rijksmuseum",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEqSJEuSKIoYHH_gZzhcMalxzXiJHEng88Oj",
+      "fingerprint_length": 3619,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 255,
+      "duration_sec": 255.05,
+      "leading_silence_sec": 0.77925,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "Submotion Orchestra",
+      "title_guess_raw": "Finest Hour Album Version",
+      "artist_guess_clean": "Submotion Orchestra",
+      "title_guess_clean": "Finest Hour",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtNrDJEmyELeCF83xY-_xGQmTIzq-psd39BL-",
+      "fingerprint_length": 3191,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [],
+      "bucket": "A",
+      "notes": ""
+    },
+    {
+      "slug": "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 592,
+      "duration_sec": 592.15,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.0,
+      "artist_guess_raw": "The Byrds",
+      "title_guess_raw": "Eight Miles High Live At Fillmore East 1970 Psych-rock Jams",
+      "artist_guess_clean": "The Byrds",
+      "title_guess_clean": "Eight Miles High",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtEqms8GOP-h1PMiPZMeDuQ-OLyV49-gR5gxu",
+      "fingerprint_length": 3595,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "c778c461-fc87-4e96-8388-7950f6c5256c",
+          "score": 0.9259955,
+          "recording_count": 0,
+          "recordings": []
+        },
+        {
+          "acoustid_id": "0fac6edb-5cb0-4f5d-8854-e28fba45d4e9",
+          "score": 0.83939874,
+          "recording_count": 0,
+          "recordings": []
+        }
+      ],
+      "bucket": "B",
+      "notes": ""
+    },
+    {
+      "slug": "warhaus_love_s_a_stranger_official_video_gsjdhd0stag",
+      "snapshot_bucket": "no_match",
+      "expected_duration_sec": 210,
+      "duration_sec": 210.05,
+      "leading_silence_sec": 0.0,
+      "trailing_silence_sec": 0.6640000000000157,
+      "artist_guess_raw": "Warhaus Love",
+      "title_guess_raw": "S A Stranger Official Video",
+      "artist_guess_clean": "Warhaus Love",
+      "title_guess_clean": "S A Stranger",
+      "mp3_exists": true,
+      "fpcalc_ok": true,
+      "fpcalc_error": null,
+      "fingerprint_prefix": "AQADtFH0JIrSYU8CNU-OS6nxfCh_-Bf6nMHxnPgx",
+      "fingerprint_length": 3478,
+      "acoustid_status": "ok",
+      "acoustid_error": null,
+      "acoustid_results": [
+        {
+          "acoustid_id": "c457eebe-8379-476d-9727-3f3eda2a0057",
+          "score": 0.98401237,
+          "recording_count": 0,
+          "recordings": []
+        },
+        {
+          "acoustid_id": "6f450d35-56b7-41e5-bb89-98085f10065a",
+          "score": 0.95058674,
+          "recording_count": 1,
+          "recordings": [
+            {
+              "mbid": "8feaaf3e-8c7c-4d57-9503-298a56b1c920",
+              "title": "Love’s a Stranger",
+              "artists": [
+                "Warhaus"
+              ],
+              "duration": 206.626,
+              "releasegroups": [
+                "Belpop 100, volume 2: Radio 1",
+                "Warhaus",
+                "Alpine Grooves Easy Beats 2 (Kristallhutte)"
+              ]
+            }
+          ]
+        }
+      ],
+      "bucket": "D",
+      "notes": ""
+    }
+  ]
+}

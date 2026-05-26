@@ -1,0 +1,22 @@
+{
+  "slug": "nightbus-angles_mortz_official_video-igxitfxkd1i",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 269,
+  "duration_sec": 268.87,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Nightbus",
+  "title_guess_raw": "Angles Mortz Official Video",
+  "artist_guess_clean": "Nightbus",
+  "title_guess_clean": "Angles Mortz",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtGmUJMlxNJQf9MfRF1q0LceDH82DihsuwA9y",
+  "fingerprint_length": 3388,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

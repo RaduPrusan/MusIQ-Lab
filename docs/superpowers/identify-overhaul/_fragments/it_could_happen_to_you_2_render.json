@@ -1,0 +1,22 @@
+{
+  "slug": "it_could_happen_to_you_2_render",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 139,
+  "duration_sec": 139.23,
+  "leading_silence_sec": 0.819955,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "It Could",
+  "title_guess_raw": "Happen To You 2 Render",
+  "artist_guess_clean": "It Could",
+  "title_guess_clean": "Happen To You 2 Render",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEmSKHoSTUK-LBSuYYd_hPuHfkdMEc_UGSX-",
+  "fingerprint_length": 3772,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

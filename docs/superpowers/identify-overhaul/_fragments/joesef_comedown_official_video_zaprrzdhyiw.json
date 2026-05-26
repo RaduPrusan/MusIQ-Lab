@@ -1,0 +1,22 @@
+{
+  "slug": "joesef_comedown_official_video_zaprrzdhyiw",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 272,
+  "duration_sec": 272.04,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Joesef Comedown",
+  "title_guess_raw": "Official Video Zaprrzdhyiw",
+  "artist_guess_clean": "Joesef Comedown",
+  "title_guess_clean": "Zaprrzdhyiw",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtFSSJIoixviR80iy4zwaB53p48xxIvSC5MWL",
+  "fingerprint_length": 3582,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

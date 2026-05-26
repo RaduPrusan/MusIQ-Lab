@@ -1,0 +1,22 @@
+{
+  "slug": "cvt_380_m",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 7,
+  "duration_sec": 7.39,
+  "leading_silence_sec": null,
+  "trailing_silence_sec": null,
+  "artist_guess_raw": "Cvt 380",
+  "title_guess_raw": "M",
+  "artist_guess_clean": "Cvt 380",
+  "title_guess_clean": "M",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQAAJooSLSGVZUifI9kT4g7yftARH97xPMJ1MF8U",
+  "fingerprint_length": 139,
+  "acoustid_status": null,
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "F",
+  "notes": "Duration 7.4s < 30s \u2014 Chromaprint below useful range."
+}

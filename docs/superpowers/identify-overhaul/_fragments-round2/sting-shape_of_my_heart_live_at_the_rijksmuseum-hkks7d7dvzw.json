@@ -1,0 +1,22 @@
+{
+  "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 283,
+  "duration_sec": 282.84,
+  "leading_silence_sec": 1.48779,
+  "trailing_silence_sec": 0.5720000000000027,
+  "artist_guess_raw": "Sting",
+  "title_guess_raw": "Shape Of My Heart Live At The Rijksmuseum",
+  "artist_guess_clean": "Sting",
+  "title_guess_clean": "Shape Of My Heart The Rijksmuseum",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEqSJEuSKIoYHH_gZzhcMalxzXiJHEng88Oj",
+  "fingerprint_length": 3619,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

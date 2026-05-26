@@ -1,0 +1,22 @@
+{
+  "slug": "balthazar-changes_official_video-p3jb998acqo",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 200,
+  "duration_sec": 200.06,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Balthazar",
+  "title_guess_raw": "Changes Official Video",
+  "artist_guess_clean": "Balthazar",
+  "title_guess_clean": "Changes",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtGSTKlmSBE_2HKeI8txws0imHvmJ93h8OPuG",
+  "fingerprint_length": 3632,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

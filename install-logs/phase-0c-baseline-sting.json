@@ -1,0 +1,16 @@
+{
+  "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+  "n_frames": 28281,
+  "frames_finite_consensus_f0": 17020,
+  "ratio_finite_consensus_f0": 0.60181747462961,
+  "frames_vote_2_or_3": 18710,
+  "frames_killed_by_line_filter": 1690,
+  "ratio_killed_of_voted_voiced": 0.09032602886157136,
+  "frames_in_range_octave_split": 236,
+  "frames_in_range_octave_split_no_anchor": 164,
+  "ratio_octave_split_unanchored": 0.6949152542372882,
+  "n_basic_pitch_notes": 757,
+  "vc_schema_version": 2,
+  "phase": "0c-baseline",
+  "generated_at_iso": "2026-05-05"
+}

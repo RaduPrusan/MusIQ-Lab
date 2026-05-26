@@ -1,0 +1,63 @@
+{
+  "slug": "flunk_on_my_balcony",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 180,
+  "duration_sec": 179.59,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Flunk On",
+  "title_guess_raw": "My Balcony",
+  "artist_guess_clean": "Flunk On",
+  "title_guess_clean": "My Balcony",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEqSJ4uaKEE-_OnwZHzgiOmGnWqhC2GOUxnx",
+  "fingerprint_length": 3646,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "6e95577f-a06b-4aac-a6be-a9cc0dfc518f",
+      "score": 0.9690137,
+      "recording_count": 3,
+      "recordings": [
+        {
+          "mbid": "0985f617-3d4f-45ea-91ee-d3d6904436bb",
+          "title": "On My Balcony",
+          "artists": [
+            "Flunk"
+          ],
+          "duration": 184.28,
+          "releasegroups": [
+            "Samsung Chillout Sessions, Volume 3"
+          ]
+        },
+        {
+          "mbid": "125478ab-86bc-4b5d-83eb-97b1bb0e9993",
+          "title": "On My Balcony",
+          "artists": [
+            "Flunk"
+          ],
+          "duration": 190.533,
+          "releasegroups": [
+            "Morning Star"
+          ]
+        },
+        {
+          "mbid": "423eeb11-a7d6-4276-8c02-3759fde57484",
+          "title": "On My Balcony (radio edit)",
+          "artists": [
+            "Flunk"
+          ],
+          "duration": 179.0,
+          "releasegroups": [
+            "On My Balcony"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "Z",
+  "notes": ""
+}

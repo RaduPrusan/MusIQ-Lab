@@ -1,0 +1,22 @@
+{
+  "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 255,
+  "duration_sec": 255.05,
+  "leading_silence_sec": 0.77925,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Submotion Orchestra",
+  "title_guess_raw": "Finest Hour Album Version",
+  "artist_guess_clean": "Submotion Orchestra",
+  "title_guess_clean": "Finest Hour",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtNrDJEmyELeCF83xY-_xGQmTIzq-psd39BL-",
+  "fingerprint_length": 3191,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MusIQ-Lab</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23151520'/%3E%3Cpath d='M9 22V10l7 4 7-4v12' fill='none' stroke='%23ffb86b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='9' cy='22' r='2.5' fill='%23ff7eaa'/%3E%3Ccircle cx='23' cy='22' r='2.5' fill='%237ecaff'/%3E%3C/svg%3E">
+  <script>
+    /* musiq theme pre-paint hydration. Synchronous; no deps. */
+    (function () {
+      try {
+        var raw = localStorage.getItem('musiq.theme');
+        if (!raw) return;
+        var t = JSON.parse(raw);
+        if (!t || t.v !== 1 || !t.tokens) return;
+        var r = document.documentElement;
+        for (var k in t.tokens) if (Object.prototype.hasOwnProperty.call(t.tokens, k)) {
+          r.style.setProperty('--' + k, t.tokens[k]);
+        }
+      } catch (e) { /* silent — tokens.css applies as fallback */ }
+    })();
+  </script>
+  <link rel="stylesheet" href="/static/css/reset.css">
+  <link rel="stylesheet" href="/static/css/tokens.css">
+  <link rel="stylesheet" href="/static/css/theme.css">
+  <link rel="stylesheet" href="/static/css/track.css">
+</head>
+<body>
+  <div id="app">
+    <div id="topbar"></div>
+    <div id="body">
+      <div id="loading">Loading…</div>
+    </div>
+  </div>
+  <script type="module" src="/static/js/main.js"></script>
+</body>
+</html>

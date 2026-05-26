@@ -1,0 +1,22 @@
+{
+  "slug": "she_s_hot_tea-p_3xutn8res",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 360,
+  "duration_sec": 359.71,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "She S",
+  "title_guess_raw": "Hot Tea",
+  "artist_guess_clean": "She S",
+  "title_guess_clean": "Hot Tea",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEmUJFKUTQUrDhiBK8Rx_DD64ccj4vCFE4-o",
+  "fingerprint_length": 3174,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

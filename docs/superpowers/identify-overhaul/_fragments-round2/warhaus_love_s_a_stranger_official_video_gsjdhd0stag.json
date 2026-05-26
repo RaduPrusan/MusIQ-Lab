@@ -1,0 +1,49 @@
+{
+  "slug": "warhaus_love_s_a_stranger_official_video_gsjdhd0stag",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 210,
+  "duration_sec": 210.05,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.6640000000000157,
+  "artist_guess_raw": "Warhaus Love",
+  "title_guess_raw": "S A Stranger Official Video",
+  "artist_guess_clean": "Warhaus Love",
+  "title_guess_clean": "S A Stranger",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtFH0JIrSYU8CNU-OS6nxfCh_-Bf6nMHxnPgx",
+  "fingerprint_length": 3478,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "c457eebe-8379-476d-9727-3f3eda2a0057",
+      "score": 0.98401237,
+      "recording_count": 0,
+      "recordings": []
+    },
+    {
+      "acoustid_id": "6f450d35-56b7-41e5-bb89-98085f10065a",
+      "score": 0.95058674,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "8feaaf3e-8c7c-4d57-9503-298a56b1c920",
+          "title": "Love\u2019s a Stranger",
+          "artists": [
+            "Warhaus"
+          ],
+          "duration": 206.626,
+          "releasegroups": [
+            "Belpop 100, volume 2: Radio 1",
+            "Warhaus",
+            "Alpine Grooves Easy Beats 2 (Kristallhutte)"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "D",
+  "notes": ""
+}

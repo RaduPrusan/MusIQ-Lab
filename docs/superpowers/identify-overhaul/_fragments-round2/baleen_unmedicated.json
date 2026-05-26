@@ -1,0 +1,41 @@
+{
+  "slug": "baleen_unmedicated",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 194,
+  "duration_sec": 193.85,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Baleen",
+  "title_guess_raw": "Unmedicated",
+  "artist_guess_clean": "Baleen",
+  "title_guess_clean": "Unmedicated",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtPk34jy-TMEnoaQg_MOFrTmeBdqX48uDZ8GP",
+  "fingerprint_length": 3523,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "92b9c323-a357-4fa7-b1eb-182d4e62ac4a",
+      "score": 0.98213345,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "d8de10d1-d9dc-47db-bf95-92b09a47adf3",
+          "title": "Unmedicated",
+          "artists": [
+            "Baleen"
+          ],
+          "duration": 195.8,
+          "releasegroups": [
+            "Petri Disc"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

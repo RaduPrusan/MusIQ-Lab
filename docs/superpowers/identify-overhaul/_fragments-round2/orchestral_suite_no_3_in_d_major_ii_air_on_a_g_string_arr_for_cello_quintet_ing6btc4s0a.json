@@ -1,0 +1,29 @@
+{
+  "slug": "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 327,
+  "duration_sec": 326.53,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Orchestral Suite",
+  "title_guess_raw": "No 3 In D Major Ii Air On A G String Arr For Cello Quintet",
+  "artist_guess_clean": "Orchestral Suite",
+  "title_guess_clean": "No 3 In D Major Ii Air On A G String",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtJoUJcqUGTn6QTiBNxBeQzt8tI-PksgPXwr6",
+  "fingerprint_length": 3224,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "e4c7f325-9a8d-4260-8737-976442a8326f",
+      "score": 0.9859902,
+      "recording_count": 0,
+      "recordings": []
+    }
+  ],
+  "bucket": "B",
+  "notes": ""
+}
