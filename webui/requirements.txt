@@ -4,7 +4,7 @@ uvicorn[standard]
 numpy
 soundfile
 pytest>=9.0.3,<10
-pytest-asyncio>=0.23
+pytest-asyncio>=1.4.0
 httpx
 idna>=3.15
 claude-agent-sdk>=0.1.77
