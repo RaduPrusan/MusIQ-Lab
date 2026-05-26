@@ -6,7 +6,7 @@ mir_eval
 pretty_midi
 scipy
 scikit-learn
-resampy<0.4.3
+resampy<0.4.4
 typing-extensions
 tqdm
 rich
