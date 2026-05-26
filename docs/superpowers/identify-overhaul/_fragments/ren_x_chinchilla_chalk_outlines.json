@@ -1,0 +1,22 @@
+{
+  "slug": "ren_x_chinchilla_chalk_outlines",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 345,
+  "duration_sec": 344.74,
+  "leading_silence_sec": 6.47152,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Ren X",
+  "title_guess_raw": "Chinchilla Chalk Outlines",
+  "artist_guess_clean": "Ren X",
+  "title_guess_clean": "Chinchilla Chalk Outlines",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtDSjZFWEPBG0_AhvzFmW49rRM0UTE__x4d-C",
+  "fingerprint_length": 3260,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

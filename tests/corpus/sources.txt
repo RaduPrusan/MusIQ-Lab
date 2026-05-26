@@ -1,0 +1,45 @@
+# AUTO-GENERATED — review before running bash scripts/fetch-test-fixtures.sh
+# Per docs/superpowers/specs/2026-05-03-phase-ab-pipeline-upgrade-design.md §5,
+# 10 tracks in this order. One YouTube URL per line, blank lines and # ignored.
+#
+# The pipeline derives a slug from the mp3 filename — run analyze once to see it,
+# then name the label file labels/<slug>.json accordingly.
+
+# Slot 1: JVKE — golden hour (official music video) (lush sustained piano — explicit failure case)
+https://www.youtube.com/watch?v=PEM0Vs8jf1w
+
+# Slot 2: Olivia Dean — Dive (Acoustic) (sustained vocals, low-energy drums)
+# YT ID from existing cache dir: olivia_dean_dive_acoustic_yylsa4m2zzm
+https://www.youtube.com/watch?v=YYlSa4M2zzM
+
+# Slot 3: Gorillaz — Silent Running ft. Adeleye Omotayo (Official Video) (multi-instrument pop)
+# Already cached; YT ID from on-disk mp3 filename
+https://www.youtube.com/watch?v=_0Pf48RqSsg
+
+# Slot 4: Bach — Orchestral Suite No.3 in D Major: II. Air on a G-String (arr. cello quintet)
+# Instrumental, tests drum gate; YT ID from existing cache dir: …ing6btc4s0a
+https://www.youtube.com/watch?v=Ing6BtC4S0A
+
+# Slot 5: Radiohead — Creep (official video, XL Recordings channel)
+# Preferred over the "Heads On The Radio" upload already in cache; use canonical official upload
+https://www.youtube.com/watch?v=XFkzRNyygfk
+
+# Slot 6: Johann Strauss II — The Blue Danube (Wiener Symphoniker, Live from Vienna 2025)
+# Waltz / 3/4 — clear time-signature != 4/4 test; reputable orchestra upload
+https://www.youtube.com/watch?v=CZ-p_CXDlu0
+
+# Slot 7: Beyoncé — Love On Top (Official Video)
+# Modulates upward 4 times in final section — canonical key-change test
+https://www.youtube.com/watch?v=Vzzq4XQinb4
+
+# Slot 8: Beach House — Space Song (Official Music Video)
+# Heavy reverb / dream-pop production; from Depression Cherry (2015)
+https://www.youtube.com/watch?v=RBtlPT23PTM
+
+# Slot 9: Daniel Johnston — True Love Will Find You In The End (Official Music Video)
+# Lo-fi / 4-track hiss; canonical lo-fi example from 1990 cassette recordings
+https://www.youtube.com/watch?v=R-LMgGZUdGQ
+
+# Slot 10: Kendrick Lamar — HUMBLE. (Official Music Video)
+# Rap track — F0 should produce fewer notes than basic-pitch (opposite of sustained-vocals expectation)
+https://www.youtube.com/watch?v=tvTRZJ-4EyI

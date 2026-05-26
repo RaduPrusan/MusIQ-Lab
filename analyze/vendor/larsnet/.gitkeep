@@ -1,0 +1,2 @@
+# Preserves analyze/vendor/larsnet/ in git so scripts/install-larsnet.sh has
+# a known target dir. Everything else under this dir is gitignored.

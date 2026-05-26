@@ -1,0 +1,12 @@
+{
+  "slug": "charlie_puth_attention",
+  "leading_silence_sec": 0.45,
+  "stripped_duration_sec": 149,
+  "fingerprint_first_100_chars": "AQADtJ-USREVyEv04Bx6TNnBJSHGw96P68bxZ0hO5kWeJDeu4XASz_iTE3jS44eX5Uj-ILeRhwmOMBb6JBW-Kcdz-Nlx0RrU_EGt",
+  "acoustid_status": "ok",
+  "acoustid_http_code": 200,
+  "acoustid_results": [],
+  "top_score": null,
+  "top_recording_count": 0,
+  "top_mbid_or_null": null
+}

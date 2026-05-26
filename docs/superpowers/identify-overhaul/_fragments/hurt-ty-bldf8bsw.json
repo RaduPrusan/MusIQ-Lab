@@ -1,0 +1,107 @@
+{
+  "slug": "hurt-ty-bldf8bsw",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 374,
+  "duration_sec": 374.47,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.75,
+  "artist_guess_raw": "Hurt",
+  "title_guess_raw": "",
+  "artist_guess_clean": "Hurt",
+  "title_guess_clean": "",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtIkUZWIm4j9qXDtOHO54FD-KF_6Dm8ePV_BJ",
+  "fingerprint_length": 3202,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "b302caad-9aa1-47f9-bcd8-a2abf4fbc001",
+      "score": 0.97791404,
+      "recording_count": 3,
+      "recordings": [
+        {
+          "mbid": "2eb2a914-80b5-447e-8a46-cc9fa02ccc9d",
+          "title": null,
+          "artists": [],
+          "duration": null,
+          "releasegroups": []
+        },
+        {
+          "mbid": "a12048fe-f535-4a94-bed0-60bf60d0f3c9",
+          "title": "Hurt",
+          "artists": [
+            "Nine Inch Nails"
+          ],
+          "duration": 373.0,
+          "releasegroups": [
+            "The Downward Spiral"
+          ]
+        },
+        {
+          "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+          "title": "Hurt",
+          "artists": [
+            "Nine Inch Nails"
+          ],
+          "duration": 374.066,
+          "releasegroups": [
+            "The Downward Spiral",
+            "The Downward Spiral + With Teeth",
+            "The Ultimate Headphone & Hi\u2010Fi Album"
+          ]
+        }
+      ]
+    },
+    {
+      "acoustid_id": "8aefb025-ea59-42da-9739-d5bb41b2672d",
+      "score": 0.90529406,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+          "title": "Hurt",
+          "artists": [
+            "Nine Inch Nails"
+          ],
+          "duration": 374.066,
+          "releasegroups": [
+            "The Downward Spiral",
+            "The Downward Spiral + With Teeth",
+            "The Ultimate Headphone & Hi\u2010Fi Album"
+          ]
+        }
+      ]
+    },
+    {
+      "acoustid_id": "581e117c-c870-4229-bae9-9a024969e485",
+      "score": 0.81775326,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+          "title": "Hurt",
+          "artists": [
+            "Nine Inch Nails"
+          ],
+          "duration": 374.066,
+          "releasegroups": [
+            "The Downward Spiral",
+            "The Downward Spiral + With Teeth",
+            "The Ultimate Headphone & Hi\u2010Fi Album"
+          ]
+        }
+      ]
+    },
+    {
+      "acoustid_id": "62e85751-9c2f-4aac-81fb-a8005d3d3943",
+      "score": 0.7138054,
+      "recording_count": 0,
+      "recordings": []
+    }
+  ],
+  "bucket": "Z",
+  "notes": ""
+}

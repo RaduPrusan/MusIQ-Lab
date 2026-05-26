@@ -1,0 +1,35 @@
+{
+  "slug": "moderat-reminder_official_video-cjwsnuoazug",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 206,
+  "duration_sec": 206.09,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Moderat",
+  "title_guess_raw": "Reminder Official Video-cjwsnuoazug",
+  "artist_guess_clean": "Moderat",
+  "title_guess_clean": "Reminder -cjwsnuoazug",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtFHiR5KiBH3OQ6eIwz_2tTnCH1PY48fDoI9u",
+  "fingerprint_length": 3222,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "a1442ad5-389e-4e98-8111-6e73a4b6eda1",
+      "score": 0.9381593,
+      "recording_count": 0,
+      "recordings": []
+    },
+    {
+      "acoustid_id": "8bf77d72-3590-48b7-bc31-b9dfd3bf64c2",
+      "score": 0.65384364,
+      "recording_count": 0,
+      "recordings": []
+    }
+  ],
+  "bucket": "B",
+  "notes": ""
+}

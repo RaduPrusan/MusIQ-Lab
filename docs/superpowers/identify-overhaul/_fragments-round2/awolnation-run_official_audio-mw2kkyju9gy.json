@@ -1,0 +1,52 @@
+{
+  "slug": "awolnation-run_official_audio-mw2kkyju9gy",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 242,
+  "duration_sec": 241.94,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.46299999999999386,
+  "artist_guess_raw": "Awolnation",
+  "title_guess_raw": "Run Official Audio",
+  "artist_guess_clean": "Awolnation",
+  "title_guess_clean": "Run",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtFLkMkmG2BmaSDmeHDqs6XgT4vuOZkb_YY8u",
+  "fingerprint_length": 3562,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "dd06dc12-b43d-4e80-980c-5f7c20df73ce",
+      "score": 0.9874882,
+      "recording_count": 2,
+      "recordings": [
+        {
+          "mbid": "36268ba8-c787-4a53-bd0c-78e17236fff6",
+          "title": "Run (Beautiful Things)",
+          "artists": [
+            "AWOLNATION"
+          ],
+          "duration": 242.024,
+          "releasegroups": [
+            "Promo Only: Modern Rock Radio, August 2016"
+          ]
+        },
+        {
+          "mbid": "77678dce-44a8-4fae-9cc4-ed8e22943230",
+          "title": "Run",
+          "artists": [
+            "AWOLNATION"
+          ],
+          "duration": 241.0,
+          "releasegroups": [
+            "Run"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

@@ -1,0 +1,467 @@
+{
+  "schema": 1,
+  "generated_at": "2026-05-12T19:40:47+00:00",
+  "round": 3,
+  "worktree_sha": "ea7ab72",
+  "aggregate": {
+    "corpus_before": 14,
+    "corpus_after": 14,
+    "corpus_total": 30,
+    "full_cache_before": 24,
+    "full_cache_after": 24,
+    "full_cache_total": 40
+  },
+  "movers_false_to_true": [],
+  "movers_true_to_false": [],
+  "reason_changed": [],
+  "silence_behavior": [
+    {
+      "slug": "balthazar-changes_official_video-p3jb998acqo",
+      "bucket": "A",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "charlie_puth_attention",
+      "bucket": "A",
+      "leading_silence_sec": 0.453424,
+      "gate_fired_expected": true,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "it_could_happen_to_you_2_render",
+      "bucket": "A",
+      "leading_silence_sec": 0.819955,
+      "gate_fired_expected": true,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+      "bucket": "A",
+      "leading_silence_sec": 1.94406,
+      "gate_fired_expected": true,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "joesef_comedown_official_video_zaprrzdhyiw",
+      "bucket": "A",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "nightbus-angles_mortz_official_video-igxitfxkd1i",
+      "bucket": "A",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "olivia_dean_dive_acoustic_yylsa4m2zzm",
+      "bucket": "A",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "ren_x_chinchilla_chalk_outlines",
+      "bucket": "A",
+      "leading_silence_sec": 6.47152,
+      "gate_fired_expected": true,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "she_s_hot_tea-p_3xutn8res",
+      "bucket": "A",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+      "bucket": "A",
+      "leading_silence_sec": 1.48779,
+      "gate_fired_expected": true,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+      "bucket": "A",
+      "leading_silence_sec": 0.77925,
+      "gate_fired_expected": true,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+      "bucket": "B",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "moderat-reminder_official_video-cjwsnuoazug",
+      "bucket": "B",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+      "bucket": "B",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    },
+    {
+      "slug": "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+      "bucket": "B",
+      "leading_silence_sec": 0.0,
+      "gate_fired_expected": false,
+      "stripped_log_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "now_identified": false,
+      "log_source": null,
+      "log_mbid": null
+    }
+  ],
+  "bucket_a": {
+    "gated_slugs": [
+      "charlie_puth_attention",
+      "it_could_happen_to_you_2_render",
+      "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+      "ren_x_chinchilla_chalk_outlines",
+      "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+      "submotion_orchestra-finest_hour_album_version-qplldpndsx8"
+    ],
+    "zero_silence_slugs": [
+      "balthazar-changes_official_video-p3jb998acqo",
+      "joesef_comedown_official_video_zaprrzdhyiw",
+      "nightbus-angles_mortz_official_video-igxitfxkd1i",
+      "olivia_dean_dive_acoustic_yylsa4m2zzm",
+      "she_s_hot_tea-p_3xutn8res"
+    ],
+    "gated_cleared": [],
+    "zero_cleared": []
+  },
+  "bucket_b": {
+    "all_slugs": [
+      "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+      "moderat-reminder_official_video-cjwsnuoazug",
+      "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+      "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe"
+    ],
+    "cleared": []
+  },
+  "performance": {
+    "median_wall_sec": 42.92,
+    "mean_wall_sec": 43.361333333333334,
+    "total_wall_sec": 650.44,
+    "round_2_mean_sec": 27.5,
+    "run_count": 15
+  },
+  "regression": {
+    "verdict": "PASS",
+    "true_to_false_movers": [],
+    "pre_identified_changed": [],
+    "pre_identified_count": 24
+  },
+  "records": [
+    {
+      "slug": "balthazar-changes_official_video-p3jb998acqo",
+      "exit_code": 0,
+      "elapsed_sec": 43.67,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "charlie_puth_attention",
+      "exit_code": 0,
+      "elapsed_sec": 37.92,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "it_could_happen_to_you_2_render",
+      "exit_code": 0,
+      "elapsed_sec": 26.24,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+      "exit_code": 0,
+      "elapsed_sec": 39.11,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "joesef_comedown_official_video_zaprrzdhyiw",
+      "exit_code": 0,
+      "elapsed_sec": 42.92,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "nightbus-angles_mortz_official_video-igxitfxkd1i",
+      "exit_code": 0,
+      "elapsed_sec": 43.18,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "olivia_dean_dive_acoustic_yylsa4m2zzm",
+      "exit_code": 0,
+      "elapsed_sec": 35.23,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "ren_x_chinchilla_chalk_outlines",
+      "exit_code": 0,
+      "elapsed_sec": 47.09,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "she_s_hot_tea-p_3xutn8res",
+      "exit_code": 0,
+      "elapsed_sec": 56.16,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+      "exit_code": 0,
+      "elapsed_sec": 40.51,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+      "exit_code": 0,
+      "elapsed_sec": 43.23,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+      "exit_code": 0,
+      "elapsed_sec": 44.06,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "moderat-reminder_official_video-cjwsnuoazug",
+      "exit_code": 0,
+      "elapsed_sec": 34.07,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+      "exit_code": 0,
+      "elapsed_sec": 74.52,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    },
+    {
+      "slug": "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+      "exit_code": 0,
+      "elapsed_sec": 42.51,
+      "identify_log_line": null,
+      "log_source": null,
+      "log_score": null,
+      "log_mbid": null,
+      "log_reason": null,
+      "stripped_lead_sec": null,
+      "saw_acoustid_stripped": false,
+      "identify_json": {
+        "identified": false,
+        "reason": "no AcoustID match above threshold"
+      }
+    }
+  ]
+}

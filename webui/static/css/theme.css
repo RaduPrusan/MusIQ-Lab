@@ -1,0 +1,11 @@
+/* theme.css — applies the Classic Dark preset semantically.
+   Token values live in tokens.css; this file binds them to the document body
+   and to legacy single-purpose properties. The theme engine swaps preset
+   values at runtime via documentElement.style; this file is preset-agnostic
+   in everything except its filename. */
+
+body {
+  background: var(--surface-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}

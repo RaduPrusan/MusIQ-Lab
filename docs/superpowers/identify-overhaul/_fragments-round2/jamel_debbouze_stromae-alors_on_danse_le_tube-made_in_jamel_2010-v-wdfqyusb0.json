@@ -1,0 +1,22 @@
+{
+  "slug": "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 208,
+  "duration_sec": 207.6,
+  "leading_silence_sec": 1.94406,
+  "trailing_silence_sec": 0.5109999999999957,
+  "artist_guess_raw": "Jamel Debbouze Stromae",
+  "title_guess_raw": "Alors On Danse Le Tube-made In Jamel 2010",
+  "artist_guess_clean": "Jamel Debbouze Stromae",
+  "title_guess_clean": "Alors On Danse Le Tube-",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtJGiMIqiKBEyH9eL5zKOHc2eKch7KB_ScBme",
+  "fingerprint_length": 3563,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

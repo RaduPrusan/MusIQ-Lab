@@ -1,0 +1,35 @@
+{
+  "slug": "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 592,
+  "duration_sec": 592.15,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "The Byrds",
+  "title_guess_raw": "Eight Miles High Live At Fillmore East 1970 Psych-rock Jams",
+  "artist_guess_clean": "The Byrds",
+  "title_guess_clean": "Eight Miles High",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEqms8GOP-h1PMiPZMeDuQ-OLyV49-gR5gxu",
+  "fingerprint_length": 3595,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "c778c461-fc87-4e96-8388-7950f6c5256c",
+      "score": 0.9259955,
+      "recording_count": 0,
+      "recordings": []
+    },
+    {
+      "acoustid_id": "0fac6edb-5cb0-4f5d-8854-e28fba45d4e9",
+      "score": 0.83939874,
+      "recording_count": 0,
+      "recordings": []
+    }
+  ],
+  "bucket": "B",
+  "notes": ""
+}

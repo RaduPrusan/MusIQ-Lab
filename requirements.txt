@@ -1,0 +1,14 @@
+# moved to requirements-linux-cu126.txt — see INSTALL.md Phase 4
+#
+# The MusIQ-Lab analyze stack is Linux/WSL2 + Python 3.11 + Torch 2.7/cu126
+# only. Installing it under any other interpreter (esp. host Windows py3.13)
+# silently downgrades torch via the deezer/skey `torch~=2.7.0` pin and breaks
+# unrelated CUDA workloads sharing the env.
+#
+# pip ignores this comment but a curious reader will not — install via:
+#   wsl -- bash scripts/bootstrap-wsl.sh
+# which delegates to scripts/setup-venv.sh and uses
+# `-c constraints-torch27-cu126.txt --index-url https://download.pytorch.org/whl/cu126`
+# against the renamed requirements-linux-cu126.txt.
+#
+# DO NOT restore content here. DO NOT run `pip install -r requirements.txt`.

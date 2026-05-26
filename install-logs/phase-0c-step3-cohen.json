@@ -1,0 +1,20 @@
+{
+  "slug": "leonard_cohen_in_my_secret_life",
+  "phase": "0c-step3-postship",
+  "vc_schema_version": 3,
+  "n_frames": 29435,
+  "frames_finite_consensus_f0": 27533,
+  "ratio_finite_consensus_f0": 0.9353830473925598,
+  "frames_killed_by_line_filter": 1443,
+  "ratio_killed_of_voted_voiced": 0.08881639687326891,
+  "frames_in_range_octave_split": 977,
+  "frames_in_range_octave_split_no_anchor": 370,
+  "frames_strength_strong": 10736,
+  "frames_strength_medium": 4068,
+  "frames_strength_weak": 12729,
+  "anchor_validation_kept": 842,
+  "anchor_validation_corrected": 53,
+  "anchor_validation_dropped": 170,
+  "n_basic_pitch_notes_raw": 1065,
+  "generated_at_iso": "2026-05-05"
+}

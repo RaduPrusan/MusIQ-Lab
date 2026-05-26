@@ -1,0 +1,633 @@
+{
+  "schema": 1,
+  "round": 5,
+  "started_at": "2026-05-12T22:20:10.354613+00:00",
+  "records": [
+    {
+      "slug": "awolnation-run_official_audio-mw2kkyju9gy",
+      "exit_code": 0,
+      "wall_sec": 43.85,
+      "log_line": "analyze.stages.identify INFO identify: slug=awolnation-run_official_audio-mw2kkyju9gy source=acoustid score=0.9874882 mbid=36268ba8-c787-4a53-bd0c-78e17236fff6 reason=—",
+      "log_parsed": {
+        "slug": "awolnation-run_official_audio-mw2kkyju9gy",
+        "source": "acoustid",
+        "score": "0.9874882",
+        "mbid": "36268ba8-c787-4a53-bd0c-78e17236fff6",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "36268ba8-c787-4a53-bd0c-78e17236fff6",
+        "title": "Run (Beautiful Things)",
+        "artist": "AWOLNATION",
+        "year": 2016
+      },
+      "stderr_tail": "IUFkCMQQAA&duration=242 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/36268ba8-c787-4a53-bd0c-78e17236fff6?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=awolnation-run_official_audio-mw2kkyju9gy source=acoustid score=0.9874882 mbid=36268ba8-c787-4a53-bd0c-78e17236fff6 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote awolnation-run_official_audio-mw2kkyju9gy.jams + awolnation-run_official_audio-mw2kkyju9gy.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/awolnation-run_official_audio-mw2kkyju9gy/awolnation-run_official_audio-mw2kkyju9gy.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/awolnation-run_official_audio-mw2kkyju9gy/awolnation-run_official_audio-mw2kkyju9gy.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "baleen_unmedicated",
+      "exit_code": 0,
+      "wall_sec": 32.13,
+      "log_line": "analyze.stages.identify INFO identify: slug=baleen_unmedicated source=acoustid score=0.98213345 mbid=d8de10d1-d9dc-47db-bf95-92b09a47adf3 reason=—",
+      "log_parsed": {
+        "slug": "baleen_unmedicated",
+        "source": "acoustid",
+        "score": "0.98213345",
+        "mbid": "d8de10d1-d9dc-47db-bf95-92b09a47adf3",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "d8de10d1-d9dc-47db-bf95-92b09a47adf3",
+        "title": "Unmedicated",
+        "artist": "Baleen",
+        "year": null
+      },
+      "stderr_tail": ": GET https://musicbrainz.org/ws/2/recording/d8de10d1-d9dc-47db-bf95-92b09a47adf3?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=baleen_unmedicated source=acoustid score=0.98213345 mbid=d8de10d1-d9dc-47db-bf95-92b09a47adf3 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote baleen_unmedicated.jams + baleen_unmedicated.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/baleen_unmedicated/baleen_unmedicated.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/baleen_unmedicated/baleen_unmedicated.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: active in only 0.2% of frames (gate -40 dBFS); only 29% of energy in piano band 27-4200 Hz\n  - stem other suppressed by presence gate: active in only 1.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "baxter_dury-prince_of_tears-zppakk4xk74",
+      "exit_code": 0,
+      "wall_sec": 32.23,
+      "log_line": "analyze.stages.identify INFO identify: slug=baxter_dury-prince_of_tears-zppakk4xk74 source=acoustid score=0.9575422 mbid=c45ee266-4d59-4de2-b0a4-3d3247b11c1a reason=—",
+      "log_parsed": {
+        "slug": "baxter_dury-prince_of_tears-zppakk4xk74",
+        "source": "acoustid",
+        "score": "0.9575422",
+        "mbid": "c45ee266-4d59-4de2-b0a4-3d3247b11c1a",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "c45ee266-4d59-4de2-b0a4-3d3247b11c1a",
+        "title": "Prince of Tears",
+        "artist": "Baxter Dury",
+        "year": 2017
+      },
+      "stderr_tail": "://musicbrainz.org/ws/2/recording/c45ee266-4d59-4de2-b0a4-3d3247b11c1a?fmt=json&inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=baxter_dury-prince_of_tears-zppakk4xk74 source=acoustid score=0.9575422 mbid=c45ee266-4d59-4de2-b0a4-3d3247b11c1a reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote baxter_dury-prince_of_tears-zppakk4xk74.jams + baxter_dury-prince_of_tears-zppakk4xk74.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/baxter_dury-prince_of_tears-zppakk4xk74/baxter_dury-prince_of_tears-zppakk4xk74.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/baxter_dury-prince_of_tears-zppakk4xk74/baxter_dury-prince_of_tears-zppakk4xk74.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem guitar suppressed by presence gate: only 46% of energy in guitar band 80-1320 Hz\n"
+    },
+    {
+      "slug": "buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w",
+      "exit_code": 0,
+      "wall_sec": 33.94,
+      "log_line": "analyze.stages.identify INFO identify: slug=buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w source=none score=0.9729035 mbid=d9606420-d8f5-449b-af9e-4497e582e38d reason=acoustid_artist_mismatch",
+      "log_parsed": {
+        "slug": "buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w",
+        "source": "none",
+        "score": "0.9729035",
+        "mbid": "d9606420-d8f5-449b-af9e-4497e582e38d",
+        "reason": "acoustid_artist_mismatch"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "acoustid_artist_mismatch"
+      },
+      "stderr_tail": "ntified='Ali Kuru' vs slug='Buddha' sim=0.1429 (mode=artist)\nanalyze.stages.identify INFO identify: slug=buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w source=none score=0.9729035 mbid=d9606420-d8f5-449b-af9e-4497e582e38d reason=acoustid_artist_mismatch\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w.jams + buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w/buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w/buddha-bar-ali_kuru_yuregine_deprem-gcecffibv6w.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c",
+      "exit_code": 0,
+      "wall_sec": 32.02,
+      "log_line": "analyze.stages.identify INFO identify: slug=crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c source=acoustid score=0.9756725 mbid=2899a0fa-8907-41d8-9f7d-e1a209d219cc reason=—",
+      "log_parsed": {
+        "slug": "crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c",
+        "source": "acoustid",
+        "score": "0.9756725",
+        "mbid": "2899a0fa-8907-41d8-9f7d-e1a209d219cc",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "2899a0fa-8907-41d8-9f7d-e1a209d219cc",
+        "title": "In Bad Dreams",
+        "artist": "Crippled Black Phoenix",
+        "year": 2017
+      },
+      "stderr_tail": "NFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/2899a0fa-8907-41d8-9f7d-e1a209d219cc?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c source=acoustid score=0.9756725 mbid=2899a0fa-8907-41d8-9f7d-e1a209d219cc reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c.jams + crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c/crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c/crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "editors_life_is_a_fear",
+      "exit_code": 0,
+      "wall_sec": 44.41,
+      "log_line": "analyze.stages.identify INFO identify: slug=editors_life_is_a_fear source=acoustid score=0.9930775 mbid=ce0d7801-7c20-4baf-9511-961910d6c45e reason=—",
+      "log_parsed": {
+        "slug": "editors_life_is_a_fear",
+        "source": "acoustid",
+        "score": "0.9930775",
+        "mbid": "ce0d7801-7c20-4baf-9511-961910d6c45e",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "ce0d7801-7c20-4baf-9511-961910d6c45e",
+        "title": "Life Is a Fear",
+        "artist": "Editors",
+        "year": 2015
+      },
+      "stderr_tail": "I4QhIQBwCCGmiCIGAIWAYYIQIQxHCDPAjACGIOQEJIpZpIRRCilDgGDKcCCMEdIpZoQAShDCGBJNQA0IkoQIiByAwjAGBFGAMC8EAQYpg4gBAgDGFHLCMkEcQsIAwxoRSEAGGTOCG3AAIAA&duration=264 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/ce0d7801-7c20-4baf-9511-961910d6c45e?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=editors_life_is_a_fear source=acoustid score=0.9930775 mbid=ce0d7801-7c20-4baf-9511-961910d6c45e reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote editors_life_is_a_fear.jams + editors_life_is_a_fear.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/editors_life_is_a_fear/editors_life_is_a_fear.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/editors_life_is_a_fear/editors_life_is_a_fear.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "editors_life_is_a_fear_alternative",
+      "exit_code": 0,
+      "wall_sec": 46.74,
+      "log_line": "analyze.stages.identify INFO identify: slug=editors_life_is_a_fear_alternative source=acoustid score=0.9992748 mbid=0cd265db-6b19-402b-b7da-a8bde6268d00 reason=—",
+      "log_parsed": {
+        "slug": "editors_life_is_a_fear_alternative",
+        "source": "acoustid",
+        "score": "0.9992748",
+        "mbid": "0cd265db-6b19-402b-b7da-a8bde6268d00",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "0cd265db-6b19-402b-b7da-a8bde6268d00",
+        "title": "Alternative: Life Is a Fear",
+        "artist": "Editors",
+        "year": 2015
+      },
+      "stderr_tail": "UARIwkRBAlFGTAEGQacQggBwARhhhkDDABKAESIAQAhAYwRCjgFNcAGMCQI&duration=303 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/0cd265db-6b19-402b-b7da-a8bde6268d00?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=editors_life_is_a_fear_alternative source=acoustid score=0.9992748 mbid=0cd265db-6b19-402b-b7da-a8bde6268d00 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote editors_life_is_a_fear_alternative.jams + editors_life_is_a_fear_alternative.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/editors_life_is_a_fear_alternative/editors_life_is_a_fear_alternative.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/editors_life_is_a_fear_alternative/editors_life_is_a_fear_alternative.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "emika-sing_to_me-k9sdbzm8pgk",
+      "exit_code": 0,
+      "wall_sec": 38.67,
+      "log_line": "analyze.stages.identify INFO identify: slug=emika-sing_to_me-k9sdbzm8pgk source=acoustid score=0.9528943 mbid=3518434b-406a-4581-93ec-ebfcbb577717 reason=—",
+      "log_parsed": {
+        "slug": "emika-sing_to_me-k9sdbzm8pgk",
+        "source": "acoustid",
+        "score": "0.9528943",
+        "mbid": "3518434b-406a-4581-93ec-ebfcbb577717",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "3518434b-406a-4581-93ec-ebfcbb577717",
+        "title": "Sing to Me",
+        "artist": "Emika",
+        "year": 2013
+      },
+      "stderr_tail": "CKKIoYoYYZYgQhCgkiJLAKQ2RkEIYRplBXAgFgGAAIIAUEkQoBYgSShBkBBEEEEIQEIYRQCAiwBjBDGPAYEMAEEYBhJQSAjohhFMA&duration=253 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/3518434b-406a-4581-93ec-ebfcbb577717?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=emika-sing_to_me-k9sdbzm8pgk source=acoustid score=0.9528943 mbid=3518434b-406a-4581-93ec-ebfcbb577717 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote emika-sing_to_me-k9sdbzm8pgk.jams + emika-sing_to_me-k9sdbzm8pgk.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/emika-sing_to_me-k9sdbzm8pgk/emika-sing_to_me-k9sdbzm8pgk.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/emika-sing_to_me-k9sdbzm8pgk/emika-sing_to_me-k9sdbzm8pgk.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "fanfare_ciocarlia_asfalt_tango",
+      "exit_code": 0,
+      "wall_sec": 48.92,
+      "log_line": "analyze.stages.identify INFO identify: slug=fanfare_ciocarlia_asfalt_tango source=acoustid score=0.99133044 mbid=3f992092-6aee-4382-bd7e-76c6db242580 reason=—",
+      "log_parsed": {
+        "slug": "fanfare_ciocarlia_asfalt_tango",
+        "source": "acoustid",
+        "score": "0.99133044",
+        "mbid": "3f992092-6aee-4382-bd7e-76c6db242580",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "3f992092-6aee-4382-bd7e-76c6db242580",
+        "title": "Asfalt tango",
+        "artist": "Fanfare Ciocărlia",
+        "year": 1999
+      },
+      "stderr_tail": "=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=fanfare_ciocarlia_asfalt_tango source=acoustid score=0.99133044 mbid=3f992092-6aee-4382-bd7e-76c6db242580 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote fanfare_ciocarlia_asfalt_tango.jams + fanfare_ciocarlia_asfalt_tango.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/fanfare_ciocarlia_asfalt_tango/fanfare_ciocarlia_asfalt_tango.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/fanfare_ciocarlia_asfalt_tango/fanfare_ciocarlia_asfalt_tango.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by other at -57.5 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "flunk_on_my_balcony",
+      "exit_code": 0,
+      "wall_sec": 32.54,
+      "log_line": "analyze.stages.identify INFO identify: slug=flunk_on_my_balcony source=acoustid score=0.9690137 mbid=423eeb11-a7d6-4276-8c02-3759fde57484 reason=—",
+      "log_parsed": {
+        "slug": "flunk_on_my_balcony",
+        "source": "acoustid",
+        "score": "0.9690137",
+        "mbid": "423eeb11-a7d6-4276-8c02-3759fde57484",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "423eeb11-a7d6-4276-8c02-3759fde57484",
+        "title": "On My Balcony (radio edit)",
+        "artist": "Flunk",
+        "year": 2004
+      },
+      "stderr_tail": "AiiEiCCCDEAACgcQRJICiSBDHFDKEGGIMWIcIohAARSgiHEBAcAEOAM8hxBpQDBAijgGAQaGUEAEABpBwyACoCCEVAKAKQAUAhAxCBCnGHIAEEESEEo8QKAITSCDShACCACMEMBQwAAxQwCgAjkEQCEGAII1IQIAgVAA&duration=180 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/423eeb11-a7d6-4276-8c02-3759fde57484?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=flunk_on_my_balcony source=acoustid score=0.9690137 mbid=423eeb11-a7d6-4276-8c02-3759fde57484 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote flunk_on_my_balcony.jams + flunk_on_my_balcony.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/flunk_on_my_balcony/flunk_on_my_balcony.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/flunk_on_my_balcony/flunk_on_my_balcony.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg",
+      "exit_code": 0,
+      "wall_sec": 34.57,
+      "log_line": "analyze.stages.identify INFO identify: slug=gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg source=none score=0.9900119 mbid=8d74e3f5-3e94-4d6f-bff2-66883f906999 reason=acoustid_artist_mismatch",
+      "log_parsed": {
+        "slug": "gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg",
+        "source": "none",
+        "score": "0.9900119",
+        "mbid": "8d74e3f5-3e94-4d6f-bff2-66883f906999",
+        "reason": "acoustid_artist_mismatch"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "acoustid_artist_mismatch"
+      },
+      "stderr_tail": "0.2609 (mode=artist)\nanalyze.stages.identify INFO identify: slug=gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg source=none score=0.9900119 mbid=8d74e3f5-3e94-4d6f-bff2-66883f906999 reason=acoustid_artist_mismatch\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg.jams + gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg/gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg/gorillaz-silent_running_ft_adeleye_omotayo_official_video-0pf48rqssg.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "hurt-ty-bldf8bsw",
+      "exit_code": 0,
+      "wall_sec": 49.83,
+      "log_line": "analyze.stages.identify INFO identify: slug=hurt-ty-bldf8bsw source=acoustid score=0.97791404 mbid=ab7805a8-c161-403d-92bf-a92c8b8e17dc reason=—",
+      "log_parsed": {
+        "slug": "hurt-ty-bldf8bsw",
+        "source": "acoustid",
+        "score": "0.97791404",
+        "mbid": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "ab7805a8-c161-403d-92bf-a92c8b8e17dc",
+        "title": "Hurt",
+        "artist": "Nine Inch Nails",
+        "year": 1994
+      },
+      "stderr_tail": "hjjCBCCUAQRcYQiIATVDAACACAIYUIoEQCZhBgRgkGiXLMEQOAAWBYZSAizhnlBJDEcSgIAoSAC0ATQpmHHTPAEcCeAFCA4AhEAgEjkBAAeUIYIcIYwiBBIhgBDQCEEEKEJpYAIp1EBSFmiAKaEaKsAkoIyhgAQCmLGJJQMMQAEAoRA6hBQgElDA&duration=374 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/ab7805a8-c161-403d-92bf-a92c8b8e17dc?inc=artist-credits%2Breleases%2Brelease-groups%2Bisrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=hurt-ty-bldf8bsw source=acoustid score=0.97791404 mbid=ab7805a8-c161-403d-92bf-a92c8b8e17dc reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote hurt-ty-bldf8bsw.jams + hurt-ty-bldf8bsw.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/hurt-ty-bldf8bsw/hurt-ty-bldf8bsw.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/hurt-ty-bldf8bsw/hurt-ty-bldf8bsw.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "notre-dame_est-3frubz9yhim",
+      "exit_code": 0,
+      "wall_sec": 25.24,
+      "log_line": "analyze.stages.identify INFO identify: slug=notre-dame_est-3frubz9yhim source=none score=0.9803863 mbid=a8fb3076-98ba-42c3-9f0b-979ea81bc37a reason=acoustid_artist_mismatch",
+      "log_parsed": {
+        "slug": "notre-dame_est-3frubz9yhim",
+        "source": "none",
+        "score": "0.9803863",
+        "mbid": "a8fb3076-98ba-42c3-9f0b-979ea81bc37a",
+        "reason": "acoustid_artist_mismatch"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "acoustid_artist_mismatch"
+      },
+      "stderr_tail": "re-dame_est-3frubz9yhim: identified='Anomalie' vs slug='Notre' sim=0.4615 (mode=artist)\nanalyze.stages.identify INFO identify: slug=notre-dame_est-3frubz9yhim source=none score=0.9803863 mbid=a8fb3076-98ba-42c3-9f0b-979ea81bc37a reason=acoustid_artist_mismatch\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote notre-dame_est-3frubz9yhim.jams + notre-dame_est-3frubz9yhim.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/notre-dame_est-3frubz9yhim/notre-dame_est-3frubz9yhim.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/notre-dame_est-3frubz9yhim/notre-dame_est-3frubz9yhim.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem vocals suppressed by presence gate: masked by piano at -62.4 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+      "skipped": true,
+      "reason": "mp3-missing"
+    },
+    {
+      "slug": "balthazar-changes_official_video-p3jb998acqo",
+      "exit_code": 0,
+      "wall_sec": 32.68,
+      "log_line": "analyze.stages.identify INFO identify: slug=balthazar-changes_official_video-p3jb998acqo source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "balthazar-changes_official_video-p3jb998acqo",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "AKAiAEIQBRoQQAhBFhVPKAcIEEA4IoAAyBBihhQIS&duration=200 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/?query=artist%3A%22Balthazar%22+AND+recording%3A%22Changes%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=balthazar-changes_official_video-p3jb998acqo source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote balthazar-changes_official_video-p3jb998acqo.jams + balthazar-changes_official_video-p3jb998acqo.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/balthazar-changes_official_video-p3jb998acqo/balthazar-changes_official_video-p3jb998acqo.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/balthazar-changes_official_video-p3jb998acqo/balthazar-changes_official_video-p3jb998acqo.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "charlie_puth_attention",
+      "exit_code": 0,
+      "wall_sec": 35.56,
+      "log_line": "analyze.stages.identify INFO identify: slug=charlie_puth_attention source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "charlie_puth_attention",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "OWkAIAQg4gRQwShgjCEDGACGpUAggJQghgChEBAGQGOIUQAIwAhBAygChBBAKAQQUREARYAQwTBnFjAOESSQUIgwIAA&duration=149 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/?query=recording%3A%22Charlie+Puth+Attention%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=charlie_puth_attention source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote charlie_puth_attention.jams + charlie_puth_attention.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/charlie_puth_attention/charlie_puth_attention.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/charlie_puth_attention/charlie_puth_attention.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by bass at -56.7 dB; active in only 0.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "cvt_380_m",
+      "exit_code": 0,
+      "wall_sec": 12.92,
+      "log_line": "analyze.stages.identify INFO identify: slug=cvt_380_m source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "cvt_380_m",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": " (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote cvt_380_m.jams + cvt_380_m.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/cvt_380_m/cvt_380_m.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/cvt_380_m/cvt_380_m.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by vocals at -67.9 dB; active in only 0.0% of frames (gate -40 dBFS); only 18% of energy in piano band 27-4200 Hz\n  - stem bass suppressed by presence gate: masked by vocals at -66.3 dB; active in only 0.0% of frames (gate -40 dBFS); only 4% of energy in bass band 30-330 Hz\n  - stem guitar suppressed by presence gate: masked by vocals at -67.6 dB; active in only 0.0% of frames (gate -40 dBFS); only 11% of energy in guitar band 80-1320 Hz\n  - stem other suppressed by presence gate: masked by vocals at -67.7 dB; active in only 0.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "it_could_happen_to_you_2_render",
+      "exit_code": 0,
+      "wall_sec": 23.53,
+      "log_line": "analyze.stages.identify INFO identify: slug=it_could_happen_to_you_2_render source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "it_could_happen_to_you_2_render",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "ve-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote it_could_happen_to_you_2_render.jams + it_could_happen_to_you_2_render.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/it_could_happen_to_you_2_render/it_could_happen_to_you_2_render.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/it_could_happen_to_you_2_render/it_could_happen_to_you_2_render.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem vocals suppressed by presence gate: masked by bass at -42.9 dB; active in only 0.0% of frames (gate -40 dBFS); only 1% of energy in vocals band 80-1100 Hz\n  - stem piano suppressed by presence gate: masked by bass at -42.9 dB; active in only 0.0% of frames (gate -40 dBFS); only 4% of energy in piano band 27-4200 Hz\n  - stem guitar suppressed by presence gate: masked by bass at -42.9 dB; active in only 0.0% of frames (gate -40 dBFS); only 2% of energy in guitar band 80-1320 Hz\n  - stem other suppressed by presence gate: masked by bass at -43.0 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+      "exit_code": 0,
+      "wall_sec": 33.96,
+      "log_line": "analyze.stages.identify INFO identify: slug=jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0 source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "TP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0 source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0.jams + jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0/jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0/jamel_debbouze_stromae-alors_on_danse_le_tube-made_in_jamel_2010-v-wdfqyusb0.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "joesef_comedown_official_video_zaprrzdhyiw",
+      "exit_code": 0,
+      "wall_sec": 38.88,
+      "log_line": "analyze.stages.identify INFO identify: slug=joesef_comedown_official_video_zaprrzdhyiw source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "joesef_comedown_official_video_zaprrzdhyiw",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": " GET https://musicbrainz.org/ws/2/recording/?query=recording%3A%22Joesef+Comedown+Zaprrzdhyiw%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=joesef_comedown_official_video_zaprrzdhyiw source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote joesef_comedown_official_video_zaprrzdhyiw.jams + joesef_comedown_official_video_zaprrzdhyiw.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/joesef_comedown_official_video_zaprrzdhyiw/joesef_comedown_official_video_zaprrzdhyiw.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/joesef_comedown_official_video_zaprrzdhyiw/joesef_comedown_official_video_zaprrzdhyiw.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by vocals at -45.7 dB; active in only 0.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "moderat-reminder_official_video-cjwsnuoazug",
+      "exit_code": 0,
+      "wall_sec": 31.8,
+      "log_line": "analyze.stages.identify INFO identify: slug=moderat-reminder_official_video-cjwsnuoazug source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "moderat-reminder_official_video-cjwsnuoazug",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "g/ws/2/recording/?query=artist%3A%22Moderat%22+AND+recording%3A%22Reminder+-+Cjwsnuoazug%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=moderat-reminder_official_video-cjwsnuoazug source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote moderat-reminder_official_video-cjwsnuoazug.jams + moderat-reminder_official_video-cjwsnuoazug.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/moderat-reminder_official_video-cjwsnuoazug/moderat-reminder_official_video-cjwsnuoazug.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/moderat-reminder_official_video-cjwsnuoazug/moderat-reminder_official_video-cjwsnuoazug.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by bass at -62.7 dB; active in only 0.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "nightbus-angles_mortz_official_video-igxitfxkd1i",
+      "exit_code": 0,
+      "wall_sec": 40.36,
+      "log_line": "analyze.stages.identify INFO identify: slug=nightbus-angles_mortz_official_video-igxitfxkd1i source=none score=— mbid=— reason=—",
+      "log_parsed": {
+        "slug": "nightbus-angles_mortz_official_video-igxitfxkd1i",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "fallback",
+        "match_method": "mb_text_search",
+        "mbid_recording": "bf9ad8e7-db86-4713-a1ba-e8520c5ef40c",
+        "title": "Angles Mortz",
+        "artist": "Nightbus",
+        "album": "Landslide",
+        "year": 2025,
+        "duration_variance_pct": 0.038,
+        "title_similarity": 1.0
+      },
+      "stderr_tail": "UQAAo6pBQQgCHLFGKEMQwAgQw&duration=269 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/?query=artist%3A%22Nightbus%22+AND+recording%3A%22Angles+Mortz%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=nightbus-angles_mortz_official_video-igxitfxkd1i source=none score=— mbid=— reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote nightbus-angles_mortz_official_video-igxitfxkd1i.jams + nightbus-angles_mortz_official_video-igxitfxkd1i.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/nightbus-angles_mortz_official_video-igxitfxkd1i/nightbus-angles_mortz_official_video-igxitfxkd1i.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/nightbus-angles_mortz_official_video-igxitfxkd1i/nightbus-angles_mortz_official_video-igxitfxkd1i.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "olivia_dean_dive_acoustic_yylsa4m2zzm",
+      "exit_code": 0,
+      "wall_sec": 33.04,
+      "log_line": "analyze.stages.identify INFO identify: slug=olivia_dean_dive_acoustic_yylsa4m2zzm source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "olivia_dean_dive_acoustic_yylsa4m2zzm",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "ps://musicbrainz.org/ws/2/recording/?query=recording%3A%22Olivia+Dean+Dive+Yylsa4m2zzm%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=olivia_dean_dive_acoustic_yylsa4m2zzm source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote olivia_dean_dive_acoustic_yylsa4m2zzm.jams + olivia_dean_dive_acoustic_yylsa4m2zzm.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/olivia_dean_dive_acoustic_yylsa4m2zzm/olivia_dean_dive_acoustic_yylsa4m2zzm.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/olivia_dean_dive_acoustic_yylsa4m2zzm/olivia_dean_dive_acoustic_yylsa4m2zzm.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem bass suppressed by presence gate: masked by vocals at -60.1 dB; active in only 0.0% of frames (gate -40 dBFS); only 42% of energy in bass band 30-330 Hz\n"
+    },
+    {
+      "slug": "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+      "exit_code": 0,
+      "wall_sec": 40.25,
+      "log_line": "analyze.stages.identify INFO identify: slug=orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "ription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a.jams + orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a/orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a/orchestral_suite_no_3_in_d_major_ii_air_on_a_g_string_arr_for_cello_quintet_ing6btc4s0a.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by other at -68.6 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - stem bass suppressed by presence gate: masked by other at -64.8 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "ren_x_chinchilla_chalk_outlines",
+      "exit_code": 0,
+      "wall_sec": 42.77,
+      "log_line": "analyze.stages.identify INFO identify: slug=ren_x_chinchilla_chalk_outlines source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "ren_x_chinchilla_chalk_outlines",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=ren_x_chinchilla_chalk_outlines source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote ren_x_chinchilla_chalk_outlines.jams + ren_x_chinchilla_chalk_outlines.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/ren_x_chinchilla_chalk_outlines/ren_x_chinchilla_chalk_outlines.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/ren_x_chinchilla_chalk_outlines/ren_x_chinchilla_chalk_outlines.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by vocals at -69.5 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - stem bass suppressed by presence gate: active in only 0.0% of frames (gate -40 dBFS)\n  - stem other suppressed by presence gate: active in only 0.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "she_s_hot_tea-p_3xutn8res",
+      "exit_code": 0,
+      "wall_sec": 50.88,
+      "log_line": "analyze.stages.identify INFO identify: slug=she_s_hot_tea-p_3xutn8res source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "she_s_hot_tea-p_3xutn8res",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "EEICYgYQIQpAARAjIQkGCIGAUAEAQIoAhQiChkmCAQCKcOAEccRJhQyBkikAGBMiEs4YwwBAQSQwixEBGJECcEAIAA&duration=150 \"HTTP/1.1 200 OK\"\nhttpx INFO HTTP Request: GET https://musicbrainz.org/ws/2/recording/?query=recording%3A%22She+S+Hot+Tea%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=she_s_hot_tea-p_3xutn8res source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote she_s_hot_tea-p_3xutn8res.jams + she_s_hot_tea-p_3xutn8res.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/she_s_hot_tea-p_3xutn8res/she_s_hot_tea-p_3xutn8res.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/she_s_hot_tea-p_3xutn8res/she_s_hot_tea-p_3xutn8res.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+      "exit_code": 0,
+      "wall_sec": 38.83,
+      "log_line": "analyze.stages.identify INFO identify: slug=sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw source=none score=— mbid=— reason=fallback_ambiguous",
+      "log_parsed": {
+        "slug": "sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_ambiguous"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_ambiguous"
+      },
+      "stderr_tail": "hed (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw.jams + sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw/sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw/sting-shape_of_my_heart_live_at_the_rijksmuseum-hkks7d7dvzw.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by vocals at -64.5 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - stem bass suppressed by presence gate: masked by vocals at -51.4 dB; active in only 0.0% of frames (gate -40 dBFS)\n  - stem other suppressed by presence gate: masked by vocals at -49.7 dB; active in only 0.0% of frames (gate -40 dBFS)\n"
+    },
+    {
+      "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+      "exit_code": 0,
+      "wall_sec": 41.25,
+      "log_line": "analyze.stages.identify INFO identify: slug=submotion_orchestra-finest_hour_album_version-qplldpndsx8 source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "ps://musicbrainz.org/ws/2/recording/?query=artist%3A%22Submotion+Orchestra%22+AND+recording%3A%22Finest+Hour%22&limit=10&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=submotion_orchestra-finest_hour_album_version-qplldpndsx8 source=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote submotion_orchestra-finest_hour_album_version-qplldpndsx8.jams + submotion_orchestra-finest_hour_album_version-qplldpndsx8.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/submotion_orchestra-finest_hour_album_version-qplldpndsx8/submotion_orchestra-finest_hour_album_version-qplldpndsx8.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/submotion_orchestra-finest_hour_album_version-qplldpndsx8/submotion_orchestra-finest_hour_album_version-qplldpndsx8.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n"
+    },
+    {
+      "slug": "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+      "exit_code": 0,
+      "wall_sec": 70.9,
+      "log_line": "analyze.stages.identify INFO identify: slug=the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe source=none score=— mbid=— reason=fallback_no_match",
+      "log_parsed": {
+        "slug": "the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe",
+        "source": "none",
+        "score": "—",
+        "mbid": "—",
+        "reason": "fallback_no_match"
+      },
+      "identify": {
+        "identified": false,
+        "source": "none",
+        "match_method": null,
+        "reason": "fallback_no_match"
+      },
+      "stderr_tail": "ource=none score=— mbid=— reason=fallback_no_match\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe.jams + the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe/the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe/the_byrds-eight_miles_high_live_at_fillmore_east_1970_psych-rock_jams-2ymkbehdhbe.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - vocal_range suppressed (track appears instrumental — BS-RoFormer vocals stem RMS << instrumental stem)\n"
+    },
+    {
+      "slug": "warhaus_love_s_a_stranger_official_video_gsjdhd0stag",
+      "exit_code": 0,
+      "wall_sec": 33.08,
+      "log_line": "analyze.stages.identify INFO identify: slug=warhaus_love_s_a_stranger_official_video_gsjdhd0stag source=acoustid score=0.95058674 mbid=8feaaf3e-8c7c-4d57-9503-298a56b1c920 reason=—",
+      "log_parsed": {
+        "slug": "warhaus_love_s_a_stranger_official_video_gsjdhd0stag",
+        "source": "acoustid",
+        "score": "0.95058674",
+        "mbid": "8feaaf3e-8c7c-4d57-9503-298a56b1c920",
+        "reason": "—"
+      },
+      "identify": {
+        "identified": true,
+        "source": "acoustid",
+        "match_method": "chromaprint",
+        "mbid_recording": "8feaaf3e-8c7c-4d57-9503-298a56b1c920",
+        "title": "Love’s a Stranger",
+        "artist": "Warhaus",
+        "year": 2017
+      },
+      "stderr_tail": "isrcs&fmt=json \"HTTP/1.1 200 OK\"\nanalyze.stages.identify INFO identify: slug=warhaus_love_s_a_stranger_official_video_gsjdhd0stag source=acoustid score=0.95058674 mbid=8feaaf3e-8c7c-4d57-9503-298a56b1c920 reason=—\n==> Stage beats: cached (skipped by selective-run)\n==> Stage key: cached (skipped by selective-run)\n==> Stage chords: cached (skipped by selective-run)\n==> Stage vocal_f0: cached (skipped by selective-run)\n==> Stage transcription: cached (skipped by selective-run)\n==> Stage beats_xcheck: cached (skipped by selective-run)\n==> Stage drums: cached (skipped by selective-run)\n==> Stage vocal_consensus_contour: cached (skipped by selective-run)\n==> Stage essentia_extract: cached (skipped by selective-run)\n==> Derivation: theory + loop + vocal range + note enrichment\n==> Wrote warhaus_love_s_a_stranger_official_video_gsjdhd0stag.jams + warhaus_love_s_a_stranger_official_video_gsjdhd0stag.summary.json\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/warhaus_love_s_a_stranger_official_video_gsjdhd0stag/warhaus_love_s_a_stranger_official_video_gsjdhd0stag.jams\nWrote <PROJECT_WSL_PATH>/.claude/worktrees/identify-overhaul/cache/warhaus_love_s_a_stranger_official_video_gsjdhd0stag/warhaus_love_s_a_stranger_official_video_gsjdhd0stag.summary.json\nWarnings:\n  - sections deferred — no segmenter installed\n  - stem piano suppressed by presence gate: masked by bass at -63.9 dB; active in only 0.0% of frames (gate -40 dBFS)\n"
+    }
+  ],
+  "finished_at": "2026-05-12T22:38:26.200888+00:00",
+  "elapsed_sec": 1095.85
+}

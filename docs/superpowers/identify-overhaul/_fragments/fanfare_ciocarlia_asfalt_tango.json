@@ -1,0 +1,65 @@
+{
+  "slug": "fanfare_ciocarlia_asfalt_tango",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 373,
+  "duration_sec": 372.95,
+  "leading_silence_sec": 1.04918,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Fanfare Ciocarlia",
+  "title_guess_raw": "Asfalt Tango",
+  "artist_guess_clean": "Fanfare Ciocarlia",
+  "title_guess_clean": "Asfalt Tango",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtJukJFHURMF3BdsTPUh6H3GOR4OXiMePH81D",
+  "fingerprint_length": 3760,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "bbfe7563-7ecc-4ddf-bcc4-49b9564d3b98",
+      "score": 0.99133044,
+      "recording_count": 5,
+      "recordings": [
+        {
+          "mbid": "0e1474c0-75de-47c7-9513-ac62145bd75d",
+          "title": "Asfalt Tango",
+          "artists": [
+            "Fanfare Cioc\u0103rlia"
+          ],
+          "duration": 371.0,
+          "releasegroups": [
+            "Indestructible Balkan Beats"
+          ]
+        },
+        {
+          "mbid": "3f992092-6aee-4382-bd7e-76c6db242580",
+          "title": "Asfalt tango",
+          "artists": [
+            "Fanfare Cioc\u0103rlia"
+          ],
+          "duration": 372.893,
+          "releasegroups": [
+            "Baro Biao: World Wide Wedding",
+            "Oh, Danube, ma Danube!",
+            "The Rough Guide to the Music of the Balkans"
+          ]
+        },
+        {
+          "mbid": "6c4cc355-131e-499e-aed8-43d1f161cd8b",
+          "title": "Asfalt Tango",
+          "artists": [
+            "Fanfare Cioc\u0103rlia"
+          ],
+          "duration": 374.0,
+          "releasegroups": [
+            "Best of Gypsy Brass"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "Z",
+  "notes": ""
+}

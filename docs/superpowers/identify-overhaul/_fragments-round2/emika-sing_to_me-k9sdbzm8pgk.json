@@ -1,0 +1,42 @@
+{
+  "slug": "emika-sing_to_me-k9sdbzm8pgk",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 253,
+  "duration_sec": 253.03,
+  "leading_silence_sec": 0.323479,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Emika",
+  "title_guess_raw": "Sing To Me",
+  "artist_guess_clean": "Emika",
+  "title_guess_clean": "Sing To Me",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtM2USFEd5JJy6NLxB8pqHw-DNGIufJfhXugZ",
+  "fingerprint_length": 3488,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "d096a114-6d74-430d-a7c6-5cb990740f5b",
+      "score": 0.9528943,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "3518434b-406a-4581-93ec-ebfcbb577717",
+          "title": "Sing to Me",
+          "artists": [
+            "Emika"
+          ],
+          "duration": 253.0,
+          "releasegroups": [
+            "Dva",
+            "Searching"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

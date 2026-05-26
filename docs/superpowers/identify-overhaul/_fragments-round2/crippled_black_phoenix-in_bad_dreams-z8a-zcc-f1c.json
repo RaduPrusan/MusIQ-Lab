@@ -1,0 +1,42 @@
+{
+  "slug": "crippled_black_phoenix-in_bad_dreams-z8a-zcc-f1c",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 188,
+  "duration_sec": 188.04,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Crippled Black Phoenix",
+  "title_guess_raw": "In Bad Dreams",
+  "artist_guess_clean": "Crippled Black Phoenix",
+  "title_guess_clean": "In Bad Dreams",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtMoiKlyOg5-xHz7-HMlzPLrR6UheFI-WBMcT",
+  "fingerprint_length": 3246,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "f74df91e-28e0-4922-a1d7-129f241ea2cd",
+      "score": 0.9756725,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "2899a0fa-8907-41d8-9f7d-e1a209d219cc",
+          "title": "In Bad Dreams",
+          "artists": [
+            "Crippled Black Phoenix"
+          ],
+          "duration": 187.973,
+          "releasegroups": [
+            "Horrific Honorifics",
+            "Various Types of Dread (A Collection of Confusion)"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "R",
+  "notes": ""
+}

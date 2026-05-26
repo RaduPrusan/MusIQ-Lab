@@ -1,0 +1,22 @@
+{
+  "slug": "olivia_dean_dive_acoustic_yylsa4m2zzm",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 199,
+  "duration_sec": 199.39,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.8129999999999882,
+  "artist_guess_raw": "Olivia Dean",
+  "title_guess_raw": "Dive Acoustic",
+  "artist_guess_clean": "Olivia Dean",
+  "title_guess_clean": "Dive",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtIqsJGMWCU2Vh-ClIfvxC4nMHZVGRYT1oueH",
+  "fingerprint_length": 3735,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [],
+  "bucket": "A",
+  "notes": ""
+}

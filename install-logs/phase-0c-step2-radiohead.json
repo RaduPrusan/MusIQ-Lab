@@ -1,0 +1,19 @@
+{
+  "slug": "radiohead_creep_heads_on_the_radio",
+  "phase": "0c-step2-postship",
+  "vc_schema_version": 3,
+  "n_frames": 28675,
+  "frames_finite_consensus_f0": 26981,
+  "ratio_finite_consensus_f0": 0.940924149956408,
+  "frames_vote_2_or_3": 20363,
+  "frames_killed_by_line_filter": 1177,
+  "ratio_killed_of_voted_voiced": 0.05780091342140156,
+  "frames_in_range_octave_split": 558,
+  "frames_in_range_octave_split_no_anchor": 314,
+  "ratio_octave_split_unanchored": 0.5627240143369175,
+  "frames_strength_strong": 17447,
+  "frames_strength_medium": 1739,
+  "frames_strength_weak": 7795,
+  "n_basic_pitch_notes": 886,
+  "generated_at_iso": "2026-05-05"
+}

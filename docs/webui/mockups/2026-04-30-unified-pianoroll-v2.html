@@ -1,0 +1,585 @@
+<h2>Unified piano-roll · v2</h2>
+<p class="subtitle">Changes from v1: <b>playhead fixed at viewport center</b> during play (canvas auto-scrolls under it); top-bar-right replaced with a menu (Library / Tools / Settings / Help); wheel bindings + keyboard shortcuts surfaced. Mocked with real Gorillaz · <i>Silent Running</i> data: F minor · 107 BPM · loop <code>i&nbsp;–&nbsp;v&nbsp;–&nbsp;♭VI&nbsp;–&nbsp;♭III</code>.</p>
+
+<style>
+  :root {
+    --c-vocals: #ff7eaa;
+    --c-bass:   #7ecaff;
+    --c-guitar: #bcff7e;
+    --c-piano:  #ffc97e;
+    --c-other:  #cf7eff;
+    --c-drums:  #888888;
+  }
+  .pr-app { background:#0e0e10; border:1px solid #2a2a30; border-radius:10px; color:#e7e7ea; font-family:ui-sans-serif,system-ui,-apple-system,sans-serif; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,.5); }
+
+  /* ---------- TOPBAR ---------- */
+  .pr-topbar { display:flex; align-items:center; gap:14px; padding:10px 16px; background:#17171b; border-bottom:1px solid #26262c; font-size:12px; color:#c6c6cc; }
+  .pr-topbar .title { font-weight:600; color:#fff; font-size:13px; }
+  .pr-topbar .badge { background:#2a2a30; padding:3px 9px; border-radius:4px; font-weight:600; font-size:11px; }
+  .pr-topbar .badge.k { background:#3a2a4a; color:#e3c3ff; }
+  .pr-topbar .badge.t { background:#2a3a3a; color:#9cf; }
+  .pr-topbar .badge.s { background:#2a3a2a; color:#9c9; }
+  .pr-topbar .menu { margin-left:auto; display:flex; gap:2px; align-items:center; }
+  .pr-topbar .menu .item { padding:5px 10px; border-radius:4px; font-size:11px; color:#bbb; cursor:pointer; display:flex; align-items:center; gap:5px; }
+  .pr-topbar .menu .item:hover { background:#2a2a30; color:#fff; }
+  .pr-topbar .menu .item.icon-only { padding:5px 7px; }
+  .pr-topbar .menu .sep { width:1px; height:14px; background:#2a2a30; margin:0 4px; }
+
+  /* fixed playhead + auto-scroll indicator */
+  .pr-playhead-fixed { position:absolute; top:0; bottom:0; left:50%; width:2px; background:#fff; box-shadow:0 0 8px rgba(255,255,255,.7); z-index:9; pointer-events:none; transform:translateX(-1px); }
+  .pr-playhead-fixed::before { content:""; position:absolute; top:-1px; left:50%; transform:translateX(-50%); border:6px solid transparent; border-top:8px solid #fff; }
+  .pr-playhead-fixed::after  { content:""; position:absolute; bottom:-1px; left:50%; transform:translateX(-50%); border:6px solid transparent; border-bottom:8px solid #fff; }
+  .pr-autoscroll-badge { position:absolute; top:6px; left:50%; transform:translateX(-50%) translateY(-2px); z-index:10; font-size:8px; font-weight:700; letter-spacing:.08em; color:#0e0e10; background:#fff; padding:1px 4px; border-radius:2px; pointer-events:none; }
+
+  /* ---------- BODY: canvas-area + sidebar ---------- */
+  .pr-body { display:flex; }
+  .pr-canvas-area { flex:1; min-width:0; display:flex; flex-direction:column; }
+  .pr-sidebar { width:300px; background:#15151a; border-left:1px solid #26262c; flex-shrink:0; }
+
+  /* ---------- MINIMAP ---------- */
+  .pr-minimap { height:36px; background:#0a0a0c; border-bottom:1px solid #26262c; position:relative; padding:4px 6px; }
+  .pr-minimap-track { height:100%; background:#15151a; border-radius:2px; position:relative; overflow:hidden; }
+  .pr-minimap-track .seg { position:absolute; top:6px; bottom:6px; background:#2a2a30; border-radius:1px; }
+  .pr-minimap-track .density { position:absolute; height:3px; opacity:.55; }
+  .pr-minimap-track .density.vox { background:var(--c-vocals); top:5px; }
+  .pr-minimap-track .density.bas { background:var(--c-bass);   top:9px; }
+  .pr-minimap-track .density.gtr { background:var(--c-guitar); top:13px; }
+  .pr-minimap-track .density.pno { background:var(--c-piano);  top:17px; }
+  .pr-minimap-track .density.oth { background:var(--c-other);  top:21px; }
+  .pr-minimap-track .viewport { position:absolute; top:0; bottom:0; border:1px solid #fff; background:rgba(255,255,255,.06); border-radius:2px; }
+  .pr-minimap-track .play { position:absolute; top:0; bottom:0; width:1px; background:#fff; }
+
+  /* ---------- CHORD STRIP (same canvas) ---------- */
+  .pr-roll-frame { flex:1; display:flex; min-height:0; position:relative; background:#0a0a0c; }
+  .pr-keys-gutter { width:54px; background:#101014; border-right:1px solid #26262c; display:flex; flex-direction:column; align-items:stretch; font-size:9px; color:#666; user-select:none; flex-shrink:0; }
+  .pr-keys-gutter .gutter-head { height:48px; background:#15151a; border-bottom:1px solid #26262c; display:flex; align-items:center; justify-content:center; font-size:9px; text-transform:uppercase; letter-spacing:.06em; color:#888; }
+  .pr-keys-gutter .key-row { height:14px; padding-right:6px; display:flex; align-items:center; justify-content:flex-end; border-bottom:1px solid #16161a; }
+  .pr-keys-gutter .key-row.black { background:#08080a; color:#444; }
+  .pr-keys-gutter .key-row.octave { color:#999; font-weight:600; border-bottom:1px solid #2a2a30; }
+
+  .pr-roll-scroll { flex:1; overflow:auto; position:relative; }
+  .pr-roll-inner { position:relative; min-width:1600px; }
+  .pr-chord-strip { position:sticky; top:0; height:48px; background:#15151a; border-bottom:1px solid #26262c; display:flex; z-index:8; }
+  .pr-chord-strip .ch { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; border-right:1px solid #1f1f24; gap:2px; transition:background .15s; }
+  .pr-chord-strip .ch.tonic { background:#1a261a; }
+  .pr-chord-strip .ch.dom   { background:#26221a; }
+  .pr-chord-strip .ch.modal { background:#2a1a26; }
+  .pr-chord-strip .ch.now   { background:#2a1a26; box-shadow:inset 0 0 0 2px #ffb86b; }
+  .pr-chord-strip .ch .rn   { color:#ffb86b; font-weight:700; font-size:15px; line-height:1; }
+  .pr-chord-strip .ch .lab  { color:#ddd; font-size:10px; }
+
+  .pr-grid { position:relative; }
+  .pr-key-row-bg { position:absolute; left:0; right:0; height:14px; }
+  .pr-key-row-bg.black { background:rgba(255,255,255,.015); }
+  .pr-key-row-bg.octave-line { border-bottom:1px solid rgba(255,255,255,.06); }
+  .pr-gridline { position:absolute; top:0; bottom:0; width:1px; background:rgba(255,255,255,.04); }
+  .pr-gridline.beat { background:rgba(255,255,255,.06); }
+  .pr-gridline.db   { background:rgba(255,255,255,.13); }
+  .pr-bar-num { position:absolute; top:2px; font-size:9px; color:#666; padding-left:3px; }
+  .pr-loop-band { position:absolute; top:0; bottom:0; background:rgba(255,184,107,.07); border-left:1px solid rgba(255,184,107,.35); border-right:1px solid rgba(255,184,107,.35); pointer-events:none; }
+  .pr-section-marker { position:absolute; top:0; bottom:0; width:1px; background:rgba(255,184,107,.5); }
+
+  .pr-note { position:absolute; height:11px; border-radius:2px; box-shadow:inset 0 0 0 1px rgba(0,0,0,.25); transition:opacity .12s; }
+  /* Selected = full opacity; others dimmed via the data-highlight attribute on the canvas */
+  .pr-roll-inner[data-highlight="vocals"] .pr-note:not(.vocals) { opacity:.18; }
+  .pr-roll-inner[data-highlight="bass"]   .pr-note:not(.bass)   { opacity:.18; }
+  .pr-roll-inner[data-highlight="guitar"] .pr-note:not(.guitar) { opacity:.18; }
+  .pr-roll-inner[data-highlight="piano"]  .pr-note:not(.piano)  { opacity:.18; }
+  .pr-roll-inner[data-highlight="other"]  .pr-note:not(.other)  { opacity:.18; }
+  .pr-note.vocals { background:var(--c-vocals); }
+  .pr-note.bass   { background:var(--c-bass); }
+  .pr-note.guitar { background:var(--c-guitar); }
+  .pr-note.piano  { background:var(--c-piano); }
+  .pr-note.other  { background:var(--c-other); }
+
+  .pr-f0 { position:absolute; left:0; right:0; pointer-events:none; }
+  .pr-playhead { position:absolute; top:0; bottom:0; width:2px; background:#fff; box-shadow:0 0 6px #fff; z-index:7; }
+
+  /* ---------- TRANSPORT (bottom) ---------- */
+  .pr-transport { display:flex; align-items:center; gap:14px; padding:8px 14px; background:#15151a; border-top:1px solid #26262c; font-size:11px; color:#bbb; }
+  .pr-transport .play-btn { width:28px; height:28px; border-radius:50%; background:#fff; color:#000; display:flex; align-items:center; justify-content:center; font-size:11px; }
+  .pr-transport .time { font-family:ui-monospace,monospace; color:#fff; font-size:12px; min-width:90px; }
+  .pr-transport .scrub { flex:1; height:6px; background:#222; border-radius:3px; position:relative; }
+  .pr-transport .scrub .fill { position:absolute; left:0; top:0; bottom:0; width:38%; background:#fff; border-radius:3px; opacity:.85; }
+  .pr-transport .scrub .play-dot { position:absolute; left:38%; top:-3px; width:12px; height:12px; background:#fff; border-radius:50%; transform:translateX(-50%); box-shadow:0 0 6px rgba(255,255,255,.5); }
+  .pr-transport .zoomgrp { display:flex; align-items:center; gap:4px; background:#0e0e10; padding:3px 6px; border-radius:4px; border:1px solid #26262c; }
+  .pr-transport .zoomgrp .zlbl { font-size:9px; color:#888; text-transform:uppercase; letter-spacing:.05em; }
+  .pr-transport .zoomgrp button { background:#222; border:none; color:#ddd; width:18px; height:18px; border-radius:3px; font-size:11px; line-height:1; cursor:pointer; }
+
+  /* ---------- SIDEBAR ---------- */
+  .pr-side-section { padding:10px 14px; border-bottom:1px solid #1f1f24; }
+  .pr-side-section h4 { font-size:9px; text-transform:uppercase; letter-spacing:.07em; color:#888; margin:0 0 8px 0; font-weight:600; }
+  .pr-track-row { display:flex; align-items:center; gap:8px; padding:5px 0; cursor:pointer; }
+  .pr-track-row:hover { background:#1c1c22; border-radius:3px; }
+  .pr-track-row.highlighted { background:#1f1f28; box-shadow:inset 2px 0 0 0 #fff; padding-left:6px; margin-left:-6px; }
+  .pr-track-row .swatch { width:12px; height:12px; border-radius:2px; flex-shrink:0; }
+  .pr-track-row .swatch.vocals { background:var(--c-vocals); }
+  .pr-track-row .swatch.bass   { background:var(--c-bass); }
+  .pr-track-row .swatch.guitar { background:var(--c-guitar); }
+  .pr-track-row .swatch.piano  { background:var(--c-piano); }
+  .pr-track-row .swatch.other  { background:var(--c-other); }
+  .pr-track-row .swatch.drums  { background:var(--c-drums); }
+  .pr-track-row .name { flex:1; font-size:12px; color:#ddd; }
+  .pr-track-row .count { font-size:9px; color:#666; font-family:ui-monospace,monospace; }
+  .pr-track-row .ms { display:flex; gap:3px; }
+  .pr-track-row .btn { width:18px; height:18px; border-radius:3px; background:#222; color:#666; font-size:9px; display:flex; align-items:center; justify-content:center; font-weight:600; }
+  .pr-track-row .btn.on.m { background:#3a1a1a; color:#fc6e6e; }
+  .pr-track-row .btn.on.s { background:#3a2a1a; color:#ffb86b; }
+  .pr-track-row .vol { width:54px; height:4px; background:#222; border-radius:2px; position:relative; }
+  .pr-track-row .vol .fill { position:absolute; left:0; top:0; bottom:0; background:#666; border-radius:2px; }
+
+  .pr-tag { display:inline-block; background:#2a2a30; padding:3px 7px; border-radius:3px; margin:2px 3px 2px 0; font-size:10px; color:#ccc; }
+  .pr-tag.rn { background:#3a2a1a; color:#ffb86b; font-weight:600; font-family:ui-serif,Georgia,serif; }
+  .pr-tag.fn-tonic { background:#1a261a; color:#9c9; }
+  .pr-tag.fn-dom   { background:#26221a; color:#fc9; }
+  .pr-tag.fn-modal { background:#2a1a26; color:#e3c3ff; }
+
+  .pr-now-card { background:#0a0a0c; border:1px solid #2a2a30; border-radius:6px; padding:10px; }
+  .pr-now-card .now-rn { font-size:34px; font-weight:700; color:#ffb86b; line-height:1; font-family:ui-serif,Georgia,serif; }
+  .pr-now-card .now-lab { font-size:13px; color:#fff; margin-top:2px; }
+  .pr-now-card .now-meta { display:flex; gap:6px; margin-top:6px; flex-wrap:wrap; }
+</style>
+
+<div class="pr-app">
+  <!-- ============== TOP BAR ============== -->
+  <div class="pr-topbar">
+    <span class="title">Gorillaz · Silent Running</span>
+    <span class="badge k">F minor</span>
+    <span class="badge t">107 BPM</span>
+    <span class="badge s">F natural minor · 4/4</span>
+    <div class="menu">
+      <div class="item"><span style="font-size:13px;">⌂</span><span>Library</span></div>
+      <div class="sep"></div>
+      <div class="item"><span style="font-size:13px;">⚒</span><span>Tools</span></div>
+      <div class="item"><span style="font-size:13px;">⚙</span><span>Settings</span></div>
+      <div class="sep"></div>
+      <div class="item icon-only" title="Keyboard shortcuts (?)"><span style="font-size:13px;">?</span></div>
+    </div>
+  </div>
+
+  <!-- ============== BODY ============== -->
+  <div class="pr-body">
+
+    <!-- ====== CANVAS AREA (left) ====== -->
+    <div class="pr-canvas-area">
+
+      <!-- minimap -->
+      <div class="pr-minimap">
+        <div class="pr-minimap-track">
+          <!-- 9 loop appearances rendered as segments -->
+          <div class="seg" style="left:1.4%; width:4.3%;"></div>
+          <div class="seg" style="left:6.6%; width:5.7%;"></div>
+          <div class="seg" style="left:12.8%; width:4.2%;"></div>
+          <div class="seg" style="left:25.4%; width:3.7%;"></div>
+          <div class="seg" style="left:29.4%; width:4.4%;"></div>
+          <div class="seg" style="left:38.4%; width:6.8%;"></div>
+          <div class="seg" style="left:46.2%; width:5.6%;"></div>
+          <div class="seg" style="left:65.0%; width:4.1%;"></div>
+          <div class="seg" style="left:93.2%; width:4.5%;"></div>
+          <!-- per-stem density bars (mocked) -->
+          <div class="density vox" style="left:2%; width:96%;"></div>
+          <div class="density bas" style="left:5%; width:90%;"></div>
+          <div class="density gtr" style="left:5%; width:90%;"></div>
+          <div class="density pno" style="left:8%; width:85%;"></div>
+          <div class="density oth" style="left:5%; width:90%;"></div>
+          <!-- viewport (current zoomed window) -->
+          <div class="viewport" style="left:35%; width:14%;"></div>
+          <div class="play" style="left:38%;"></div>
+        </div>
+      </div>
+
+      <!-- piano-roll frame: keys gutter + scroll area with chord strip + grid -->
+      <div class="pr-roll-frame" style="position:relative;">
+        <!-- Fixed playhead (viewport-anchored): canvas auto-scrolls under it during play -->
+        <div class="pr-autoscroll-badge">▶ AUTO</div>
+        <div class="pr-playhead-fixed"></div>
+        <!-- left: keys gutter (sticky) -->
+        <div class="pr-keys-gutter">
+          <div class="gutter-head">PITCH</div>
+          <!-- Show MIDI 70 (Bb4) down to MIDI 46 (Bb2) — 25 rows × 14px = 350px -->
+          <div class="key-row octave">A♯4</div>
+          <div class="key-row">A4</div>
+          <div class="key-row black">G♯4</div>
+          <div class="key-row">G4</div>
+          <div class="key-row black">F♯4</div>
+          <div class="key-row">F4</div>
+          <div class="key-row">E4</div>
+          <div class="key-row black">D♯4</div>
+          <div class="key-row">D4</div>
+          <div class="key-row black">C♯4</div>
+          <div class="key-row octave">C4</div>
+          <div class="key-row">B3</div>
+          <div class="key-row black">A♯3</div>
+          <div class="key-row">A3</div>
+          <div class="key-row black">G♯3</div>
+          <div class="key-row">G3</div>
+          <div class="key-row black">F♯3</div>
+          <div class="key-row">F3</div>
+          <div class="key-row">E3</div>
+          <div class="key-row black">D♯3</div>
+          <div class="key-row">D3</div>
+          <div class="key-row black">C♯3</div>
+          <div class="key-row octave">C3</div>
+          <div class="key-row">B2</div>
+          <div class="key-row black">A♯2</div>
+        </div>
+
+        <!-- right: scroll + sticky chord strip + grid -->
+        <div class="pr-roll-scroll">
+          <div class="pr-roll-inner" data-highlight="vocals" style="height:398px;">
+
+            <!-- chord strip: pinned to top of canvas, scrolls with H scroll -->
+            <div class="pr-chord-strip">
+              <!-- 8 bars of chords spanning 1600px = each ch = 200px -->
+              <div class="ch tonic" style="width:200px;"><span class="rn">i</span><span class="lab">F:min</span></div>
+              <div class="ch dom"   style="width:200px;"><span class="rn">v</span><span class="lab">C:min</span></div>
+              <div class="ch modal now" style="width:200px;"><span class="rn">♭VI</span><span class="lab">C♯:maj</span></div>
+              <div class="ch tonic" style="width:200px;"><span class="rn">♭III</span><span class="lab">A♭:maj</span></div>
+              <div class="ch modal" style="width:200px;"><span class="rn">♭VII/3</span><span class="lab">E♭:maj/3</span></div>
+              <div class="ch tonic" style="width:200px;"><span class="rn">i</span><span class="lab">F:min</span></div>
+              <div class="ch dom"   style="width:200px;"><span class="rn">v</span><span class="lab">C:min</span></div>
+              <div class="ch modal" style="width:200px;"><span class="rn">♭VI</span><span class="lab">C♯:maj</span></div>
+            </div>
+
+            <!-- grid + notes layered region -->
+            <div class="pr-grid" style="height:350px;">
+              <!-- key-row backgrounds (alternating black/white) — drawn behind notes -->
+              <!-- We'll just shade black-key rows for visual continuity with the gutter -->
+              <div class="pr-key-row-bg black"   style="top:28px;"></div>
+              <div class="pr-key-row-bg black"   style="top:56px;"></div>
+              <div class="pr-key-row-bg black"   style="top:98px;"></div>
+              <div class="pr-key-row-bg black"   style="top:126px;"></div>
+              <div class="pr-key-row-bg black"   style="top:154px;"></div>
+              <div class="pr-key-row-bg octave-line" style="top:140px;"></div>
+              <div class="pr-key-row-bg black"   style="top:182px;"></div>
+              <div class="pr-key-row-bg black"   style="top:210px;"></div>
+              <div class="pr-key-row-bg black"   style="top:238px;"></div>
+              <div class="pr-key-row-bg octave-line" style="top:280px;"></div>
+              <div class="pr-key-row-bg black"   style="top:266px;"></div>
+              <div class="pr-key-row-bg black"   style="top:294px;"></div>
+              <div class="pr-key-row-bg black"   style="top:336px;"></div>
+
+              <!-- Loop-appearance band visible in this 8-bar window (the "now" iteration) -->
+              <div class="pr-loop-band" style="left:0; width:800px;"></div>
+
+              <!-- Bar numbers -->
+              <div class="pr-bar-num" style="left:0;">14</div>
+              <div class="pr-bar-num" style="left:200px;">15</div>
+              <div class="pr-bar-num" style="left:400px;">16</div>
+              <div class="pr-bar-num" style="left:600px;">17</div>
+              <div class="pr-bar-num" style="left:800px;">18</div>
+              <div class="pr-bar-num" style="left:1000px;">19</div>
+              <div class="pr-bar-num" style="left:1200px;">20</div>
+              <div class="pr-bar-num" style="left:1400px;">21</div>
+
+              <!-- Beat lines (4 per bar = 50px each) — fainter, downbeats heavier -->
+              <div class="pr-gridline db"   style="left:0;"></div>
+              <div class="pr-gridline beat" style="left:50px;"></div>
+              <div class="pr-gridline beat" style="left:100px;"></div>
+              <div class="pr-gridline beat" style="left:150px;"></div>
+              <div class="pr-gridline db"   style="left:200px;"></div>
+              <div class="pr-gridline beat" style="left:250px;"></div>
+              <div class="pr-gridline beat" style="left:300px;"></div>
+              <div class="pr-gridline beat" style="left:350px;"></div>
+              <div class="pr-gridline db"   style="left:400px;"></div>
+              <div class="pr-gridline beat" style="left:450px;"></div>
+              <div class="pr-gridline beat" style="left:500px;"></div>
+              <div class="pr-gridline beat" style="left:550px;"></div>
+              <div class="pr-gridline db"   style="left:600px;"></div>
+              <div class="pr-gridline beat" style="left:650px;"></div>
+              <div class="pr-gridline beat" style="left:700px;"></div>
+              <div class="pr-gridline beat" style="left:750px;"></div>
+              <div class="pr-gridline db"   style="left:800px;"></div>
+              <div class="pr-gridline beat" style="left:850px;"></div>
+              <div class="pr-gridline beat" style="left:900px;"></div>
+              <div class="pr-gridline beat" style="left:950px;"></div>
+              <div class="pr-gridline db"   style="left:1000px;"></div>
+              <div class="pr-gridline beat" style="left:1050px;"></div>
+              <div class="pr-gridline beat" style="left:1100px;"></div>
+              <div class="pr-gridline beat" style="left:1150px;"></div>
+              <div class="pr-gridline db"   style="left:1200px;"></div>
+              <div class="pr-gridline beat" style="left:1250px;"></div>
+              <div class="pr-gridline beat" style="left:1300px;"></div>
+              <div class="pr-gridline beat" style="left:1350px;"></div>
+              <div class="pr-gridline db"   style="left:1400px;"></div>
+              <div class="pr-gridline beat" style="left:1450px;"></div>
+              <div class="pr-gridline beat" style="left:1500px;"></div>
+              <div class="pr-gridline beat" style="left:1550px;"></div>
+
+              <!-- ===== NOTES ===== -->
+              <!-- Y-axis (top=0 in canvas; pitch decreases downward).
+                   Row height = 14px. Pitches mapped: A♯4(top, y=0) → A♯2(bottom, y=336).
+                   Helper: y_for(midi) = (70 - midi) * 14
+                   F4=42, C4=84, G3=126, F3=140, C3=168, F2=224 (F2 is below visible) -->
+
+              <!-- Bass: F2 (root) as long pedals during F:min, C3 during C:min, etc.
+                   But F2 = 224+ which is past visible. Clamp to bottom row.
+                   Use C3 (y=168) for F:min root octave-up, C3 for C:min, etc.
+                   Actual mocked: walk lower octave around F3 / C3 / A♭3 / E♭3 -->
+              <div class="pr-note bass" style="left:5px;   width:190px; top:140px;"></div>  <!-- F3 across F:min bar -->
+              <div class="pr-note bass" style="left:200px; width:190px; top:182px;"></div>  <!-- A3 (5th) under C:min, low? actually root C3 -->
+              <div class="pr-note bass" style="left:200px; width:95px;  top:168px;"></div>  <!-- C3 at start of C:min -->
+              <div class="pr-note bass" style="left:300px; width:90px;  top:182px;"></div>  <!-- G3 passing -->
+              <div class="pr-note bass" style="left:400px; width:190px; top:112px;"></div>  <!-- C♯4 root of ♭VI -->
+              <div class="pr-note bass" style="left:600px; width:90px;  top:154px;"></div>  <!-- A♭3 root of ♭III -->
+              <div class="pr-note bass" style="left:700px; width:90px;  top:140px;"></div>  <!-- F4 octave -->
+              <div class="pr-note bass" style="left:800px; width:190px; top:112px;"></div>  <!-- E♭4 (♭VII/3 has G in bass) -->
+              <div class="pr-note bass" style="left:1000px; width:190px; top:140px;"></div> <!-- back to F:min -->
+              <div class="pr-note bass" style="left:1200px; width:190px; top:168px;"></div> <!-- C:min -->
+              <div class="pr-note bass" style="left:1400px; width:190px; top:112px;"></div> <!-- C♯ -->
+
+              <!-- Piano: chord pads, mid-register voicings -->
+              <div class="pr-note piano" style="left:5px;   width:95px;  top:84px;"></div> <!-- C4 (5th of F:min) -->
+              <div class="pr-note piano" style="left:5px;   width:95px;  top:98px;"></div> <!-- B♭3 -->
+              <div class="pr-note piano" style="left:5px;   width:95px;  top:126px;"></div> <!-- A♭3 (m3 of F:min) -->
+              <div class="pr-note piano" style="left:100px; width:95px;  top:84px;"></div>
+              <div class="pr-note piano" style="left:100px; width:95px;  top:126px;"></div>
+              <div class="pr-note piano" style="left:200px; width:90px;  top:70px;"></div> <!-- D♯4 m3 of C:min -->
+              <div class="pr-note piano" style="left:200px; width:90px;  top:42px;"></div> <!-- G4 5th of C:min -->
+              <div class="pr-note piano" style="left:300px; width:95px;  top:70px;"></div>
+              <div class="pr-note piano" style="left:400px; width:190px; top:56px;"></div> <!-- F4 -->
+              <div class="pr-note piano" style="left:400px; width:190px; top:14px;"></div> <!-- A4 (3rd of C♯maj) -->
+              <div class="pr-note piano" style="left:600px; width:190px; top:84px;"></div> <!-- C4 (3rd of A♭) -->
+              <div class="pr-note piano" style="left:600px; width:190px; top:42px;"></div> <!-- E♭4 (5th of A♭) -->
+              <div class="pr-note piano" style="left:800px; width:190px; top:84px;"></div> <!-- G4 (3rd of E♭) -->
+              <div class="pr-note piano" style="left:1000px; width:95px; top:84px;"></div>
+              <div class="pr-note piano" style="left:1000px; width:95px; top:126px;"></div>
+              <div class="pr-note piano" style="left:1100px; width:95px; top:84px;"></div>
+              <div class="pr-note piano" style="left:1200px; width:95px; top:70px;"></div>
+              <div class="pr-note piano" style="left:1300px; width:95px; top:70px;"></div>
+              <div class="pr-note piano" style="left:1400px; width:190px; top:14px;"></div>
+
+              <!-- Guitar: rhythmic strums up high -->
+              <div class="pr-note guitar" style="left:10px;  width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:55px;  width:35px; top:56px;"></div>
+              <div class="pr-note guitar" style="left:105px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:155px; width:35px; top:56px;"></div>
+              <div class="pr-note guitar" style="left:210px; width:35px; top:28px;"></div>
+              <div class="pr-note guitar" style="left:255px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:305px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:355px; width:35px; top:28px;"></div>
+              <div class="pr-note guitar" style="left:410px; width:90px; top:14px;"></div>
+              <div class="pr-note guitar" style="left:510px; width:80px; top:0px;"></div>
+              <div class="pr-note guitar" style="left:605px; width:90px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:705px; width:90px; top:28px;"></div>
+              <div class="pr-note guitar" style="left:810px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:855px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:905px; width:35px; top:56px;"></div>
+              <div class="pr-note guitar" style="left:955px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:1010px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:1105px; width:35px; top:56px;"></div>
+              <div class="pr-note guitar" style="left:1210px; width:35px; top:28px;"></div>
+              <div class="pr-note guitar" style="left:1305px; width:35px; top:42px;"></div>
+              <div class="pr-note guitar" style="left:1410px; width:90px; top:14px;"></div>
+
+              <!-- Other: pads sustained mid-range -->
+              <div class="pr-note other" style="left:5px;   width:790px; top:112px;"></div>
+              <div class="pr-note other" style="left:800px; width:200px; top:98px;"></div>
+              <div class="pr-note other" style="left:1000px; width:400px; top:112px;"></div>
+              <div class="pr-note other" style="left:1400px; width:200px; top:98px;"></div>
+
+              <!-- Vocals (HIGHLIGHTED): melody around C5–G5 (above visible top). Render in upper rows. -->
+              <!-- Actually let's keep vocals in the visible band C4–G4 region (84–28) -->
+              <div class="pr-note vocals" style="left:25px;  width:55px; top:42px;"></div> <!-- F4 -->
+              <div class="pr-note vocals" style="left:85px;  width:35px; top:28px;"></div> <!-- G4 -->
+              <div class="pr-note vocals" style="left:125px; width:65px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:225px; width:55px; top:14px;"></div> <!-- A4 -->
+              <div class="pr-note vocals" style="left:285px; width:45px; top:28px;"></div>
+              <div class="pr-note vocals" style="left:335px; width:55px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:425px; width:75px; top:0px;"></div>  <!-- A♯4 (color-tone over ♭VI) -->
+              <div class="pr-note vocals" style="left:510px; width:45px; top:14px;"></div>
+              <div class="pr-note vocals" style="left:565px; width:35px; top:28px;"></div>
+              <div class="pr-note vocals" style="left:615px; width:55px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:680px; width:55px; top:56px;"></div>
+              <div class="pr-note vocals" style="left:745px; width:55px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:825px; width:65px; top:28px;"></div>
+              <div class="pr-note vocals" style="left:905px; width:75px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:1005px; width:55px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:1075px; width:45px; top:56px;"></div>
+              <div class="pr-note vocals" style="left:1130px; width:65px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:1215px; width:55px; top:28px;"></div>
+              <div class="pr-note vocals" style="left:1285px; width:65px; top:42px;"></div>
+              <div class="pr-note vocals" style="left:1355px; width:45px; top:14px;"></div>
+              <div class="pr-note vocals" style="left:1420px; width:75px; top:0px;"></div>
+
+              <!-- Vocal F0 contour (continuous, follows pitch) -->
+              <svg class="pr-f0" preserveAspectRatio="none" viewBox="0 0 1600 350" style="height:350px;">
+                <path d="M25,48 Q60,42 85,32 T155,46 Q200,38 230,18 T290,32 Q310,40 360,46 Q400,18 435,4 T515,18 Q570,30 615,46 T740,46 Q800,28 850,32 Q900,46 945,40 Q990,46 1040,46 Q1080,58 1145,46 T1240,32 Q1290,46 1360,18 Q1420,2 1495,4"
+                      stroke="#ffd9e6" stroke-width="1.4" fill="none" opacity="0.55"/>
+              </svg>
+
+              <!-- Playhead is now the viewport-anchored .pr-playhead-fixed above; the canvas auto-scrolls so bar 16 sits at viewport center during play. -->
+              <!-- A faint marker remains at the current time position so the playhead's anchor in song-time is visible if you grab and drag the canvas (suspending auto-scroll). -->
+              <div style="position:absolute; top:0; bottom:0; left:400px; width:1px; background:rgba(255,255,255,.18); pointer-events:none; z-index:2;"></div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- transport with zoom controls -->
+      <div class="pr-transport">
+        <div class="play-btn">▶</div>
+        <div class="time">1:21.4 / 3:35</div>
+        <div class="scrub"><div class="fill"></div><div class="play-dot"></div></div>
+        <div class="zoomgrp" title="Zoom horizontal — mouse wheel"><span class="zlbl">H</span><button>−</button><div style="width:60px; height:4px; background:#222; border-radius:2px; position:relative;"><div style="position:absolute; left:0; top:0; bottom:0; width:42%; background:#9cf; border-radius:2px;"></div></div><button>+</button><span style="font-size:8px; color:#555; margin-left:3px;">wheel</span></div>
+        <div class="zoomgrp" title="Zoom vertical — Shift + mouse wheel"><span class="zlbl">V</span><button>−</button><div style="width:60px; height:4px; background:#222; border-radius:2px; position:relative;"><div style="position:absolute; left:0; top:0; bottom:0; width:55%; background:#9cf; border-radius:2px;"></div></div><button>+</button><span style="font-size:8px; color:#555; margin-left:3px;">⇧wheel</span></div>
+      </div>
+
+    </div>
+
+    <!-- ====== SIDEBAR (right) ====== -->
+    <div class="pr-sidebar">
+
+      <!-- Now playing -->
+      <div class="pr-side-section">
+        <h4>Now playing</h4>
+        <div class="pr-now-card">
+          <div style="display:flex; align-items:flex-end; gap:10px;">
+            <div>
+              <div class="now-rn">♭VI</div>
+              <div class="now-lab">C♯:maj</div>
+            </div>
+            <div style="margin-left:auto; text-align:right; color:#888; font-size:10px; line-height:1.5;">
+              <div>bar <b style="color:#ddd;">16</b></div>
+              <div>beat <b style="color:#ddd;">1</b></div>
+              <div>iter <b style="color:#ddd;">4 / 9</b></div>
+            </div>
+          </div>
+          <div class="now-meta">
+            <span class="pr-tag fn-modal">modal interchange</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Track controls -->
+      <div class="pr-side-section">
+        <h4>Tracks · highlight one</h4>
+        <div class="pr-track-row highlighted">
+          <div class="swatch vocals"></div>
+          <div class="name">Vocals</div>
+          <div class="count">1097</div>
+          <div class="ms"><div class="btn">M</div><div class="btn on s">S</div></div>
+          <div class="vol"><div class="fill" style="width:80%;"></div></div>
+        </div>
+        <div class="pr-track-row">
+          <div class="swatch bass"></div>
+          <div class="name">Bass</div>
+          <div class="count">554</div>
+          <div class="ms"><div class="btn">M</div><div class="btn">S</div></div>
+          <div class="vol"><div class="fill" style="width:75%;"></div></div>
+        </div>
+        <div class="pr-track-row">
+          <div class="swatch guitar"></div>
+          <div class="name">Guitar</div>
+          <div class="count">922</div>
+          <div class="ms"><div class="btn">M</div><div class="btn">S</div></div>
+          <div class="vol"><div class="fill" style="width:75%;"></div></div>
+        </div>
+        <div class="pr-track-row">
+          <div class="swatch piano"></div>
+          <div class="name">Piano</div>
+          <div class="count">955</div>
+          <div class="ms"><div class="btn">M</div><div class="btn">S</div></div>
+          <div class="vol"><div class="fill" style="width:75%;"></div></div>
+        </div>
+        <div class="pr-track-row">
+          <div class="swatch other"></div>
+          <div class="name">Other</div>
+          <div class="count">1004</div>
+          <div class="ms"><div class="btn">M</div><div class="btn">S</div></div>
+          <div class="vol"><div class="fill" style="width:60%;"></div></div>
+        </div>
+        <div class="pr-track-row">
+          <div class="swatch drums"></div>
+          <div class="name">Drums</div>
+          <div class="count" style="color:#444;">audio</div>
+          <div class="ms"><div class="btn">M</div><div class="btn">S</div></div>
+          <div class="vol"><div class="fill" style="width:75%;"></div></div>
+        </div>
+        <div style="font-size:9px; color:#666; margin-top:8px;">click row → highlight that stem · M = mute · S = solo</div>
+      </div>
+
+      <!-- Harmony info -->
+      <div class="pr-side-section">
+        <h4>Loop · 4 chords · 9 appearances</h4>
+        <div>
+          <span class="pr-tag rn">i</span><span class="pr-tag rn">v</span><span class="pr-tag rn">♭VI</span><span class="pr-tag rn">♭III</span>
+        </div>
+        <div style="font-size:9px; color:#666; margin-top:6px; font-family:ui-monospace,monospace;">F:min · C:min · C♯:maj · A♭:maj</div>
+      </div>
+
+      <div class="pr-side-section">
+        <h4>Harmony stats</h4>
+        <div style="display:flex; gap:12px; font-size:11px;">
+          <div><div style="color:#888; font-size:9px;">SCALE</div><div style="color:#9c9;">F nat. minor</div></div>
+          <div><div style="color:#888; font-size:9px;">MOD-INT</div><div style="color:#e3c3ff;">29 chords</div></div>
+        </div>
+        <div style="margin-top:8px;">
+          <div style="color:#888; font-size:9px;">VOCAL RANGE</div>
+          <div style="color:var(--c-vocals); font-size:13px; font-weight:600;">F2 — C7</div>
+        </div>
+      </div>
+
+      <div class="pr-side-section">
+        <h4>Shortcuts</h4>
+        <div style="font-size:10px; color:#aaa; line-height:1.7; font-family:ui-monospace,monospace;">
+          <div><span style="color:#fff;">Space</span> &nbsp; play / pause</div>
+          <div><span style="color:#fff;">Wheel</span> &nbsp; zoom horizontal</div>
+          <div><span style="color:#fff;">Ctrl + Wheel</span> &nbsp; pan horizontal</div>
+          <div><span style="color:#fff;">Shift + Wheel</span> &nbsp; zoom vertical</div>
+          <div style="margin-top:6px; color:#666; font-family:ui-sans-serif,system-ui,sans-serif; font-size:9px;">drag canvas → suspend auto-scroll · click playhead-snap to resume</div>
+        </div>
+      </div>
+
+      <div class="pr-side-section">
+        <h4>Provenance</h4>
+        <div style="font-size:10px; color:#888; line-height:1.6;">
+          beats: madmom 0.17.dev0<br>
+          chords: lv-chordia 1.0.0<br>
+          key: skey 0.1.0<br>
+          notes: basic-pitch 0.4.0<br>
+          F0: torchfcpe 0.0.4
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:18px;">
+  <b>What changed in v2:</b>
+  <br>1. Top-bar right is now a menu (<i>Library · Tools · Settings · ?</i>) — bar/iter/time removed (already shown in <i>Now playing</i> and the transport).
+  <br>2. The playhead is now the <b>fixed white line at viewport center</b> with a small <b>▶ AUTO</b> badge above it. The canvas auto-scrolls under it during playback. The faint vertical line still inside the grid (at song-time bar 16) just shows the original anchor — it sits behind the white playhead because the canvas has been scrolled to align them.
+  <br>3. Wheel bindings: <code>wheel</code> zoom-H · <code>Ctrl+wheel</code> pan-H · <code>Shift+wheel</code> zoom-V (also surfaced in the sidebar's <i>Shortcuts</i> section and as labels on the H/V zoom sliders).
+  <br>4. <code>Space</code> toggles play/pause.
+</p>
+<p class="subtitle">
+  <b>Tell me what to change next.</b> Color palette, sidebar order, where the <i>Shortcuts</i> block should live (sidebar vs `?` modal), whether <i>Library</i> should be on the left of the topbar instead of bundled with Tools/Settings, etc.
+</p>
+
+<script>
+  // Center the song-time anchor (left:400px in the canvas) under the fixed playhead
+  // so the visual matches "fixed playhead, canvas scrolls under it."
+  (function() {
+    var apply = function() {
+      var scroll = document.querySelector('.pr-roll-scroll');
+      if (!scroll) return;
+      var inner = scroll.querySelector('.pr-roll-inner');
+      if (!inner) return;
+      var anchorX = 400; // bar 16 beat 1, in canvas pixels
+      var viewport = scroll.clientWidth;
+      var maxScroll = inner.scrollWidth - viewport;
+      var target = Math.max(0, Math.min(maxScroll, anchorX - viewport / 2));
+      scroll.scrollLeft = target;
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', apply);
+    } else {
+      apply();
+    }
+    // Re-apply once more after layout settles (the frame template wraps content async).
+    setTimeout(apply, 80);
+    setTimeout(apply, 250);
+  })();
+</script>

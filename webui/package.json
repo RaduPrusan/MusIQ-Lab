@@ -1,0 +1,9 @@
+{
+  "name": "webui-tests-js",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "devDependencies": {
+    "jsdom": "^29.1.1"
+  }
+}

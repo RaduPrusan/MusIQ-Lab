@@ -1,0 +1,387 @@
+OpenAI Codex v0.125.0 (research preview)
+--------
+model: gpt-5.5
+provider: openai
+approval: never
+sandbox: read-only
+reasoning effort: high
+reasoning summaries: none
+--------
+user
+Research request: best open-source Python stack for music analysis in 2026.
+
+USE CASE
+A user wants to analyze MP3 songs for educational purposes — to learn music theory, harmony, song structure, and to practice. They want a pipeline that takes an MP3 file and outputs a structured JSON containing:
+- Chord progression (with timestamps and labels)
+- Beats, downbeats, tempo (BPM)
+- Musical key
+- Section structure (intro / verse / chorus / bridge / outro)
+- Per-instrument note transcription (pitches, durations, MIDI events) — separated by stem (vocals, bass, drums, other)
+- Vocal melody f0 contour (continuous pitch curve)
+
+CONSTRAINTS
+- Open-source, pip-installable Python packages preferred (apt-installable system libs OK if needed)
+- Linux: Ubuntu 24.04 in WSL2, NVIDIA RTX 3090 (24 GB VRAM), CUDA passthrough working
+- Quality > speed — willing to wait several minutes per song for high-quality analysis
+- Favor MODERN 2024–2026 state-of-the-art approaches over older 2018-era classics; the field has changed substantially in recent years (transformer architectures, joint multi-task models, demixed-input networks)
+- The user values accuracy because the goal is musical learning
+
+DELIVERABLE
+For each task below, recommend:
+1. The Python package name (pip-installable, with PyPI or git+ URL)
+2. The underlying model / algorithm
+3. Why it's the current best choice (year of release, benchmark score if known, why it beats predecessors)
+4. Caveats (Python version compatibility, GPU requirements, known install pain on Linux/WSL)
+
+Tasks to cover:
+1. Stem separation (vocals / drums / bass / other, ideally also guitar / piano)
+2. Chord recognition (rich vocabulary including 7ths, sus, slash chords)
+3. Beat + downbeat tracking
+4. Tempo (BPM) estimation
+5. Musical key detection
+6. Section / structural analysis (intro / verse / chorus / bridge / outro labeling)
+7. Polyphonic note transcription per stem (MIDI output ideal)
+8. Monophonic pitch contour for the isolated vocal stem (f0 over time)
+
+BONUS — also address:
+- Is there any "all-in-one" framework that joinly performs several of these tasks in a single neural network? If so, recommend it.
+- Self-supervised music representation models (BERT-for-music style) — relevant?
+- Any LLM-orchestrator patterns where the LLM cross-validates outputs from multiple MIR tools?
+- Recommended output format for the JSON (custom schema vs JAMS vs MusicXML)?
+
+REQUIREMENT
+Be SPECIFIC and CURRENT. Don't recommend something just because it's well-known if there's a clearly better modern alternative. Prioritize models / packages that have published in 2024 or 2025 over those that haven't been updated since 2018-2021.
+
+Output a structured response with one section per task plus the bonus items, naming concrete pip packages.
+
+codex
+I’m going to verify the current state against project docs, PyPI/GitHub, and recent papers because several MIR packages have changed names or maintenance status since 2024. I’ll prioritize runnable Python stacks over paper-only models.
+web search: 
+web search: 2025 music information retrieval chord recognition transformer Python package GitHub
+web search: 
+web search: Beat-This accurate general beat tracker 2024 Python package
+web search: 
+web search: 2025 automatic music transcription Python package Basic Pitch MT3 piano guitar bass vocals drums stems
+web search: 
+web search: 2025 music key detection Python package deep learning GitHub
+web search: 
+web search: https://github.com/deezer/skey
+web search: 
+web search: https://github.com/mir-aidj/all-in-one
+web search: 
+web search: https://github.com/mir-aidj/all-in-one
+web search: 
+web search: audio-separator Python package UVR models Mel Band Roformer BS Roformer 2025 GitHub
+web search: 
+web search: PESTO pitch estimation Python package 2023 2024 GitHub f0
+web search: 
+web search: self-supervised music representation model 2024 2025 MERT MusicBERT Python Hugging Face
+web search: 
+web search: https://pypi.org/project/lv-chordia/
+web search: 
+web search: 
+web search: 
+web search: 2025 Audio Chord Estimation Results MIREX
+web search: 
+web search: ChordFormer automatic chord recognition GitHub Python pip
+web search: 
+web search: allin1 PyPI All-In-One Music Structure Analyzer Python package
+web search: 
+web search: YourMT3+ GitHub multi-instrument music transcription install Python
+web search: 
+web search: https://github.com/mimbres/YourMT3
+web search: 
+web search: https://github.com/mimbres/YourMT3/issues/2
+web search: 
+web search: JAMS JSON Annotated Music Specification Python package music annotations
+codex
+**Bottom Line**
+No single open-source Python package currently produces the whole requested JSON at high quality. The best 2026 stack is a pipeline:
+
+`audio-separator`/Demucs for stems → `beat-this` + `allin1` for meter/structure → `lv-chordia` for chords → `skey` for key → `YourMT3+`/`basic-pitch`/`SOME` for MIDI transcription → `rmvpe-onnx` or `pesto-pitch` for vocal f0.
+
+**1. Stem Separation**
+Recommended: `audio-separator[gpu]`
+
+Install:
+```bash
+pip install "audio-separator[gpu]"
+sudo apt install ffmpeg
+```
+
+Model/algorithm: wrapper around UVR community models: BS-RoFormer, MelBand-RoFormer, MDX/MDXC, VR, Demucs. For 4-stem/6-stem music separation use Demucs `htdemucs_6s.yaml`; for best vocal/instrumental separation use BS-RoFormer/MelBand-RoFormer models such as `model_bs_roformer_ep_317_sdr_12.9755.ckpt`.
+
+Why: `audio-separator` is actively maintained, Python 3.10+, and exposes modern RoFormer separation models plus Demucs. Its docs show support for vocals, drums, bass, piano, guitar, and other, and list RoFormer vocal SDRs around 12.9 dB in its model registry examples. Source: PyPI `audio-separator` docs and model listing. https://pypi.org/project/audio-separator/
+
+Caveats: UVR model licensing/provenance varies by checkpoint. For reproducible academic use, Demucs is cleaner; for highest practical vocals, UVR RoFormer models often win. RTX 3090 is more than enough.
+
+**2. Chord Recognition**
+Recommended: `lv-chordia`
+
+Install:
+```bash
+pip install lv-chordia
+```
+
+Model/algorithm: Large-Vocabulary Chord Transcription via Chord Structure Decomposition, ISMIR 2019; CQT features, 5-model CNN ensemble, root/bass/chord-type decomposition, HMM smoothing.
+
+Why: despite the older underlying paper, this is currently the best pip-installable rich-vocabulary chord recognizer I found. It supports about 170 default chords and 600+ full-vocabulary chords, including 7ths and slash/bass information. The 2025 MIREX results still show the ISMIR2019 baseline competitive, especially on seventh/bass metrics, while some newer 2025 entries are not packaged. Sources: https://pypi.org/project/lv-chordia/ and MIREX 2025 chord results https://www.music-ir.org/mirex/wiki/2025%3AAudio_Chord_Estimation_Results
+
+Caveats: not a 2024 transformer/Mamba model. Newer MIREX systems such as MD1/YK1 look promising, but I would not recommend them for a production Python stack until code/weights/package are usable.
+
+**3. Beat + Downbeat Tracking**
+Recommended: `beat-this`
+
+Install:
+```bash
+pip install beat-this
+```
+
+Model/algorithm: ISMIR 2024 “Beat This!” beat/downbeat tracker; convolutional frontend + transformer/RoFormer-style blocks, no DBN required.
+
+Why: modern 2024 model, pip-installable, GPU-capable, designed to outperform older madmom/DBN-style pipelines. It directly returns beats and downbeats. Source: https://github.com/CPJKU/beat_this
+
+Caveats: install PyTorch first for CUDA. For MP3s, install `ffmpeg` for `torchaudio`.
+
+**4. Tempo Estimation**
+Recommended: `allin1` for direct BPM, or derive BPM from `beat-this` beats.
+
+Install:
+```bash
+pip install git+https://github.com/CPJKU/madmom
+pip install allin1
+```
+
+Model/algorithm: All-In-One metrical and functional structure analyzer; neighborhood attention on demixed audio.
+
+Why: outputs BPM, beats, downbeats, beat positions, and segment labels in one JSON-like result. Good for the requested educational JSON. Source: https://pypi.org/project/allin1/
+
+Caveats: Linux requires NATTEN; this can be the most annoying install step. For best beat accuracy, I would still run `beat-this` and compute tempo from its beat intervals, then compare with `allin1.bpm`.
+
+**5. Musical Key Detection**
+Recommended: `skey`
+
+Install:
+```bash
+pip install git+https://github.com/deezer/skey.git
+```
+
+Model/algorithm: S-KEY, ICASSP 2025 self-supervised key estimator using ChromaNet.
+
+Why: this is the most current open model I found for automatic major/minor key detection. The repo describes it as state-of-the-art and self-supervised, with CPU/GPU support and audio-file inference. Source: https://github.com/deezer/skey
+
+Caveats: not on PyPI yet; the repo says PyPI packaging is planned. Expect some Poetry/source-install friction. It predicts key class, not detailed modulation/local-key maps.
+
+Fallback: `essentia`/`essentia-tensorflow` key extraction, but that is older and AGPL-licensed. https://essentia.upf.edu/documentation/
+
+**6. Section / Structural Analysis**
+Recommended: `allin1`
+
+Install:
+```bash
+pip install allin1
+```
+
+Model/algorithm: All-In-One Music Structure Analyzer, WASPAA 2023; joint tempo, beat, downbeat, segment-boundary, and functional-label model over demixed stems.
+
+Why: it directly outputs labels like `intro`, `verse`, `chorus`, `bridge`, `outro`, plus `start/end/break/inst/solo`. It is much more aligned with the requested task than older boundary-only libraries such as MSAF. Source: https://github.com/mir-aidj/all-in-one
+
+Caveats: section labels are probabilistic and dataset-biased. Use them as “best guess,” not ground truth. MP3 offset differences matter; convert MP3 to WAV once with FFmpeg before all timing-sensitive analysis.
+
+**7. Polyphonic Note Transcription Per Stem**
+Recommended primary: official YourMT3+ code, plus `basic-pitch` as a practical fallback.
+
+Install options:
+```bash
+pip install git+https://github.com/mimbres/YourMT3.git
+pip install basic-pitch
+```
+
+Model/algorithm:
+- YourMT3+: 2024 MLSP multi-instrument transcription, MT3-style token decoding, enhanced hierarchical time-frequency transformer, mixture-of-experts, multi-channel decoding, cross-stem augmentation.
+- Basic Pitch: Spotify lightweight neural AMT, polyphonic, instrument-agnostic, MIDI + pitch bends.
+
+Why: YourMT3+ is the most relevant modern model for “multi-instrument MIDI from real music,” and the paper explicitly targets multi-instrument transcription and direct vocal transcription. Source: https://huggingface.co/papers/2407.04822 and https://github.com/mimbres/YourMT3  
+Basic Pitch is much easier to install and very useful stem-by-stem for bass/guitar/piano/other. Source: https://pypi.org/project/basic-pitch/
+
+Caveats: YourMT3+ packaging is less mature than Basic Pitch; the official repo points to a pre-release/code path rather than a polished PyPI library. The `yourmt3` PyPI package exists, but I would treat it as a wrapper, not the canonical research implementation. Basic Pitch is not source-aware and is weak for drums; run it on separated harmonic stems, not the full mix.
+
+For vocals-as-MIDI: also test `SOME`:
+```bash
+pip install git+https://github.com/openvpi/SOME.git
+```
+It is a singing-oriented MIDI extractor, but its own docs warn it is beta and its pretrained model may be language/domain biased. Source: https://github.com/openvpi/SOME
+
+**8. Vocal Melody f0 Contour**
+Recommended: `rmvpe-onnx`; cross-check with `pesto-pitch`.
+
+Install:
+```bash
+pip install rmvpe-onnx
+pip install pesto-pitch
+```
+
+Model/algorithm:
+- RMVPE: robust vocal pitch estimation, Deep U-Net + BiGRU pitch-bin model, commonly used in singing/voice-conversion stacks.
+- PESTO: ISMIR 2023 self-supervised pitch estimator with transposition-equivariant objective.
+
+Why: RMVPE is a strong practical choice for singing f0, especially after vocal stem separation. `rmvpe-onnx` is simple ONNX Runtime inference. Source: https://pypi.org/project/rmvpe-onnx/  
+PESTO is academically clean, pip-installable, GPU-capable, and reports strong performance versus self-supervised baselines. Source: https://pypi.org/project/pesto-pitch/
+
+Caveats: RMVPE packages are newer wrappers around older RVC/RMVPE weights. PESTO is monophonic pitch estimation; feed it the isolated vocal stem, not the full mix.
+
+**Bonus**
+All-in-one framework: `allin1` is the closest, but only for tempo/beats/downbeats/sections. It does not do chords, key, transcription, or f0. `omnizart` covers many MIR tasks, but it is older and not the accuracy-first 2026 choice.
+
+Self-supervised representations: MERT is relevant for future custom classifiers, confidence scoring, section similarity, or retrieval. It is not a direct chord/transcription/key pipeline. Use via Hugging Face `transformers` if building learned downstream heads. Source: https://huggingface.co/m-a-p/MERT-v1-330M and ICLR 2024 paper page https://proceedings.iclr.cc/paper_files/paper/2024/hash/33dffa2e3d2ab74a783d1a8c292f66d9-Abstract-Conference.html
+
+LLM orchestrator pattern: useful, but only as a reconciler. Have tools produce raw outputs plus confidence, then let the LLM check consistency: chord roots vs bass transcription, key vs chord histogram, downbeats vs chord changes, repeated sections vs repeated chord/melody patterns. Do not let the LLM invent missing notes.
+
+Output format: use a custom JSON envelope with JAMS-compatible sub-annotations. JAMS already has schemas for beats, chords, segments, tags, and validation, so it is ideal as the archival/interchange layer. Source: https://pypi.org/project/jams/  
+For notation export, add optional MIDI files per stem and MusicXML only after transcription quantization; raw analysis JSON should preserve seconds, confidence, and source tool metadata.
+tokens used
+121,146
+**Bottom Line**
+No single open-source Python package currently produces the whole requested JSON at high quality. The best 2026 stack is a pipeline:
+
+`audio-separator`/Demucs for stems → `beat-this` + `allin1` for meter/structure → `lv-chordia` for chords → `skey` for key → `YourMT3+`/`basic-pitch`/`SOME` for MIDI transcription → `rmvpe-onnx` or `pesto-pitch` for vocal f0.
+
+**1. Stem Separation**
+Recommended: `audio-separator[gpu]`
+
+Install:
+```bash
+pip install "audio-separator[gpu]"
+sudo apt install ffmpeg
+```
+
+Model/algorithm: wrapper around UVR community models: BS-RoFormer, MelBand-RoFormer, MDX/MDXC, VR, Demucs. For 4-stem/6-stem music separation use Demucs `htdemucs_6s.yaml`; for best vocal/instrumental separation use BS-RoFormer/MelBand-RoFormer models such as `model_bs_roformer_ep_317_sdr_12.9755.ckpt`.
+
+Why: `audio-separator` is actively maintained, Python 3.10+, and exposes modern RoFormer separation models plus Demucs. Its docs show support for vocals, drums, bass, piano, guitar, and other, and list RoFormer vocal SDRs around 12.9 dB in its model registry examples. Source: PyPI `audio-separator` docs and model listing. https://pypi.org/project/audio-separator/
+
+Caveats: UVR model licensing/provenance varies by checkpoint. For reproducible academic use, Demucs is cleaner; for highest practical vocals, UVR RoFormer models often win. RTX 3090 is more than enough.
+
+**2. Chord Recognition**
+Recommended: `lv-chordia`
+
+Install:
+```bash
+pip install lv-chordia
+```
+
+Model/algorithm: Large-Vocabulary Chord Transcription via Chord Structure Decomposition, ISMIR 2019; CQT features, 5-model CNN ensemble, root/bass/chord-type decomposition, HMM smoothing.
+
+Why: despite the older underlying paper, this is currently the best pip-installable rich-vocabulary chord recognizer I found. It supports about 170 default chords and 600+ full-vocabulary chords, including 7ths and slash/bass information. The 2025 MIREX results still show the ISMIR2019 baseline competitive, especially on seventh/bass metrics, while some newer 2025 entries are not packaged. Sources: https://pypi.org/project/lv-chordia/ and MIREX 2025 chord results https://www.music-ir.org/mirex/wiki/2025%3AAudio_Chord_Estimation_Results
+
+Caveats: not a 2024 transformer/Mamba model. Newer MIREX systems such as MD1/YK1 look promising, but I would not recommend them for a production Python stack until code/weights/package are usable.
+
+**3. Beat + Downbeat Tracking**
+Recommended: `beat-this`
+
+Install:
+```bash
+pip install beat-this
+```
+
+Model/algorithm: ISMIR 2024 “Beat This!” beat/downbeat tracker; convolutional frontend + transformer/RoFormer-style blocks, no DBN required.
+
+Why: modern 2024 model, pip-installable, GPU-capable, designed to outperform older madmom/DBN-style pipelines. It directly returns beats and downbeats. Source: https://github.com/CPJKU/beat_this
+
+Caveats: install PyTorch first for CUDA. For MP3s, install `ffmpeg` for `torchaudio`.
+
+**4. Tempo Estimation**
+Recommended: `allin1` for direct BPM, or derive BPM from `beat-this` beats.
+
+Install:
+```bash
+pip install git+https://github.com/CPJKU/madmom
+pip install allin1
+```
+
+Model/algorithm: All-In-One metrical and functional structure analyzer; neighborhood attention on demixed audio.
+
+Why: outputs BPM, beats, downbeats, beat positions, and segment labels in one JSON-like result. Good for the requested educational JSON. Source: https://pypi.org/project/allin1/
+
+Caveats: Linux requires NATTEN; this can be the most annoying install step. For best beat accuracy, I would still run `beat-this` and compute tempo from its beat intervals, then compare with `allin1.bpm`.
+
+**5. Musical Key Detection**
+Recommended: `skey`
+
+Install:
+```bash
+pip install git+https://github.com/deezer/skey.git
+```
+
+Model/algorithm: S-KEY, ICASSP 2025 self-supervised key estimator using ChromaNet.
+
+Why: this is the most current open model I found for automatic major/minor key detection. The repo describes it as state-of-the-art and self-supervised, with CPU/GPU support and audio-file inference. Source: https://github.com/deezer/skey
+
+Caveats: not on PyPI yet; the repo says PyPI packaging is planned. Expect some Poetry/source-install friction. It predicts key class, not detailed modulation/local-key maps.
+
+Fallback: `essentia`/`essentia-tensorflow` key extraction, but that is older and AGPL-licensed. https://essentia.upf.edu/documentation/
+
+**6. Section / Structural Analysis**
+Recommended: `allin1`
+
+Install:
+```bash
+pip install allin1
+```
+
+Model/algorithm: All-In-One Music Structure Analyzer, WASPAA 2023; joint tempo, beat, downbeat, segment-boundary, and functional-label model over demixed stems.
+
+Why: it directly outputs labels like `intro`, `verse`, `chorus`, `bridge`, `outro`, plus `start/end/break/inst/solo`. It is much more aligned with the requested task than older boundary-only libraries such as MSAF. Source: https://github.com/mir-aidj/all-in-one
+
+Caveats: section labels are probabilistic and dataset-biased. Use them as “best guess,” not ground truth. MP3 offset differences matter; convert MP3 to WAV once with FFmpeg before all timing-sensitive analysis.
+
+**7. Polyphonic Note Transcription Per Stem**
+Recommended primary: official YourMT3+ code, plus `basic-pitch` as a practical fallback.
+
+Install options:
+```bash
+pip install git+https://github.com/mimbres/YourMT3.git
+pip install basic-pitch
+```
+
+Model/algorithm:
+- YourMT3+: 2024 MLSP multi-instrument transcription, MT3-style token decoding, enhanced hierarchical time-frequency transformer, mixture-of-experts, multi-channel decoding, cross-stem augmentation.
+- Basic Pitch: Spotify lightweight neural AMT, polyphonic, instrument-agnostic, MIDI + pitch bends.
+
+Why: YourMT3+ is the most relevant modern model for “multi-instrument MIDI from real music,” and the paper explicitly targets multi-instrument transcription and direct vocal transcription. Source: https://huggingface.co/papers/2407.04822 and https://github.com/mimbres/YourMT3  
+Basic Pitch is much easier to install and very useful stem-by-stem for bass/guitar/piano/other. Source: https://pypi.org/project/basic-pitch/
+
+Caveats: YourMT3+ packaging is less mature than Basic Pitch; the official repo points to a pre-release/code path rather than a polished PyPI library. The `yourmt3` PyPI package exists, but I would treat it as a wrapper, not the canonical research implementation. Basic Pitch is not source-aware and is weak for drums; run it on separated harmonic stems, not the full mix.
+
+For vocals-as-MIDI: also test `SOME`:
+```bash
+pip install git+https://github.com/openvpi/SOME.git
+```
+It is a singing-oriented MIDI extractor, but its own docs warn it is beta and its pretrained model may be language/domain biased. Source: https://github.com/openvpi/SOME
+
+**8. Vocal Melody f0 Contour**
+Recommended: `rmvpe-onnx`; cross-check with `pesto-pitch`.
+
+Install:
+```bash
+pip install rmvpe-onnx
+pip install pesto-pitch
+```
+
+Model/algorithm:
+- RMVPE: robust vocal pitch estimation, Deep U-Net + BiGRU pitch-bin model, commonly used in singing/voice-conversion stacks.
+- PESTO: ISMIR 2023 self-supervised pitch estimator with transposition-equivariant objective.
+
+Why: RMVPE is a strong practical choice for singing f0, especially after vocal stem separation. `rmvpe-onnx` is simple ONNX Runtime inference. Source: https://pypi.org/project/rmvpe-onnx/  
+PESTO is academically clean, pip-installable, GPU-capable, and reports strong performance versus self-supervised baselines. Source: https://pypi.org/project/pesto-pitch/
+
+Caveats: RMVPE packages are newer wrappers around older RVC/RMVPE weights. PESTO is monophonic pitch estimation; feed it the isolated vocal stem, not the full mix.
+
+**Bonus**
+All-in-one framework: `allin1` is the closest, but only for tempo/beats/downbeats/sections. It does not do chords, key, transcription, or f0. `omnizart` covers many MIR tasks, but it is older and not the accuracy-first 2026 choice.
+
+Self-supervised representations: MERT is relevant for future custom classifiers, confidence scoring, section similarity, or retrieval. It is not a direct chord/transcription/key pipeline. Use via Hugging Face `transformers` if building learned downstream heads. Source: https://huggingface.co/m-a-p/MERT-v1-330M and ICLR 2024 paper page https://proceedings.iclr.cc/paper_files/paper/2024/hash/33dffa2e3d2ab74a783d1a8c292f66d9-Abstract-Conference.html
+
+LLM orchestrator pattern: useful, but only as a reconciler. Have tools produce raw outputs plus confidence, then let the LLM check consistency: chord roots vs bass transcription, key vs chord histogram, downbeats vs chord changes, repeated sections vs repeated chord/melody patterns. Do not let the LLM invent missing notes.
+
+Output format: use a custom JSON envelope with JAMS-compatible sub-annotations. JAMS already has schemas for beats, chords, segments, tags, and validation, so it is ideal as the archival/interchange layer. Source: https://pypi.org/project/jams/  
+For notation export, add optional MIDI files per stem and MusicXML only after transcription quantization; raw analysis JSON should preserve seconds, confidence, and source tool metadata.

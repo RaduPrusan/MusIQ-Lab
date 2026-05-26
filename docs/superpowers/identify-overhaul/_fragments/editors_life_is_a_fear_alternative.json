@@ -1,0 +1,41 @@
+{
+  "slug": "editors_life_is_a_fear_alternative",
+  "snapshot_bucket": "mb_503",
+  "expected_duration_sec": 303,
+  "duration_sec": 303.41,
+  "leading_silence_sec": 0.638639,
+  "trailing_silence_sec": 0.0,
+  "artist_guess_raw": "Editors Life",
+  "title_guess_raw": "Is A Fear Alternative",
+  "artist_guess_clean": "Editors Life",
+  "title_guess_clean": "Is A Fear",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEy2RNEiBjt-_MeL4zt6HF-Oc0KcBNXxHGKu",
+  "fingerprint_length": 3444,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "72bf105e-e18b-4cfe-92be-c36d6233c617",
+      "score": 0.9992748,
+      "recording_count": 1,
+      "recordings": [
+        {
+          "mbid": "0cd265db-6b19-402b-b7da-a8bde6268d00",
+          "title": "Alternative: Life Is a Fear",
+          "artists": [
+            "Editors"
+          ],
+          "duration": 303.372,
+          "releasegroups": [
+            "In Dream"
+          ]
+        }
+      ]
+    }
+  ],
+  "bucket": "Z",
+  "notes": ""
+}

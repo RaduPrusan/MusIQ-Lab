@@ -1,0 +1,17 @@
+{
+  "slug": "submotion_orchestra-finest_hour_album_version-qplldpndsx8",
+  "leading_silence_sec": 0.78,
+  "stripped_duration_sec": 149,
+  "fingerprint_first_100_chars": "AQADtM-WLeGCD71U_IcPPw56Ev_xo9IPcydCHj-0Hzb-F2mPFu9R_dh5kD8RWYcpuEPeCt5R4ceTCxd6Hc2F7zj1BWHULBO04yfy",
+  "acoustid_status": "ok",
+  "acoustid_http_code": 200,
+  "acoustid_results": [
+    {
+      "id": "0168b64a-c5d9-44c2-82f7-ce5f62d7077b",
+      "score": 0.943928
+    }
+  ],
+  "top_score": 0.943928,
+  "top_recording_count": 0,
+  "top_mbid_or_null": null
+}

@@ -1,0 +1,29 @@
+{
+  "slug": "angus_julia_stone-harvest_moon-11_17_2017-paste_studios_new_york_ny-9uiby71mrqk",
+  "snapshot_bucket": "no_match",
+  "expected_duration_sec": 260,
+  "duration_sec": 259.63,
+  "leading_silence_sec": 0.0,
+  "trailing_silence_sec": 0.6970000000000027,
+  "artist_guess_raw": "Angus Julia Stone",
+  "title_guess_raw": "Harvest Moon-11 17 2017-paste Studios New York Ny",
+  "artist_guess_clean": "Angus Julia Stone",
+  "title_guess_clean": "Harvest Moon- -",
+  "mp3_exists": true,
+  "fpcalc_ok": true,
+  "fpcalc_error": null,
+  "fingerprint_prefix": "AQADtEkWpWGiJAWdREej-YL2oc_hHzpxeYg_XIf1",
+  "fingerprint_length": 3666,
+  "acoustid_status": "ok",
+  "acoustid_error": null,
+  "acoustid_results": [
+    {
+      "acoustid_id": "2c1cb869-cc59-48e1-9e83-2947bcc4cc68",
+      "score": 0.9428402,
+      "recording_count": 0,
+      "recordings": []
+    }
+  ],
+  "bucket": "B",
+  "notes": ""
+}
