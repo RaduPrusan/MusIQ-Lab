@@ -124,6 +124,7 @@ export class F0Overlay {
     new ResizeObserver(() => { this.dirty = true; this._render(); }).observe(host);
     document.addEventListener("musiq:f0-prefs-changed",   () => { this.dirty = true; });
     document.addEventListener("musiq:line-width-changed", () => { this.dirty = true; });
+    document.addEventListener("musiq:drum-layout-changed", () => { this.dirty = true; });
     // Colour overrides from Settings → Pitch lines → Colours now ride on
     // musiq:theme-changed (writes go through the theme store), so the
     // existing subscribeTheme handler set up earlier in the constructor

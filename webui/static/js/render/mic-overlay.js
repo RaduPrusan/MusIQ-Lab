@@ -146,8 +146,10 @@ export class MicOverlay {
     if (typeof document !== "undefined") {
       this._onWidthChanged = () => this._scheduleDraw();
       this._onThemeChanged = () => this._scheduleDraw();
+      this._onDrumLayoutChanged = () => this._scheduleDraw();
       document.addEventListener("musiq:line-width-changed", this._onWidthChanged);
       document.addEventListener("musiq:theme-changed",      this._onThemeChanged);
+      document.addEventListener("musiq:drum-layout-changed", this._onDrumLayoutChanged);
     }
   }
 
@@ -194,6 +196,10 @@ export class MicOverlay {
     if (this._onThemeChanged && typeof document !== "undefined") {
       document.removeEventListener("musiq:theme-changed", this._onThemeChanged);
       this._onThemeChanged = null;
+    }
+    if (this._onDrumLayoutChanged && typeof document !== "undefined") {
+      document.removeEventListener("musiq:drum-layout-changed", this._onDrumLayoutChanged);
+      this._onDrumLayoutChanged = null;
     }
     if (this.viewState && this._onViewChange) {
       this.viewState.off?.("change", this._onViewChange);

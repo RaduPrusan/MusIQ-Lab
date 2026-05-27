@@ -98,6 +98,9 @@ export class PianoRoll {
     // Re-render whenever the user toggles their notation preference — the
     // gutter labels and any next-frame tooltips will pick up the new system.
     document.addEventListener("musiq:notation-changed", () => { this.dirty = true; });
+    // Drum-lane height slider (Settings → Layout) — drumLaneHeight() is
+    // re-read on every draw, so the next dirty pass picks up the change.
+    document.addEventListener("musiq:drum-layout-changed", () => { this.dirty = true; });
     this._frameLoop();
   }
 

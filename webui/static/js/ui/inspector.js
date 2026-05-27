@@ -61,6 +61,10 @@ export class Inspector {
       if (this._lastClient) this._repickAtLastClient();
     };
     viewState.on("change", this._onVS);
+    // Drum-lane height change (Settings → Layout slider) shifts the band
+    // origin and the hover-region split between piano roll and drum lane.
+    // Re-position the band + re-pick under the cursor if hovering.
+    document.addEventListener("musiq:drum-layout-changed", this._onVS);
   }
 
   _clearHover() {

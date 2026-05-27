@@ -13,6 +13,11 @@ import {
   LINE_WIDTH_RANGE,
 } from "./line-width-prefs.js";
 import {
+  getDrumLaneHeight,
+  setDrumLaneHeight,
+  DRUM_LAYOUT_RANGE,
+} from "./drum-layout-prefs.js";
+import {
   getColor, setColor, resetColor,
 } from "./color-prefs.js";
 import { PRESETS, PRESET_IDS, PRESET_LABELS } from "../theme/presets.js";
@@ -666,6 +671,62 @@ function buildPitchLinesSection() {
   return root;
 }
 
+// "Layout" section — vertical sizing knobs. Today it surfaces the drum-hit
+// lane height (the kick/snare/toms/hihat/cymbals strip at the bottom of
+// every track's piano-roll canvas). Set to 0 to hide the lane entirely
+// (same visual effect as a track without transcribed drums). Persists to
+// localStorage and fires `musiq:drum-layout-changed`, which pianoroll +
+// inspector + f0-overlay + mic-overlay subscribe to.
+function buildLayoutSection() {
+  const root = el("div");
+  root.appendChild(el("h3", {
+    style: {
+      fontSize: "11px", textTransform: "uppercase",
+      color: "var(--text-muted)", margin: "16px 0 6px",
+      letterSpacing: "var(--ls-caps)",
+    },
+    text: "Layout",
+  }));
+  root.appendChild(el("div", {
+    style: { fontSize: "11px", color: "var(--text-muted)", marginBottom: "8px" },
+    text: `Drum-hit lane height (px) at the bottom of the piano roll. Default ${DRUM_LAYOUT_RANGE.default}. Set to 0 to hide the lane.`,
+  }));
+
+  const valLabel = el("span", {
+    style: {
+      fontSize: "11px", color: "var(--text-muted)",
+      fontVariantNumeric: "tabular-nums", minWidth: "36px", textAlign: "right",
+    },
+    text: `${getDrumLaneHeight()} px`,
+  });
+  const input = el("input", {
+    type: "range",
+    attrs: {
+      min:   String(DRUM_LAYOUT_RANGE.min),
+      max:   String(DRUM_LAYOUT_RANGE.max),
+      step:  String(DRUM_LAYOUT_RANGE.step),
+      value: String(getDrumLaneHeight()),
+    },
+    style: { flex: "1", accentColor: "var(--text-primary)" },
+    onInput: (e) => {
+      const v = Number(e.target.value);
+      setDrumLaneHeight(v);
+      valLabel.textContent = `${v} px`;
+    },
+  });
+  root.appendChild(el("label", {
+    style: { display: "flex", gap: "10px", alignItems: "center", margin: "4px 0" },
+  }, [
+    el("span", {
+      style: { fontSize: "12px", minWidth: "92px", color: "var(--text-secondary)" },
+      text: "Drum lane",
+    }),
+    input,
+    valLabel,
+  ]));
+  return root;
+}
+
 // "Colours" subsection inside Pitch lines. Six native colour inputs, two
 // groups (Live Input × 3 buckets, Vocals × 3 estimators). The picker
 // writes directly to documentElement.style via color-prefs.setColor, so
@@ -776,6 +837,7 @@ export function showSettings() {
     ...buildEngineRadioGroup(),
   ]));
   scrollWrap.appendChild(buildPitchLinesSection());
+  scrollWrap.appendChild(buildLayoutSection());
   scrollWrap.appendChild(buildAppearanceSection());
   panel.appendChild(scrollWrap);
   addCloseButton(panel, () => overlay.remove());
