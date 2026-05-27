@@ -71,21 +71,28 @@
   display: flex;
   gap: 6px;
 }
-.tp-header-btn {
-  background: transparent;
-  border: 1px solid var(--surface-3);
-  color: var(--text-muted);
-  border-radius: 10px;
-  padding: 2px 8px;
-  font-size: 10px;
+/* Shared "open Analyze modal" pill — surfaced both in the topbar menu and in
+   the track-picker header. Soft-accent at rest (every preset defines the
+   --accent-soft-* pair explicitly); hover ramps to the full --accent with the
+   per-preset --accent-on foreground for AA contrast across themes. */
+.analyze-pill {
+  background: var(--accent-soft-bg);
+  color: var(--accent-soft-fg);
+  border: 1px solid transparent;
+  border-radius: 12px;
+  padding: 4px 12px;
+  font-size: var(--t-body);
+  font-weight: 500;
   cursor: pointer;
   font-family: inherit;
   text-transform: none;
   letter-spacing: normal;
+  white-space: nowrap;
+  transition: background 0.12s, color 0.12s, border-color 0.12s;
 }
-.tp-header-btn:hover {
-  color: var(--text-secondary);
-  border-color: var(--text-muted);
+.analyze-pill:hover {
+  background: var(--accent);
+  color: var(--accent-on);
 }
 .tp-controls { padding: var(--sp-2) var(--sp-3); display: flex; gap: 6px; align-items: center; flex-wrap: wrap; border-bottom: 1px solid var(--border-soft); background: var(--surface-base); font-size: var(--t-micro); }
 .tp-controls .lbl { color: var(--text-disabled); text-transform: uppercase; letter-spacing: var(--ls-caps); font-weight: 600; margin-right: var(--sp-1); padding: 3px 0; border-right: 1px solid var(--surface-3); padding-right: var(--sp-2); }
@@ -820,16 +827,6 @@ sub.pitch-oct { font-size: 0.72em; line-height: 1; vertical-align: sub; }
    warm-red palette matching the Tools modal's "Reanalyze" entry color. */
 .reanalyze-warn { color: var(--text-secondary); margin-bottom: var(--sp-3); line-height: 1.5; }
 .reanalyze-warn code { background: var(--surface-3); padding: 1px 5px; border-radius: 3px; font-family: var(--font-mono); font-size: var(--t-body); }
-.reanalyze-quality { display: flex; flex-direction: column; gap: 6px; margin: 4px 0 4px; }
-.reanalyze-quality-label { color: var(--text-muted); font-size: var(--t-micro); text-transform: uppercase; letter-spacing: .04em; }
-.reanalyze-quality-seg { display: flex; gap: 0; border: 1px solid var(--surface-3); border-radius: 4px; overflow: hidden; }
-.reanalyze-quality-btn { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 8px 10px; background: var(--surface-2); color: var(--text-secondary); border: none; border-right: 1px solid var(--surface-3); cursor: pointer; font-size: var(--t-body); transition: background 0.12s, color 0.12s; }
-.reanalyze-quality-btn:last-child { border-right: none; }
-.reanalyze-quality-btn:hover { background: var(--surface-3); color: var(--text-primary); }
-.reanalyze-quality-btn.active { background: var(--info-soft-bg); color: var(--info-soft-fg); box-shadow: inset 0 -2px 0 var(--focus-ring); }
-.reanalyze-quality-btn-label { font-weight: 600; }
-.reanalyze-quality-btn-blurb { color: var(--text-muted); font-size: var(--t-micro); font-family: var(--font-mono); }
-.reanalyze-quality-btn.active .reanalyze-quality-btn-blurb { color: var(--info-soft-fg); }
 .reanalyze-actions { display: flex; gap: var(--sp-2); justify-content: flex-end; }
 .reanalyze-actions button { padding: var(--sp-2) var(--sp-3); border-radius: 4px; border: 1px solid var(--surface-3); cursor: pointer; transition: background 0.12s; font-size: var(--t-body); }
 .reanalyze-actions .btn-cancel { background: var(--surface-2); color: var(--text-secondary); }

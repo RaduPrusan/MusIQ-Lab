@@ -13,16 +13,21 @@ import {
 } from "../music/notation.js";
 import { getNotationSystem } from "../music/notation-prefs.js";
 
-// Mirrors analyze.pipeline._STAGE_EXECUTION_ORDER. Keep in sync with
-// analyze/pipeline.py:83-96 — wrong order or missing stages here means the
-// modal shows blank chips while real work is happening server-side.
+// Mirrors analyze.pipeline._STAGE_EXECUTION_ORDER (pipeline.py:107-122). Keep
+// in sync — missing entries here mean the backend emits
+// {"type":"stage","name":...} events that hit `chipState.get(name) === undefined`
+// in setStage(), silently dropping the chip and leaving the user staring at a
+// frozen modal while real work continues server-side.
 //
 // Why this exact order: `vocal_f0` MUST run before `transcription` so the
-// vocals stem can read vocal_f0.npz. `vocal_consensus_contour` MUST run last
-// because it consumes vocal_f0 + transcription (+ optional stems_dynamics).
+// vocals stem can read vocal_f0.npz. `vocal_consensus_contour` consumes
+// vocal_f0 + transcription. `identify` is network-bound (AcoustID/MusicBrainz),
+// has no GPU deps, runs early. `essentia_extract` reads beats + key and runs
+// last as a cross-check.
 export const STAGE_ORDER = [
   "stems",
   "stems_dynamics",
+  "identify",
   "beats",
   "key",
   "chords",
@@ -31,6 +36,7 @@ export const STAGE_ORDER = [
   "beats_xcheck",
   "drums",
   "vocal_consensus_contour",
+  "essentia_extract",
 ];
 
 // Friendly labels for the chips. Backend protocol still uses the raw names
@@ -38,6 +44,7 @@ export const STAGE_ORDER = [
 export const STAGE_LABELS = {
   "stems": "stems",
   "stems_dynamics": "stem dynamics",
+  "identify": "identify",
   "beats": "beats",
   "key": "key",
   "chords": "chords",
@@ -46,16 +53,8 @@ export const STAGE_LABELS = {
   "beats_xcheck": "beats xcheck",
   "drums": "drums",
   "vocal_consensus_contour": "vocal consensus",
+  "essentia_extract": "essentia",
 };
-
-// Stem-separation quality presets surfaced in the confirmation modal. Mirrors
-// analyze.stages.stems.STEMS_QUALITY_PARAMS — keep in sync. The blurb text is
-// the only thing the user sees; numbers are documented in the python module.
-export const QUALITY_PRESETS = [
-  { value: "fast",   label: "Fast",   blurb: "shifts=2  · ~½ time" },
-  { value: "normal", label: "Normal", blurb: "shifts=4  · ~½ time vs best" },
-  { value: "best",   label: "Best",   blurb: "shifts=8  · default" },
-];
 
 export const STATUS_COLOR = {
   running: "var(--status-info)",
@@ -63,55 +62,6 @@ export const STATUS_COLOR = {
   done: "var(--status-success)",
   error: "var(--status-error)",
 };
-
-export function buildQualitySelector(state) {
-  const wrap = document.createElement("div");
-  wrap.className = "reanalyze-quality";
-
-  const label = document.createElement("div");
-  label.className = "reanalyze-quality-label";
-  label.textContent = "Stem separation quality";
-  wrap.appendChild(label);
-
-  const seg = document.createElement("div");
-  seg.className = "reanalyze-quality-seg";
-  wrap.appendChild(seg);
-
-  const buttons = QUALITY_PRESETS.map((preset) => {
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "reanalyze-quality-btn";
-    btn.dataset.value = preset.value;
-    btn.setAttribute("aria-pressed", String(preset.value === state.quality));
-    if (preset.value === state.quality) btn.classList.add("active");
-
-    const lbl = document.createElement("span");
-    lbl.className = "reanalyze-quality-btn-label";
-    lbl.textContent = preset.label;
-    btn.appendChild(lbl);
-
-    const blurb = document.createElement("span");
-    blurb.className = "reanalyze-quality-btn-blurb";
-    blurb.textContent = preset.blurb;
-    btn.appendChild(blurb);
-
-    seg.appendChild(btn);
-    return btn;
-  });
-
-  for (const btn of buttons) {
-    btn.addEventListener("click", () => {
-      state.quality = btn.dataset.value;
-      for (const other of buttons) {
-        const isActive = other === btn;
-        other.classList.toggle("active", isActive);
-        other.setAttribute("aria-pressed", String(isActive));
-      }
-    });
-  }
-
-  return wrap;
-}
 
 export async function* parseNdjsonStream(byteSource) {
   const decoder = new TextDecoder();

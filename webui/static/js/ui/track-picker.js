@@ -179,8 +179,9 @@ function buildHeader(trackCount) {
   const actions = document.createElement("div");
   actions.className = "tp-header-actions";
   const fileBtn = document.createElement("button");
-  fileBtn.className = "tp-header-btn";
-  fileBtn.textContent = "+ File";
+  fileBtn.className = "analyze-pill";
+  fileBtn.type = "button";
+  fileBtn.textContent = "Analyze file";
   fileBtn.addEventListener("click", async (e) => {
     e.stopPropagation();
     try {
@@ -191,8 +192,9 @@ function buildHeader(trackCount) {
     }
   });
   const ytBtn = document.createElement("button");
-  ytBtn.className = "tp-header-btn";
-  ytBtn.textContent = "+ YT";
+  ytBtn.className = "analyze-pill";
+  ytBtn.type = "button";
+  ytBtn.textContent = "Analyze Youtube video";
   ytBtn.addEventListener("click", async (e) => {
     e.stopPropagation();
     try {

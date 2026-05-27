@@ -163,7 +163,25 @@ export function mountTopbar(host, summary, { onPickerToggle, slug = null }) {
     }
   }
 
+  // Lazy-import the analyze modal on click — same pattern the track-picker
+  // header uses. The pills are duplicated there (kept for discoverability
+  // inside the dropdown); this is the primary surface.
+  const openAnalyzeModal = (mode) => () => {
+    import("./analyze-modal.js")
+      .then((m) => m.showAnalyzeModal({ mode }))
+      .catch((err) => console.error("[topbar] failed to load analyze-modal:", err));
+  };
+
   const menu = el("div", { class: "menu" }, [
+    el("button", {
+      class: "analyze-pill", attrs: { type: "button", title: "Analyze a local audio file" },
+      text: "Analyze file", onClick: openAnalyzeModal("file"),
+    }),
+    el("button", {
+      class: "analyze-pill", attrs: { type: "button", title: "Analyze a YouTube video URL" },
+      text: "Analyze Youtube video", onClick: openAnalyzeModal("youtube"),
+    }),
+    el("div", { class: "sep" }),
     el("div", { class: "item", data: { act: "tools" }, text: "⚒ Tools",
       onClick: () => import("./menus.js").then((m) => m.showTools(
         window.__currentSlug,

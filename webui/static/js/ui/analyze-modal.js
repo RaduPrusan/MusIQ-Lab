@@ -5,7 +5,6 @@
 
 import { el } from "./dom.js";
 import {
-  buildQualitySelector,
   streamAnalyze,
   renderStats,
   STATUS_COLOR,
@@ -15,6 +14,8 @@ import {
 } from "./analyze-shared.js";
 import { api } from "../api.js";
 
+// Stem separation always runs at "best" (shifts=8). Time delta vs. lower
+// presets is small and the user never wants a degraded scan.
 const DEFAULT_QUALITY = "best";
 
 export function showAnalyzeModal({ mode }) {
@@ -70,8 +71,6 @@ function renderInputStep(panel, overlay, state) {
     panel.appendChild(buildUrlInputBlock(state, refresh));
   }
 
-  panel.appendChild(buildQualitySelector(state));
-
   const actions = document.createElement("div");
   actions.className = "reanalyze-actions";
 
@@ -114,7 +113,11 @@ function buildFileInputBlock(state, onRefresh) {
     state.slug = null;
     state.extError = null;
     state.exists = false;
-    nameEl.textContent = file ? file.name : "";
+    // Show "<name> — checking…" so the user can see the slug pre-check is
+    // in flight; collapses back to just the filename when the response
+    // arrives. Without this the Analyze button stays disabled with no
+    // visible reason during the round-trip.
+    nameEl.textContent = file ? `${file.name} — checking…` : "";
     errorEl.textContent = "";
     onRefresh();
     if (!file) return;
@@ -124,6 +127,7 @@ function buildFileInputBlock(state, onRefresh) {
       // the picker) while this request was in flight. If `state.file` no
       // longer points at the same File object, drop the result silently.
       if (state.file !== file) return;
+      nameEl.textContent = file.name;
       if (res.error === "unsupported_type") {
         state.extError = `Unsupported file type: ${res.extension || "(none)"}`;
         errorEl.textContent = state.extError;
@@ -136,6 +140,7 @@ function buildFileInputBlock(state, onRefresh) {
       onRefresh();
     } catch (e) {
       if (state.file !== file) return;
+      nameEl.textContent = file.name;
       state.extError = `Pre-check failed: ${e.message || e}`;
       errorEl.textContent = state.extError;
       onRefresh();
@@ -155,6 +160,14 @@ function buildUrlInputBlock(state, onRefresh) {
   input.placeholder = "https://www.youtube.com/watch?v=...";
   input.style.width = "100%";
   input.style.padding = "6px 8px";
+  // reset.css makes inputs inherit `color`, so the panel's --text-secondary
+  // bleeds onto the UA-default white field background — pasted URLs render
+  // as near-invisible light grey. Explicit dark surface + --text-primary
+  // matches the rest of the dark modal.
+  input.style.background = "var(--surface-2)";
+  input.style.color = "var(--text-primary)";
+  input.style.border = "1px solid var(--surface-3)";
+  input.style.borderRadius = "4px";
   input.addEventListener("input", () => {
     state.url = input.value;
     onRefresh();
@@ -173,11 +186,16 @@ async function onAnalyzeClick(panel, overlay, state) {
     return;
   }
   // YouTube: dry-run for the slug + collision check.
-  // Disable the Analyze button before the await to prevent double-fire.
+  // Disable + relabel the Analyze button so the user sees that the click
+  // landed and we're waiting on yt-dlp's metadata fetch (1–5 s typically).
   // Success paths re-render the panel (button is gone); error paths that
-  // stay on the input step must restore it.
+  // stay on the input step must restore the label.
   const analyzeBtn = panel.querySelector(".btn-confirm");
-  if (analyzeBtn) analyzeBtn.disabled = true;
+  const originalLabel = analyzeBtn?.textContent;
+  if (analyzeBtn) {
+    analyzeBtn.disabled = true;
+    analyzeBtn.textContent = "Fetching metadata…";
+  }
   try {
     const dry = await api.youtubeDryRun(state.url, { update_ytdlp: false });
     state.slug = dry.predicted_slug;
@@ -194,6 +212,13 @@ async function onAnalyzeClick(panel, overlay, state) {
       return;
     }
     _renderError(panel, overlay, `Metadata fetch failed: ${e.message || e}`);
+  } finally {
+    // Restore only if we're still on the input step (success paths replaced
+    // the panel and analyzeBtn is no longer in the DOM).
+    if (analyzeBtn && analyzeBtn.isConnected) {
+      analyzeBtn.disabled = false;
+      analyzeBtn.textContent = originalLabel;
+    }
   }
 }
 
@@ -220,7 +245,7 @@ export function _renderCollisionStep(panel, overlay, state) {
     onClick: () => startStreaming(panel, overlay, state, { mode: "reanalyze", slug: state.slug }),
   });
   const addNewBtn = el("button", {
-    style: { ...buttonStyle(), background: "var(--accent, #4a90e2)", color: "white" },
+    style: { ...buttonStyle(), background: "var(--accent, #4a90e2)", color: "var(--accent-on, white)" },
     text: `Add New ${state.suggestedNew}`,
     onClick: () => startStreaming(panel, overlay, state, { mode: "new", slug: state.suggestedNew }),
   });
@@ -240,7 +265,7 @@ function _renderInlineYtdlpStale(panel, overlay, state) {
   const row = el("div", { style: { display: "flex", gap: "8px", justifyContent: "flex-end" } });
   row.appendChild(el("button", { style: buttonStyle(), text: "Cancel", onClick: () => overlay.remove() }));
   const retryBtn = el("button", {
-    style: { ...buttonStyle(), background: "var(--accent, #4a90e2)", color: "white" },
+    style: { ...buttonStyle(), background: "var(--accent, #4a90e2)", color: "var(--accent-on, white)" },
     text: "Update yt-dlp & retry",
     onClick: async () => {
       // Disable to prevent double-fire; every continuation path replaces
@@ -363,7 +388,7 @@ export function _renderStreamingStep(panel, overlay, state, params) {
   // hangs (server crash, network drop) before any final event arrives.
   const closeBtn = el("button", { style: buttonStyle(), text: "Close", onClick: () => overlay.remove() });
   const openBtn = el("button", {
-    style: { ...buttonStyle(), display: "none", background: "var(--accent, #4a90e2)", color: "white" },
+    style: { ...buttonStyle(), display: "none", background: "var(--accent, #4a90e2)", color: "var(--accent-on, white)" },
     text: "Open new track",
     onClick: () => { /* set in onDone */ },
   });
@@ -414,12 +439,24 @@ export function _renderStreamingStep(panel, overlay, state, params) {
         location.search = `?slug=${encodeURIComponent(slug)}`;
       };
     } else {
-      errorBanner.textContent = errorMessage || "(unknown error)";
+      // Soft-tone styling for `lock_busy` — the analyze lock is global, so
+      // a second tab's analyze attempt (even for a different track) trips
+      // this. Red-banner "ERROR" framing made an expected coordination
+      // signal look like a crash. Info-blue + a friendlier message reads
+      // as "wait and retry" instead of "something exploded".
+      if (errorKind === "lock_busy") {
+        errorBanner.style.background = `rgb(126 221 255 / var(--alpha-overlay-soft))`;
+        errorBanner.style.borderColor = "var(--status-info)";
+        errorBanner.style.color = "var(--status-info)";
+        errorBanner.textContent = "Another analysis is already in progress. Wait for it to finish, then try again.";
+      } else {
+        errorBanner.textContent = errorMessage || "(unknown error)";
+      }
       errorBanner.style.display = "";
       // Stale-yt-dlp recovery affordance
       if (errorKind === "ytdlp_stale") {
         const retryBtn = el("button", {
-          style: { ...buttonStyle(), background: "var(--accent, #4a90e2)", color: "white" },
+          style: { ...buttonStyle(), background: "var(--accent, #4a90e2)", color: "var(--accent-on, white)" },
           text: "Update yt-dlp & retry",
           onClick: () => _renderInlineYtdlpStale(panel, overlay, state),
         });
@@ -460,9 +497,17 @@ export function _renderStreamingStep(panel, overlay, state, params) {
     fd.append("quality", state.quality);
     fd.append("mode", params.mode);
     fd.append("slug", params.slug);
+    // Browser fetch() with a multipart body sends the whole upload before
+    // reading the response stream, so the server's `phase: upload end` event
+    // is the FIRST byte the client sees. Synthesize `phase: upload start`
+    // client-side so the chip shows "running" while the upload is in flight
+    // instead of snapping straight from grey to green.
+    onEvent({ type: "phase", name: "upload", status: "start" });
     streamAnalyze("/api/tools/analyze/upload", { method: "POST", body: fd }, onEvent)
       .catch((e) => onEvent({ type: "error", message: `request failed: ${e.message || e}` }));
   } else {
+    // The JSON body is tiny — server begins streaming immediately — so the
+    // server's `phase: download start` arrives on its own once yt-dlp begins.
     streamAnalyze("/api/tools/analyze/youtube", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

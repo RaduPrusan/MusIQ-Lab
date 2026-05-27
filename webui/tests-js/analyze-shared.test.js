@@ -10,7 +10,6 @@ globalThis.document ??= dom.window.document;
 globalThis.window ??= dom.window;
 
 import {
-  QUALITY_PRESETS,
   STAGE_ORDER,
   STAGE_LABELS,
   STATUS_COLOR,
@@ -22,24 +21,21 @@ import {
   renderStats,
 } from "../static/js/ui/analyze-shared.js";
 
-test("QUALITY_PRESETS exposes fast/normal/best with stable ordering", () => {
-  const ids = QUALITY_PRESETS.map((p) => p.value);
-  assert.deepEqual(ids, ["fast", "normal", "best"]);
-});
-
 test("STAGE_ORDER includes all known stages", () => {
   for (const name of ["stems", "beats", "key", "chords", "transcription", "beats_xcheck", "vocal_f0", "drums"]) {
     assert.ok(STAGE_ORDER.includes(name), `missing ${name}`);
   }
 });
 
-test("STAGE_ORDER mirrors analyze.pipeline._STAGE_EXECUTION_ORDER (10 stages, vocal_f0 before transcription)", () => {
-  // Exact order: must match analyze/pipeline.py:83-96. vocal_f0 < transcription
-  // because transcription_vocals reads vocal_f0.npz; vocal_consensus_contour
-  // last because it consumes vocal_f0 + transcription.
+test("STAGE_ORDER mirrors analyze.pipeline._STAGE_EXECUTION_ORDER (12 stages, vocal_f0 before transcription)", () => {
+  // Exact order: must match analyze/pipeline.py:107-122. vocal_f0 < transcription
+  // because the vocals stem reads vocal_f0.npz; vocal_consensus_contour
+  // consumes vocal_f0 + transcription; essentia_extract runs last as a
+  // cross-check on beats + key.
   assert.deepEqual(STAGE_ORDER, [
     "stems",
     "stems_dynamics",
+    "identify",
     "beats",
     "key",
     "chords",
@@ -48,6 +44,7 @@ test("STAGE_ORDER mirrors analyze.pipeline._STAGE_EXECUTION_ORDER (10 stages, vo
     "beats_xcheck",
     "drums",
     "vocal_consensus_contour",
+    "essentia_extract",
   ]);
 });
 

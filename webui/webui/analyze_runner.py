@@ -93,6 +93,15 @@ STAGE_ARTIFACTS: dict[str, list[str]] = {
         "vocal_consensus.json",
         ".params_vocal_consensus_contour.json",
     ],
+    "identify": [
+        "identify.json",
+        ".acoustid_raw.json",  # best-effort raw-payload debug sidecar
+        ".params_identify.json",
+    ],
+    "essentia_extract": [
+        "essentia.json",
+        ".params_essentia_extract.json",
+    ],
 }
 
 

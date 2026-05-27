@@ -652,28 +652,49 @@ async def api_tool_analyze_youtube(request: Request) -> Response:
     if not slug or not isinstance(slug, str):
         raise HTTPException(status_code=400, detail="slug is required when dry_run is false")
 
-    # Re-fetch metadata to validate slug + collision (cheap; ~2-3s).
-    meta = await analyze_runner.youtube_metadata_slug(url, update_first=update_ytdlp)
-    if not meta["ok"]:
-        async def _err_stream():
+    async def _stream():
+        # Metadata re-fetch + slug/collision validation moved inside the
+        # generator so the streaming response opens FIRST. The yt-dlp call
+        # below is 1–5 s; without an early log line the modal sat blank
+        # while the user wondered if anything was happening.
+        yield analyze_runner.ndjson({"type": "log", "line": "validating slug via yt-dlp..."})
+        meta = await analyze_runner.youtube_metadata_slug(url, update_first=update_ytdlp)
+        if not meta["ok"]:
             yield analyze_runner.ndjson({
                 "type": "error",
                 "kind": meta.get("kind", "ytdlp_failed"),
                 "message": meta.get("stderr", "") or "yt-dlp metadata failed",
             })
-        return StreamingResponse(_err_stream(), media_type="application/x-ndjson")
+            return
 
-    predicted = meta["predicted_slug"]
-    _validate_youtube_slug(predicted, mode, slug)
+        predicted = meta["predicted_slug"]
+        try:
+            _validate_youtube_slug(predicted, mode, slug)
+        except HTTPException as e:
+            yield analyze_runner.ndjson({
+                "type": "error",
+                "kind": "slug_invalid",
+                "message": str(e.detail),
+            })
+            return
 
-    cache_dir = _paths.cache_dir() / slug
-    summary_file = cache_dir / f"{slug}.summary.json"
-    if mode == "new" and summary_file.is_file():
-        raise HTTPException(status_code=409, detail="slug already exists")
-    if mode == "reanalyze" and not summary_file.is_file():
-        raise HTTPException(status_code=409, detail="slug does not exist")
+        cache_dir = _paths.cache_dir() / slug
+        summary_file = cache_dir / f"{slug}.summary.json"
+        if mode == "new" and summary_file.is_file():
+            yield analyze_runner.ndjson({
+                "type": "error",
+                "kind": "slug_collision",
+                "message": "slug already exists",
+            })
+            return
+        if mode == "reanalyze" and not summary_file.is_file():
+            yield analyze_runner.ndjson({
+                "type": "error",
+                "kind": "slug_missing",
+                "message": "slug does not exist",
+            })
+            return
 
-    async def _stream():
         if mode == "reanalyze":
             # Reuse cached source MP3 — no re-download.
             cache_mp3 = cache_dir / f"{slug}.mp3"

@@ -14,9 +14,7 @@
 
 import { el } from "./dom.js";
 import {
-  QUALITY_PRESETS,
   STATUS_COLOR,
-  buildQualitySelector,
   streamAnalyze,
   renderStats,
   buttonStyle,
@@ -24,6 +22,8 @@ import {
   createOverallTimer,
 } from "./analyze-shared.js";
 
+// Stem separation always runs at "best" (shifts=8). Time delta vs. lower
+// presets is small and the user never wants a degraded scan.
 const DEFAULT_QUALITY = "best";
 
 export function showReanalyzeModal(slug, title, opts = {}) {
@@ -80,8 +80,6 @@ function renderConfirmationState(panel, slug, title, state, onConfirm, onCancel,
     ? `Analyze (rerun stale stages) — ${title}`
     : `Reanalyze — ${title}`;
   panel.appendChild(heading);
-
-  panel.appendChild(buildQualitySelector(state));
 
   const warn = document.createElement("p");
   warn.className = "reanalyze-warn";
@@ -224,8 +222,18 @@ function startReanalyzePipeline(panel, overlay, slug, title, quality, mode = "fu
     closeBtn.style.opacity = 1;
     if (ok) reloadBtn.style.display = "";
   };
-  const showError = (msg) => {
-    errorBanner.textContent = msg;
+  const showError = (msg, kind) => {
+    // Soft-tone styling for `lock_busy` — the analyze lock is global so
+    // a concurrent reanalyze in a second tab will trip this. Surface it
+    // as informational, not as a crash.
+    if (kind === "lock_busy") {
+      errorBanner.style.background = `rgb(126 221 255 / var(--alpha-overlay-soft))`;
+      errorBanner.style.borderColor = "var(--status-info)";
+      errorBanner.style.color = "var(--status-info)";
+      errorBanner.textContent = "Another analysis is already in progress. Wait for it to finish, then try again.";
+    } else {
+      errorBanner.textContent = msg;
+    }
     errorBanner.style.display = "";
     finish({ ok: false });
   };
@@ -254,7 +262,7 @@ function startReanalyzePipeline(panel, overlay, slug, title, quality, mode = "fu
     if (event.type === "log") pushLog(event.line);
     else if (event.type === "stage") setStage(event.name, event.status);
     else if (event.type === "done") showStats(event.stats);
-    else if (event.type === "error") showError(event.message);
+    else if (event.type === "error") showError(event.message, event.kind);
   }).catch((err) => showError(`request failed: ${err.message || err}`));
 }
 
