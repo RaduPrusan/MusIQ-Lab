@@ -8,7 +8,7 @@ import { deriveAccentEmphasis, deriveAccentOn } from "./derive.js";
 const STORAGE_KEY = "musiq.theme";
 const SCHEMA_VERSION = 1;
 
-const COLOR_KEYS_PREFIX = ["surface-","text-","accent","focus-","status-","stem-","fn-","border-","drum-","chord-","f0-","mic-","picker-","gutter-","vol-"];
+const COLOR_KEYS_PREFIX = ["surface-","text-","accent","focus-","status-","stem-","fn-","border-","drum-","chord-","f0-","mic-","picker-","gutter-","vol-","grid-"];
 const ALPHA_KEYS_PREFIX = ["alpha-"];
 const RADIUS_KEYS_PREFIX = ["radius-", "t-"];   // "t-*" are type-size tokens (px / rem / em); same syntax as radii
 const MOTION_KEYS_PREFIX = ["motion-"];

@@ -368,9 +368,15 @@ function buildCustomizePanel(host, rebuild) {
     },
     {
       title: "Piano roll",
-      help: "Canvas backgrounds: chord strip when no harmonic function is detected, no-chord cells, and the drum lane backdrop. Grid-line is the color of the bar / beat / octave grid lines (defaults to text color; opacity is tuned under Transparencies).",
+      help: "Canvas backgrounds: chord strip when no harmonic function is detected, no-chord cells, and the drum lane backdrop.",
       kind: "color",
-      tokens: ["chord-default-bg","chord-no-bg","drum-lane-bg","grid-line"],
+      tokens: ["chord-default-bg","chord-no-bg","drum-lane-bg"],
+    },
+    {
+      title: "Grid lines",
+      help: "The piano-roll grid, configurable as one unit. Grid-line is the color of the bar, beat, and octave lines (distinct from text color; defaults to it). The three opacities set how prominent each line type is: bar = downbeats, beat = sub-beats, line = horizontal octave rows.",
+      kind: "color",
+      tokens: ["grid-line", { name: "alpha-grid-bar", kind: "alpha" }, { name: "alpha-grid-beat", kind: "alpha" }, { name: "alpha-grid-line", kind: "alpha" }],
     },
     {
       title: "Function colors",
@@ -398,9 +404,9 @@ function buildCustomizePanel(host, rebuild) {
     },
     {
       title: "Transparencies",
-      help: "Per-element opacity 0–1. Lower values are subtler, higher are more visible. Grid-bar / grid-beat / grid-line set the opacity of bar, beat, and octave grid lines (color is set under Piano roll). Bar-number is text opacity above the canvas grid.",
+      help: "Per-element opacity 0–1. Lower values are subtler, higher are more visible. Bar-number is text opacity above the canvas grid. (Grid-line opacities live in the Grid lines group.)",
       kind: "alpha",
-      tokens: ["alpha-scrim","alpha-overlay-soft","alpha-overlay-med","alpha-overlay-strong","alpha-glow-soft","alpha-glow-strong","alpha-grid-bar","alpha-grid-beat","alpha-grid-line","alpha-stem-fill","alpha-loop-band-fill","alpha-loop-band-stroke","alpha-play-band-fill","alpha-play-band-stroke","alpha-bar-number"],
+      tokens: ["alpha-scrim","alpha-overlay-soft","alpha-overlay-med","alpha-overlay-strong","alpha-glow-soft","alpha-glow-strong","alpha-stem-fill","alpha-loop-band-fill","alpha-loop-band-stroke","alpha-play-band-fill","alpha-play-band-stroke","alpha-bar-number"],
     },
     {
       title: "Sizing",
@@ -465,11 +471,16 @@ function buildCustomizePanel(host, rebuild) {
       style: { display: "grid", gridTemplateColumns: "repeat(4, minmax(0, 1fr))", gap: "6px 16px" },
     });
     for (const t of sec.tokens) {
+      // A token entry is either a bare name (uses the section's kind) or an
+      // {name, kind} object so a single section can mix kinds (e.g. the Grid
+      // lines group pairs a color with its opacity sliders).
+      const name = typeof t === "string" ? t : t.name;
+      const kind = typeof t === "string" ? sec.kind : (t.kind || sec.kind);
       let row;
-      if (sec.kind === "color")       row = buildColorRow(t);
-      else if (sec.kind === "alpha")  row = buildAlphaRow(t);
-      else if (sec.kind === "size")   row = buildSizeRow(t, sec.sizeOpts || {});
-      else if (sec.kind === "motion") row = buildMotionRow(t);
+      if (kind === "color")       row = buildColorRow(name);
+      else if (kind === "alpha")  row = buildAlphaRow(name);
+      else if (kind === "size")   row = buildSizeRow(name, sec.sizeOpts || {});
+      else if (kind === "motion") row = buildMotionRow(name);
       if (row) grid.appendChild(row);
     }
     wrap.appendChild(grid);
