@@ -867,6 +867,12 @@ sub.pitch-oct { font-size: 0.72em; line-height: 1; vertical-align: sub; }
   display: flex;
   border-bottom: 1px solid var(--surface-3);
   background: var(--surface-1);
+  /* Pin the tab strip to the top of the scrolling #viewer-side so it stays
+     put while the panel content scrolls under it. Opaque surface-1 bg +
+     z-index keep scrolled content from showing through. */
+  position: sticky;
+  top: 0;
+  z-index: 5;
 }
 .tab-strip .tab {
   flex: 1;
