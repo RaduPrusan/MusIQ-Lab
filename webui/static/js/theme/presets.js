@@ -11,6 +11,7 @@ const CLASSIC_DARK = {
   "surface-2": "#1f1f25",
   "surface-3": "#2a2a30",
   "text-primary": "#e7e7ea",
+  "grid-line": "#e7e7ea",
   "text-secondary": "#c6c6cc",
   // text-muted/disabled bumped from #888/#555 so axe AA passes on every dark
   // surface. text-disabled bumped again 2026-05-09-iter-2 from #828288 → #92929a
@@ -108,6 +109,8 @@ const CLASSIC_DARK = {
   "alpha-glow-soft": "0.30",
   "alpha-glow-strong": "0.70",
   "alpha-grid-line": "0.10",
+  "alpha-grid-bar": "0.13",
+  "alpha-grid-beat": "0.06",
   "alpha-stem-fill": "0.85",
   // Loop-band overlays — drives both the canvas analyzed-loop bands
   // (pianoroll.js _drawLoopBands) and the minimap playback loop band
@@ -158,6 +161,7 @@ const MIDNIGHT = {
   // Inherited from CLASSIC_DARK (formerly via spread; enumerated 2026-05-10
   // per the freeze-every-preset rule from JINN's 499b20d).
   "text-primary": "#e7e7ea",
+  "grid-line": "#e7e7ea",
   "text-secondary": "#c6c6cc",
   "text-muted": "#a8a8b0",
   "text-disabled": "#92929a",
@@ -199,6 +203,8 @@ const MIDNIGHT = {
   "alpha-glow-soft": "0.30",
   "alpha-glow-strong": "0.70",
   "alpha-grid-line": "0.10",
+  "alpha-grid-bar": "0.13",
+  "alpha-grid-beat": "0.06",
   "alpha-stem-fill": "0.85",
   "alpha-loop-band-fill":   "0.05",
   "alpha-loop-band-stroke": "0.225",
@@ -308,6 +314,7 @@ const STUDIO_LIGHT = {
   "surface-2": "#dcdce2",
   "surface-3": "#c8c8cf",
   "text-primary": "#15151a",
+  "grid-line": "#15151a",
   "text-secondary": "#3a3a44",
   "text-muted": "#525258",      // bumped from #5e5e6a — needs 4.5:1 against
                                 // surface-1/2 in light theme; #525258 on
@@ -399,7 +406,9 @@ const STUDIO_LIGHT = {
   "alpha-overlay-soft": "0.05",
   "alpha-overlay-med": "0.15",
   "alpha-overlay-strong": "0.40",
-  "alpha-grid-line": "0.08",
+  "alpha-grid-line": "0.10",
+  "alpha-grid-bar": "0.13",
+  "alpha-grid-beat": "0.06",
   "alpha-loop-band-fill":   "0.10",
   "alpha-loop-band-stroke": "0.40",
   "alpha-play-band-fill":   "0.15",
@@ -486,6 +495,7 @@ const HIGH_CONTRAST = {
   "surface-2": "#141414",
   "surface-3": "#1f1f1f",
   "text-primary": "#ffffff",
+  "grid-line": "#ffffff",
   "text-secondary": "#f0f0f0",
   "text-muted": "#d6d6d6",     // bumped slightly — comfortably AAA on #000.
   "text-disabled": "#bababa",  // bumped — needs to clear 4.5:1 on
@@ -538,7 +548,9 @@ const HIGH_CONTRAST = {
   "alpha-overlay-strong": "0.85",
   "alpha-glow-soft": "0.60",
   "alpha-glow-strong": "1.00",
-  "alpha-grid-line": "0.30",
+  "alpha-grid-line": "0.10",
+  "alpha-grid-bar": "0.13",
+  "alpha-grid-beat": "0.06",
   "alpha-stem-fill": "0.95",
   "alpha-loop-band-fill":   "0.15",
   "alpha-loop-band-stroke": "0.85",
@@ -611,6 +623,7 @@ const JINN = {
   "surface-2": "#1f1f25",
   "surface-3": "#2a2a30",
   "text-primary": "#ffffff",
+  "grid-line": "#ffffff",
   "text-secondary": "#c6c6cc",
   "text-muted": "#a8a8b0",
   "text-disabled": "#48484b",
@@ -681,6 +694,8 @@ const JINN = {
   "alpha-glow-soft": "0.30",
   "alpha-glow-strong": "0.85",
   "alpha-grid-line": "0.10",
+  "alpha-grid-bar": "0.13",
+  "alpha-grid-beat": "0.06",
   "alpha-stem-fill": "1",
   "alpha-loop-band-fill": "0.02",
   "alpha-loop-band-stroke": "0.08",

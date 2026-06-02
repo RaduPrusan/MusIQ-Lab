@@ -161,6 +161,14 @@
   --f0-fcpe-stroke:      #ff00ff;
   --f0-pesto-stroke:     #7eddff;
 
+  /* ---- Piano-roll grid line color --------------------------------- */
+  /* Color of the canvas grid: bar (downbeat) lines, beat (sub-beat) lines,
+     and the diatonic/octave row lines. Defaults to --text-primary per preset
+     so the grid looks unchanged out of the box, but is a distinct, separately
+     pickable token (Settings → Appearance → Piano roll). Opacity is applied
+     per element via the three --alpha-grid-* tokens below. */
+  --grid-line:           #e7e7ea;
+
   /* ---- Alpha tokens (every transparency named) -------------------- */
   --alpha-scrim:           0.55;
   --alpha-overlay-soft:    0.08;
@@ -168,7 +176,9 @@
   --alpha-overlay-strong:  0.55;
   --alpha-glow-soft:       0.30;
   --alpha-glow-strong:     0.70;
-  --alpha-grid-line:       0.10;
+  --alpha-grid-bar:        0.13;   /* bar (downbeat) vertical grid lines */
+  --alpha-grid-beat:       0.06;   /* beat (sub-beat) vertical grid lines */
+  --alpha-grid-line:       0.10;   /* diatonic / octave horizontal row lines */
   --alpha-stem-fill:       0.85;
   --alpha-loop-band-fill:    0.05;   /* canvas analyzed-loop bands (faint) +
                                         minimap playback-loop band fill */

@@ -368,9 +368,9 @@ function buildCustomizePanel(host, rebuild) {
     },
     {
       title: "Piano roll",
-      help: "Canvas backgrounds: chord strip when no harmonic function is detected, no-chord cells, and the drum lane backdrop.",
+      help: "Canvas backgrounds: chord strip when no harmonic function is detected, no-chord cells, and the drum lane backdrop. Grid-line is the color of the bar / beat / octave grid lines (defaults to text color; opacity is tuned under Transparencies).",
       kind: "color",
-      tokens: ["chord-default-bg","chord-no-bg","drum-lane-bg"],
+      tokens: ["chord-default-bg","chord-no-bg","drum-lane-bg","grid-line"],
     },
     {
       title: "Function colors",
@@ -398,9 +398,9 @@ function buildCustomizePanel(host, rebuild) {
     },
     {
       title: "Transparencies",
-      help: "Per-element opacity 0–1. Lower values are subtler, higher are more visible. Bar-number is text opacity above the canvas grid.",
+      help: "Per-element opacity 0–1. Lower values are subtler, higher are more visible. Grid-bar / grid-beat / grid-line set the opacity of bar, beat, and octave grid lines (color is set under Piano roll). Bar-number is text opacity above the canvas grid.",
       kind: "alpha",
-      tokens: ["alpha-scrim","alpha-overlay-soft","alpha-overlay-med","alpha-overlay-strong","alpha-glow-soft","alpha-glow-strong","alpha-grid-line","alpha-stem-fill","alpha-loop-band-fill","alpha-loop-band-stroke","alpha-play-band-fill","alpha-play-band-stroke","alpha-bar-number"],
+      tokens: ["alpha-scrim","alpha-overlay-soft","alpha-overlay-med","alpha-overlay-strong","alpha-glow-soft","alpha-glow-strong","alpha-grid-bar","alpha-grid-beat","alpha-grid-line","alpha-stem-fill","alpha-loop-band-fill","alpha-loop-band-stroke","alpha-play-band-fill","alpha-play-band-stroke","alpha-bar-number"],
     },
     {
       title: "Sizing",

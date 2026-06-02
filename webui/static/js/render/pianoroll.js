@@ -170,9 +170,13 @@ export class PianoRoll {
     // Studio Light bumps this multiplier in presets.js. Iter-4 verdict
     // flagged numerals as "slightly recessed" on the cream canvas.
     t.beatNumberFg       = hexToRgba(textPrimary, readAlpha("alpha-bar-number", 0.60));
-    t.barLine            = hexToRgba(textPrimary, 0.13);
-    t.beatLine           = hexToRgba(textPrimary, 0.06);
-    t.diatonicLine       = hexToRgba(textPrimary, 0.10);
+    // Grid lines: a distinct --grid-line color (defaults to --text-primary per
+    // preset) composed with per-element alphas. Bar lines read stronger than
+    // beat lines; the diatonic/octave rows reuse --alpha-grid-line.
+    const gridLine       = readToken("grid-line");
+    t.barLine            = hexToRgba(gridLine, readAlpha("alpha-grid-bar", 0.13));
+    t.beatLine           = hexToRgba(gridLine, readAlpha("alpha-grid-beat", 0.06));
+    t.diatonicLine       = hexToRgba(gridLine, readAlpha("alpha-grid-line", 0.10));
     t.chordSep           = hexToRgba(textPrimary, 0.08);
     t.chordStripDivider  = hexToRgba(textPrimary, 0.12);
     t.songTimeAnchor     = hexToRgba(textPrimary, 0.18);
