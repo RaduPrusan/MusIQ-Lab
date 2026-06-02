@@ -1260,6 +1260,21 @@ sub.pitch-oct { font-size: 0.72em; line-height: 1; vertical-align: sub; }
 }
 .track-row.mic .btn.m.mic-live:hover { background: var(--ok, #7fdc20); }
 
+/* Compact Live Input strip (Lyrics tab): no collapse chevron, no sub-meta,
+   plus a Vocals-mute button beside the mic toggle. Drop the boxed row's
+   negative side-margin (used to grid-align with the stems on the Track tab,
+   irrelevant here) and the lone-M right pad so the two buttons sit flush at
+   the right edge like a stem row's M+S pair. */
+.track-row.mic.compact { margin: 0; }
+.track-row.mic.compact .ms { padding-right: 0; }
+.track-row.mic.compact .name.mic-name { cursor: default; }
+/* Vocals-mute button mirrors the stem M button's muted look (strikethrough). */
+.track-row.mic .btn.vox.on {
+  background: var(--surface-3);
+  color: var(--text-disabled);
+  text-decoration: line-through;
+}
+
 /* Title doubles as the collapse toggle — pointer cursor + non-selectable
    so a quick click doesn't paint a text selection. Chevron is muted and
    sits flush against the label. */

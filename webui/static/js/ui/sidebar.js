@@ -61,6 +61,15 @@ export class Sidebar {
       if (ev.detail?.slug && ev.detail.slug !== this._origTrackData.meta?.slug) return;
       this.mount(this._origTrackData, this.viewState, this.engine);
     });
+    // Keep each stem's M button in sync when its mute is toggled from another
+    // surface (e.g. the Live Input strip on the Lyrics tab). One delegated
+    // listener on the persistent Sidebar instance — no per-row leak.
+    document.addEventListener("musiq:stem-mute-changed", (ev) => {
+      const stem = ev.detail?.stem;
+      if (!stem || !this.sectTracks) return;
+      const btn = this.sectTracks.querySelector(`.track-row[data-stem="${stem}"] .btn.m`);
+      if (btn) btn.classList.toggle("on", !!ev.detail.muted);
+    });
   }
 
   setStemStatus(name, status, detail) {
@@ -322,11 +331,12 @@ export class Sidebar {
         fn(e);
       };
 
-      const muteBtn = el("div", { class: "btn m", text: "M",
+      const muteBtn = el("div", { class: `btn m${this.engine?.muted?.[stem] ? " on" : ""}`, text: "M",
         onClick: guard(() => {
           const next = !this.engine?.muted?.[stem];
           this.engine?.setStemMute(stem, next);
           muteBtn.classList.toggle("on", next);
+          document.dispatchEvent(new CustomEvent("musiq:stem-mute-changed", { detail: { stem, muted: next } }));
         }),
       });
       const soloBtn = el("div", { class: "btn s", text: "S",

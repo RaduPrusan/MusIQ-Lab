@@ -50,21 +50,29 @@ function availableStems(trackData) {
 }
 
 export class MicRow {
-  constructor({ host, micPitch, trackData }) {
+  // compact: render a slim variant (no collapse chevron, no Match/Offset
+  //   sub-meta) plus a Vocals-mute button next to the mic toggle. Used by the
+  //   Lyrics tab so the user can drive the mic + vocals without leaving it.
+  // engine: required for the Vocals-mute button (compact mode only).
+  constructor({ host, micPitch, trackData, engine = null, compact = false }) {
     this.host = host;
     this.mic = micPitch;
     this.trackData = trackData;
+    this.engine = engine;
+    this.compact = compact;
     this._readoutEl = null;
     this._statusDotEl = null;
     this._refSelectEl = null;
     this._offsetInputEl = null;
     this._mBtnEl = null;
+    this._vocalMuteBtnEl = null;
     this._lastReadoutDetail = null;
     this._onSample = (e) => this._updateReadout(e.detail);
     this._onError = (e) => this._showError(e.detail);
     this._onStarted = () => this._setEnabled(true);
     this._onStopped = () => this._setEnabled(false);
     this._onNotationChanged = null;
+    this._onStemMuteChanged = null;
   }
 
   mount() {
@@ -80,6 +88,10 @@ export class MicRow {
     if (this._onNotationChanged) {
       document.removeEventListener("musiq:notation-changed", this._onNotationChanged);
       this._onNotationChanged = null;
+    }
+    if (this._onStemMuteChanged) {
+      document.removeEventListener("musiq:stem-mute-changed", this._onStemMuteChanged);
+      this._onStemMuteChanged = null;
     }
     clear(this.host);
 
@@ -118,20 +130,26 @@ export class MicRow {
 
     // Title doubles as the collapse toggle for the sub-meta row. Chevron
     // mirrors track-picker.js's ▾ convention; flips to ▸ when collapsed.
+    // In compact mode there is no sub-meta, so the title is a plain label.
     const metaCollapsed = loadMetaCollapsed();
-    const chev = el("span", { class: "chev", text: metaCollapsed ? "▸" : "▾" });
-    const nameEl = el("div", {
-      class: "name mic-name",
-      attrs: { role: "button", "aria-label": "Toggle mic options", title: "Toggle mic options" },
-      onClick: () => {
-        const row = this.host.querySelector(".track-row.mic");
-        if (!row) return;
-        const nowCollapsed = !row.classList.contains("mic-meta-collapsed");
-        row.classList.toggle("mic-meta-collapsed", nowCollapsed);
-        chev.textContent = nowCollapsed ? "▸" : "▾";
-        try { localStorage.setItem(LS_META_COLLAPSED, nowCollapsed ? "1" : "0"); } catch {}
-      },
-    }, [chev, document.createTextNode(" Live Input")]);
+    let nameEl;
+    if (this.compact) {
+      nameEl = el("div", { class: "name mic-name", text: "Live Input" });
+    } else {
+      const chev = el("span", { class: "chev", text: metaCollapsed ? "▸" : "▾" });
+      nameEl = el("div", {
+        class: "name mic-name",
+        attrs: { role: "button", "aria-label": "Toggle mic options", title: "Toggle mic options" },
+        onClick: () => {
+          const row = this.host.querySelector(".track-row.mic");
+          if (!row) return;
+          const nowCollapsed = !row.classList.contains("mic-meta-collapsed");
+          row.classList.toggle("mic-meta-collapsed", nowCollapsed);
+          chev.textContent = nowCollapsed ? "▸" : "▾";
+          try { localStorage.setItem(LS_META_COLLAPSED, nowCollapsed ? "1" : "0"); } catch {}
+        },
+      }, [chev, document.createTextNode(" Live Input")]);
+    }
 
     const readout = el("div", { class: "count mic-readout", text: "off" });
     this._readoutEl = readout;
@@ -143,10 +161,17 @@ export class MicRow {
       onClick: () => this._toggle(),
     });
     this._mBtnEl = mBtn;
-    const ms = el("div", { class: "ms" }, [mBtn]);
+    const msChildren = [mBtn];
+    // Compact (Lyrics-tab) variant: a Vocals-mute toggle sits right of the
+    // mic button so vocals can be ducked without leaving the tab. Only when
+    // an engine is wired and the track actually has a vocals stem.
+    if (this.compact && this.engine && present.includes("vocals")) {
+      msChildren.push(this._buildVocalMuteBtn());
+    }
+    const ms = el("div", { class: "ms" }, msChildren);
 
     const row = el("div", {
-      class: `track-row mic${metaCollapsed ? " mic-meta-collapsed" : ""}`,
+      class: `track-row mic${this.compact ? " compact" : ""}${metaCollapsed ? " mic-meta-collapsed" : ""}`,
     }, [swatch, nameEl, readout, ms]);
 
     // Sub-meta line (Match dropdown + Offset slider), mirrors .f0-meta /
@@ -199,7 +224,10 @@ export class MicRow {
       offsetSlider,
       offsetLabel,
     ]);
-    row.appendChild(meta);
+    // Compact (Lyrics-tab) variant omits the Match/Offset sub-meta entirely —
+    // those live on the full Track-tab row. The meta node is built but left
+    // detached (no listeners fire while it's out of the DOM).
+    if (!this.compact) row.appendChild(meta);
 
     this.host.appendChild(row);
 
@@ -216,7 +244,39 @@ export class MicRow {
     };
     document.addEventListener("musiq:notation-changed", this._onNotationChanged);
 
+    // Keep the Vocals-mute button in sync when vocals is toggled elsewhere
+    // (the Track-tab stem row). Compact mode only.
+    if (this._vocalMuteBtnEl) {
+      this._onStemMuteChanged = (e) => {
+        if (e.detail?.stem === "vocals") {
+          this._vocalMuteBtnEl.classList.toggle("on", !!e.detail.muted);
+        }
+      };
+      document.addEventListener("musiq:stem-mute-changed", this._onStemMuteChanged);
+    }
+
     this._setEnabled(this.mic.isRunning());
+  }
+
+  // Vocals-mute toggle for the compact strip. Mirrors the stem row's M
+  // button (.btn.m.on = muted, strikethrough) and shares the engine state +
+  // the musiq:stem-mute-changed event so both surfaces stay consistent.
+  _buildVocalMuteBtn() {
+    const muted = !!this.engine?.muted?.vocals;
+    const btn = el("div", {
+      class: `btn vox${muted ? " on" : ""}`,
+      text: "V",
+      attrs: { role: "button", title: "Mute vocals", "aria-label": "Mute vocals" },
+      onClick: (e) => {
+        e.stopPropagation();
+        const next = !this.engine?.muted?.vocals;
+        this.engine?.setStemMute("vocals", next);
+        btn.classList.toggle("on", next);
+        document.dispatchEvent(new CustomEvent("musiq:stem-mute-changed", { detail: { stem: "vocals", muted: next } }));
+      },
+    });
+    this._vocalMuteBtnEl = btn;
+    return btn;
   }
 
   unmount() {
@@ -226,6 +286,10 @@ export class MicRow {
     this.mic.removeEventListener("stopped", this._onStopped);
     if (this._onNotationChanged) {
       document.removeEventListener("musiq:notation-changed", this._onNotationChanged);
+    }
+    if (this._onStemMuteChanged) {
+      document.removeEventListener("musiq:stem-mute-changed", this._onStemMuteChanged);
+      this._onStemMuteChanged = null;
     }
     clear(this.host);
   }

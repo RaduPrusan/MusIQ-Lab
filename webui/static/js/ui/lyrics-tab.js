@@ -1,5 +1,6 @@
 import { el, clear } from "./dom.js";
 import { api } from "../api.js";
+import { MicRow } from "./mic-row.js";
 
 export class LyricsTab {
   constructor(host) {
@@ -7,6 +8,8 @@ export class LyricsTab {
     this.slug = null;
     this.engine = null;
     this.viewState = null;
+    this.trackData = null;
+    this._micStrip = null;   // compact Live Input strip mounted on top
     this.data = null;
     this.activeIndex = -1;
     this._scrollSuspendedUntil = 0;
@@ -21,6 +24,7 @@ export class LyricsTab {
 
   mount(trackData, viewState, engine) {
     this.slug = trackData.meta.slug;
+    this.trackData = trackData;
     this.viewState = viewState;
     this.engine = engine;
     this._mounted = true;
@@ -99,7 +103,25 @@ export class LyricsTab {
   }
 
   _render() {
+    // Tear down the previous strip's listeners before clearing the DOM, so
+    // repeated renders don't leak mic/mute subscribers on the singletons.
+    if (this._micStrip) { this._micStrip.unmount(); this._micStrip = null; }
     clear(this.host);
+    // Live Input strip pinned on top — mic toggle + Vocals mute, so the user
+    // can drive both without switching back to the Track tab. Only when a
+    // MicPitch singleton is wired (window.__musiqMic, set in main.js).
+    if (window.__musiqMic && this.trackData) {
+      const micHost = el("div", { class: "mic-row-host lyrics-mic" });
+      this.host.appendChild(micHost);
+      this._micStrip = new MicRow({
+        host: micHost,
+        micPitch: window.__musiqMic,
+        trackData: this.trackData,
+        engine: this.engine,
+        compact: true,
+      });
+      this._micStrip.mount();
+    }
     const header = this._buildHeader();
     const scroll = el("div", { class: "lyrics-scroll" });
     this.host.appendChild(header);
