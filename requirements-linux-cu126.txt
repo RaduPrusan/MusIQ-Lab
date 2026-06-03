@@ -46,4 +46,4 @@ idna>=3.15
 
 # High-level music descriptors (cross-check stage). Only dev wheels are
 # published in the 2.1b6 series — install with `pip install --pre`.
-essentia>=2.1b6.dev0
+essentia>=2.1b6.dev1438
