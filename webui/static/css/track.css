@@ -888,8 +888,13 @@ sub.pitch-oct { font-size: 0.72em; line-height: 1; vertical-align: sub; }
   border-bottom: 1px solid var(--surface-3);
   background: var(--surface-1);
   /* Pinned at the top of the flex column — it sits outside the scroll
-     region (#viewer-side is overflow:hidden), so it never scrolls. */
+     region (#viewer-side is overflow:hidden), so it never scrolls. The
+     active panel is position:absolute, so without an explicit stacking
+     priority it would paint over the strip — position:relative + z-index
+     keeps the strip topmost. */
   flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 .tab-strip .tab {
   flex: 1;
