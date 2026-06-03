@@ -13,7 +13,7 @@ include = ["webui*"]
 dependencies = {file = "requirements.txt"}
 
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=82.0.1"]
 build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
