@@ -1,5 +1,5 @@
 torch==2.7.1
-torchvision==0.22.1
+torchvision==0.27.0
 torchaudio==2.7.1
 numpy>=2.2,<2.3
 setuptools<81
