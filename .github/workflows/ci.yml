@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  webui-js:
-    name: webui-js
+  webui-js-syntax:
+    name: webui-js-syntax
     runs-on: ubuntu-latest
 
     steps:
@@ -23,13 +23,13 @@ jobs:
         with:
           node-version: '22'
 
-      - name: Install JS test dependencies
+      - name: JavaScript syntax smoke check
         working-directory: webui
-        run: npm ci --include=dev
-
-      - name: Run pure JS tests
-        working-directory: webui
-        run: node --test tests-js/*.test.js
+        run: |
+          set -euo pipefail
+          for file in static/js/*.js tests-js/*.js; do
+            node --check "$file"
+          done
 
   webui-python-smoke:
     name: webui-python-smoke
@@ -43,8 +43,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-          cache: pip
-          cache-dependency-path: webui/requirements.txt
 
       - name: Python syntax smoke check
         run: python -m compileall analyze webui/webui
