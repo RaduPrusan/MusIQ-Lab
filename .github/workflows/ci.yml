@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  webui-js:
+    name: webui-js
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install JS test dependencies
+        working-directory: webui
+        run: npm install
+
+      - name: Run pure JS tests
+        working-directory: webui
+        run: node --test tests-js/
+
+  webui-python:
+    name: webui-python
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+          cache: pip
+          cache-dependency-path: webui/requirements.txt
+
+      - name: Install Python test dependencies
+        working-directory: webui
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt pytest pytest-asyncio
+
+      - name: Run webui Python tests
+        working-directory: webui
+        run: python -m pytest tests
