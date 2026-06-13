@@ -24,6 +24,7 @@ from __future__ import annotations
 from typing import Optional
 
 from analyze.derived.theory import (
+    canonical_key_name,
     function_for,
     parse_chord,
     parse_key,
@@ -56,8 +57,8 @@ def derive_alt_key_block(
     A dict shaped::
 
         {
-            "key": "Bb:major",                # canonicalized echo of input
-            "scale": "B♭ major",                # display form via scale_name
+            "key": "A♯ major",                   # canonical form via canonical_key_name
+            "scale": "A♯ major",                  # identical spelling (canonical_key_name == scale_name)
             "annotations": [{roman, function}, ...],  # parallel to chords[]
             "loop_roman": ["V", "I", ...] or None,    # parallel to predominant_loop
             "modal_interchange_count": 12,    # recount under alt key
@@ -82,7 +83,7 @@ def derive_alt_key_block(
         loop_roman = [roman_for(parse_chord(lbl), alt_key) for lbl in predominant_loop]
 
     return {
-        "key": alt_key_str,
+        "key": canonical_key_name(alt_key),
         "scale": scale_name(alt_key),
         "annotations": annotations,
         "loop_roman": loop_roman,

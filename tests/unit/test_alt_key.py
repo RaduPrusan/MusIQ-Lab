@@ -14,13 +14,12 @@ def _chord(label: str) -> dict:
 def test_basic_re_derivation_under_relative_key():
     """An F:maj chord is I under F Major but V under B♭ Major.
 
-    The `scale` field uses theory.scale_name's existing convention — major
-    keys always use sharp spellings even for traditionally flat tonics
-    (so B♭ major renders as "A♯ major"). The toggle UI shows this verbatim.
+    Both `key` and `scale` now route through canonical_key_name so they
+    use the same spelling (major keys use sharps, so B♭ → "A♯ major").
     """
     chords = [_chord("F:maj")]
     block = derive_alt_key_block(chords, predominant_loop=None, alt_key_str="Bb:major")
-    assert block["key"] == "Bb:major"
+    assert block["key"] == "A♯ major"
     assert block["scale"] == "A♯ major"
     assert block["annotations"] == [{"roman": "V", "function": "dominant"}]
     assert block["loop_roman"] is None

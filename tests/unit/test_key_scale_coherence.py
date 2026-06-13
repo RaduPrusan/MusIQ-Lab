@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+from analyze.derived.alt_key import derive_alt_key_block
 from analyze.derived.theory import Key, canonical_key_name, parse_key, scale_name
 from analyze.writers.summary_writer import write_summary
 
@@ -83,3 +84,23 @@ class TestWriterBoundaryCoherence:
         assert parse_key(track_key) == parse_key(scale)
         # …and same tonic letter spelling (the actual bug).
         assert track_key.split()[0] == scale.split()[0] == "E♭"
+
+
+class TestAltKeyCoherence:
+    def test_alt_block_key_matches_scale(self):
+        # Essentia consensus arrives in colon form ("F#:major").
+        block = derive_alt_key_block(
+            chords_enriched=[{"label": "F#:maj"}],
+            predominant_loop=None,
+            alt_key_str="F#:major",
+        )
+        assert parse_key(block["key"]) == parse_key(block["scale"])
+        assert block["key"].split()[0] == block["scale"].split()[0] == "F♯"
+
+    def test_alt_block_flat_minor_consensus(self):
+        block = derive_alt_key_block(
+            chords_enriched=[],
+            predominant_loop=None,
+            alt_key_str="Eb:minor",
+        )
+        assert block["key"] == block["scale"] == "E♭ natural minor"
