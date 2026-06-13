@@ -403,8 +403,15 @@ _PC_TO_NOTE = ["C", "C♯", "D", "D♯", "E", "F", "F♯", "G", "G♯", "A", "A�
 # For scale-name display: prefer flat spelling for keys traditionally notated with flats.
 _PC_TO_FLAT_NAME = ["C", "D♭", "D", "E♭", "E", "F", "G♭", "G", "A♭", "A", "B♭", "B"]
 
-# Pitch classes where flat spelling is conventional in scale names (minor keys).
-_PREFER_FLAT_PCS = {1, 3, 6, 8, 10}  # Db, Eb, Gb, Ab, Bb
+# Conventional enharmonic spelling of the five accidental tonics (pitch
+# classes 1, 3, 6, 8, 10), chosen by the circle-of-fifths "fewer accidentals"
+# rule, with the two genuine ties broken by common practice:
+#   MAJOR — Db(1), Eb(3), F#(6: 6♯=6♭ tie → sharp), Ab(8), Bb(10)
+#   minor — C#(1), Eb(3: 6♯=6♭ tie → flat), F#(6), G#(8), Bb(10)
+# So a major flat-spells {1,3,8,10}; a minor flat-spells only {3,10}. The
+# seven natural-letter tonics (C/D/E/F/G/A/B) are unambiguous in either mode.
+_MAJOR_FLAT_PCS = {1, 3, 8, 10}   # Db, Eb, Ab, Bb major; pc6 → F♯ major
+_MINOR_FLAT_PCS = {3, 10}         # Eb, Bb minor; pc1→C♯, pc6→F♯, pc8→G♯ minor
 
 # Scale-degree label per chromatic interval from tonic, relative to MAJOR scale.
 _INTERVAL_TO_DEGREE = {
@@ -419,11 +426,18 @@ def pc_to_note_name(pc: int) -> str:
 
 
 def _canonical_tonic(key: Key) -> str:
-    """Tonic letter spelling per the canonical rule: major → sharp letters;
-    minor → flat for the conventionally flat-notated pitch classes
-    ({C♯/D♭, D♯/E♭, F♯/G♭, G♯/A♭, A♯/B♭})."""
+    """Tonic spelling per the conventional (circle-of-fifths) enharmonic rule.
+
+    Major keys flat-spell Db/Eb/Ab/Bb (pcs 1,3,8,10) and sharp-spell F♯ (pc6).
+    Minor keys sharp-spell C♯/F♯/G♯ (pcs 1,6,8) and flat-spell Eb/Bb (pcs
+    3,10). Natural-letter tonics are unaffected. This matches the key signature
+    each key would actually be notated with, and keeps summary.track.key
+    consistent with the spelling the webui's notation engine (notation.js)
+    derives its per-track sharp/flat bias from.
+    """
     pc = key.tonic_pc
-    if key.mode == "minor" and pc in _PREFER_FLAT_PCS:
+    flat_pcs = _MINOR_FLAT_PCS if key.mode == "minor" else _MAJOR_FLAT_PCS
+    if pc in flat_pcs:
         return _PC_TO_FLAT_NAME[pc]
     return _PC_TO_NOTE[pc]
 
@@ -431,9 +445,10 @@ def _canonical_tonic(key: Key) -> str:
 def scale_name(key: Key) -> str:
     """Return a human-readable scale name, e.g. 'C major' or 'F natural minor'.
 
-    For major keys, always use sharp spellings (F♯ major, not G♭ major).
-    For minor keys, prefer flat spellings for conventionally flat-notated tonics
-    (Bb, Eb, Ab, Db, Gb minor → B♭, E♭, A♭, D♭, G♭ natural minor).
+    Tonic spelling follows the conventional circle-of-fifths rule (see
+    _canonical_tonic): e.g. 'D♭ major', 'B♭ natural minor', 'C♯ natural minor',
+    'F♯ natural minor'. The two enharmonic ties resolve to F♯ major and
+    E♭ minor.
     """
     tonic = _canonical_tonic(key)
     if key.mode == "major":

@@ -40,17 +40,30 @@ class TestCanonicalKeyName:
                 once = canonical_key_name(k)
                 assert canonical_key_name(parse_key(once)) == once
 
-    def test_flat_minor_spelling_rule(self):
-        # PCs 1,3,6,8,10 in minor come out flat (Db/Eb/Gb/Ab/Bb).
+    def test_minor_spelling_convention(self):
+        # Conventional minor spelling by circle-of-fifths (fewer accidentals;
+        # the lone pc3 tie resolves to flat). Sharp: C#(1), F#(6), G#(8);
+        # flat: Eb(3, tie), Bb(10).
+        assert canonical_key_name(Key(tonic_pc=1, mode="minor")) == "C♯ natural minor"
         assert canonical_key_name(Key(tonic_pc=3, mode="minor")) == "E♭ natural minor"
-        assert canonical_key_name(Key(tonic_pc=1, mode="minor")) == "D♭ natural minor"
-        assert canonical_key_name(Key(tonic_pc=6, mode="minor")) == "G♭ natural minor"
-        assert canonical_key_name(Key(tonic_pc=8, mode="minor")) == "A♭ natural minor"
+        assert canonical_key_name(Key(tonic_pc=6, mode="minor")) == "F♯ natural minor"
+        assert canonical_key_name(Key(tonic_pc=8, mode="minor")) == "G♯ natural minor"
         assert canonical_key_name(Key(tonic_pc=10, mode="minor")) == "B♭ natural minor"
 
-    def test_major_keys_use_sharp_letter_spelling(self):
+    def test_major_spelling_convention(self):
+        # Conventional major spelling by circle-of-fifths (fewer accidentals;
+        # the lone pc6 tie resolves to sharp). Flat: Db(1), Eb(3), Ab(8),
+        # Bb(10); sharp: F#(6, tie).
+        assert canonical_key_name(Key(tonic_pc=1, mode="major")) == "D♭ major"
+        assert canonical_key_name(Key(tonic_pc=3, mode="major")) == "E♭ major"
         assert canonical_key_name(Key(tonic_pc=6, mode="major")) == "F♯ major"
-        assert canonical_key_name(Key(tonic_pc=3, mode="major")) == "D♯ major"
+        assert canonical_key_name(Key(tonic_pc=8, mode="major")) == "A♭ major"
+        assert canonical_key_name(Key(tonic_pc=10, mode="major")) == "B♭ major"
+
+    def test_natural_tonics_carry_no_accidental(self):
+        for pc, name in [(0, "C"), (2, "D"), (4, "E"), (5, "F"), (7, "G"), (9, "A"), (11, "B")]:
+            assert canonical_key_name(Key(tonic_pc=pc, mode="major")) == f"{name} major"
+            assert canonical_key_name(Key(tonic_pc=pc, mode="minor")) == f"{name} natural minor"
 
     def test_byte_identical_to_scale_name(self):
         # track.key must equal analysis.scale, so the two functions agree.

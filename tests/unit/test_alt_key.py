@@ -14,13 +14,14 @@ def _chord(label: str) -> dict:
 def test_basic_re_derivation_under_relative_key():
     """An F:maj chord is I under F Major but V under B♭ Major.
 
-    Both `key` and `scale` now route through canonical_key_name so they
-    use the same spelling (major keys use sharps, so B♭ → "A♯ major").
+    Both `key` and `scale` route through canonical_key_name, which uses the
+    conventional circle-of-fifths spelling: B♭ major flat-spells as
+    "B♭ major" (not the theoretical "A♯ major").
     """
     chords = [_chord("F:maj")]
     block = derive_alt_key_block(chords, predominant_loop=None, alt_key_str="Bb:major")
-    assert block["key"] == "A♯ major"
-    assert block["scale"] == "A♯ major"
+    assert block["key"] == "B♭ major"
+    assert block["scale"] == "B♭ major"
     assert block["annotations"] == [{"roman": "V", "function": "dominant"}]
     assert block["loop_roman"] is None
     assert block["modal_interchange_count"] == 0
