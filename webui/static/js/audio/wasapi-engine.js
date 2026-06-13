@@ -9,9 +9,10 @@
  *     anchor (matches the snapshot-interpolation pattern in the spec)
  *   - mirrors the AudioEngine contract the rest of the UI consumes
  *
- * Phase 2 is **source mode only**. Stem mute/solo/volume methods throw a
- * NOT_YET error; Phase 3 wires them through. setLoop()/clearLoop() are
- * recorded locally but are no-ops server-side in Phase 2 (Phase 5).
+ * Full playback surface: source mode, stems mix (per-stem mute/solo/volume
+ * shipped as fire-and-forget WS ops), and server-side loop wrap. Local state
+ * mirrors keep optimistic UI reads in lockstep with the authoritative server
+ * mix.
  *
  * **Method-surface contract (broader than engine.js abstract):** Transport
  * (transport.js) + sidebar/mixer code call methods that the abstract
@@ -69,7 +70,8 @@ export class WasapiEngine extends AudioEngine {
     // Active mode mirror — defaults to source. Server StateMsg.mode is
     // authoritative; we update from there.
     this._mode = "source";
-    // Loop region — Phase 5 ships server-side wrap; Phase 2 just records.
+    // Loop region — setLoop()/clearLoop() send the wrap server-side; these
+    // local mirrors keep transport.js loop-band rendering in sync.
     this._loopStart = null;
     this._loopEnd = null;
     // User-pinned mode ("source" | "stems" | null). Phase 2 only ever

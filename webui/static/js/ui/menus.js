@@ -59,13 +59,13 @@ export function addCloseButton(panel, onClose) {
 }
 
 /**
- * Settings → Audio engine radio group + Phase 1 device-picker stub.
+ * Settings → Audio engine radio group + WASAPI device picker.
  *
  * Returns an array of DOM nodes appended below the "Audio engine" heading.
  * Switching to WASAPI inserts the device picker; switching back to WebAudio
- * removes it. **Phase 1 does NOT swap the currently-running engine
- * instance** — that's Phase 2's job; the radio just persists the choice for
- * the next page load and surfaces a "pending implementation" hint.
+ * removes it. Either radio change persists the choice to
+ * localStorage["musiq.audio"] and calls window.__musiqEngineRebuild() (see
+ * main.js) to swap the live engine mid-session — no page reload required.
  */
 function buildEngineRadioGroup() {
   const initial = getStoredEngineChoice();
