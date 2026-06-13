@@ -53,7 +53,7 @@ It is **not** a streaming service replacement (you supply the audio). It is **no
 - **Mute and solo per stem** with a single click; volume sliders per stem.
 - **Loop regions** — drag-to-set on the canvas; play the loop, sing it, check your transcription, repeat.
 - **Sample-accurate looping** on Windows via the WASAPI engine (loops are bit-perfect at the loop boundary; no click).
-- **Multiple notation systems** — switch globally between Scientific (C#4), Solfège (Do♯4), Flat-only, Sharp-only depending on what your training uses.
+- **Two notation systems** — switch globally between Scientific (C♯4) and Solfège (Do♯4) depending on what your training uses. (Enharmonic spelling — sharp vs flat — is decided upstream from the detected key, not a separate display toggle.)
 - **Settings → Pitch lines** lets you tune the F0 and mic line widths + colours per theme, so visual ergonomics match how you actually study.
 
 ### Understand rhythmic structure
@@ -243,4 +243,4 @@ The vendored / pulled-in dependencies carry their own licenses — the ones with
 - **beat-this**, **madmom**, **basic-pitch**, **FCPE**, **PESTO**, **Essentia**, **deezer/skey**, **lv-chordia**, **ADTOF**, **acoustid + MusicBrainz client libs** — each carries its own permissive license; the install pulls them from PyPI / git per `requirements.lock`.
 - **Chromaprint `fpcalc`** (vendored binary for AcoustID fingerprinting) — LGPL 2.1+. See [`analyze/vendor/`](analyze/vendor/).
 
-The full transitive dependency tree is captured in [`requirements.lock`](requirements.lock) (analyze stack, ~131 packages) and [`webui/requirements.lock`](webui/requirements.lock).
+The full transitive dependency tree is captured in [`requirements.lock`](requirements.lock) (analyze stack, ~150 packages) and [`webui/requirements.lock`](webui/requirements.lock).

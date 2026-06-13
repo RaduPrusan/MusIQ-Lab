@@ -1,6 +1,6 @@
 # `analyze/` — MusIQ-Lab pipeline driver
 
-Wraps the validated 8-stage MIR pipeline with per-stem specialists (Phase A+B as of May 2026) behind a single CLI:
+Wraps the validated 13-stage MIR pipeline (the original 8-stage validation core plus identify / essentia / stems-dynamics / vocal-consensus / drums) with per-stem specialists (Phase A+B as of May 2026) behind a single CLI:
 
 ```bash
 python -m analyze <mp3>
@@ -17,7 +17,7 @@ python -m analyze <mp3> --from-stage transcription         # re-run from this st
 python -m analyze <mp3> --params-json /tmp/overrides.json  # per-stage param overrides
 ```
 
-`--quiet` suppresses per-stage progress. `--force` invalidates all cached outputs.
+`--quiet` suppresses per-stage progress. `--force` invalidates all cached outputs. `--no-identify` and `--no-essentia` skip those second-opinion stages.
 
 ## Module layout
 
@@ -65,7 +65,7 @@ Phase A+B ship-gate results are in [`../install-logs/phase-a-validation.md`](../
 ## Tests
 
 ```bash
-pytest tests/        # ~550 tests (analyze unit + integration), no GPU required when cache is populated
+pytest tests/        # ~570 tests (analyze unit + integration), no GPU required when cache is populated
 ```
 
-`tests/` covers the analyze package only (~550). The full repo Python test count is ~970 (~550 here + ~420 in `webui/tests/`); these drift constantly — `pytest tests/ --collect-only -q | tail -1` is the source of truth. The integration test (`tests/integration/test_gorillaz.py`) runs against the validated `cache/gorillaz_silent_running/` reference data.
+`tests/` covers the analyze package only (~570). The full repo Python test count is ~1060 (~570 here + ~490 in `webui/tests/`); these drift constantly — `pytest tests/ --collect-only -q | tail -1` is the source of truth. The integration test (`tests/integration/test_gorillaz.py`) runs against the validated `cache/gorillaz_silent_running/` reference data.

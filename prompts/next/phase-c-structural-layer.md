@@ -29,7 +29,7 @@ Fill the missing structural layer that turns the app from a "feature extractor" 
 
 1. **`analyze/stages/sections.py`** (new) — segmenter + labeler.
 2. **`analyze/stages/key.py`** — extended for per-section operation when section data is present.
-3. **`analyze/stages/beats.py`** — time-signature output added.
+3. **`analyze/stages/beats.py`** — time-signature output added. *(✅ partially shipped: `beats.py` now derives `time_signature`/`beats_per_bar` from madmom beat positions, SCHEMA_VERSION=2. Per-section time-signature changes remain pending.)*
 4. **`analyze/derivation.py`** (or wherever the pipeline's derivation step lives) — modulation detection.
 5. **Webui** — new section track in the piano-roll, a key-modulation strip below the chord track.
 6. **Tests** with a labeled subset of the corpus annotated for sections + modulations.

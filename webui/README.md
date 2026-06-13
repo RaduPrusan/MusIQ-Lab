@@ -65,6 +65,11 @@ PowerShell script above.
 .venv\Scripts\python -m webui --reload
 ```
 
+> `--reload` is **auto-disabled on Windows** (claude-agent-sdk needs the
+> ProactorEventLoop, which uvicorn's reloader doesn't preserve) — the process
+> runs without it; restart to pick up backend changes. Backend Python is 3.13
+> (`pyproject.toml` pins `requires-python >=3.13`).
+
 Tests:
 
 ```bat
@@ -83,20 +88,36 @@ node --test ..\webui\tests-js\*.test.js
 
 See `../docs/superpowers/specs/2026-04-30-webui-design.md`.
 
-The sidebar redesign (Track / Claude / Lyrics tabs) is specified in
+The sidebar redesign is specified in
 `../docs/superpowers/specs/2026-05-02-sidebar-tabs-claude-lyrics-design.md`.
 
 ## Sidebar tabs
 
-The sidebar has three tabs:
+The sidebar has three tabs, left→right: **Track / Lyrics / Assistant**.
 
 - **Track** — the existing analysis sidebar (Now playing, Stems, Loop, Function, Harmony stats).
-- **Claude** — chat with an in-app music tutor. Authenticates via your existing `claude /login` (Pro/Max subscription); no API key required. Conversations are persisted per-track at `cache/<slug>/chat.json`.
 - **Lyrics** — synced lyrics from LRCLIB with karaoke-style auto-scroll. Click any line to seek. Stored under `cache/<slug>/lyrics/`.
+- **Assistant** — chat with an in-app music tutor. (The tab was renamed from "Claude"; its internal `id` is still `claude`, so a persisted `localStorage["musiq:activeTab"] = "claude"` stays valid.) Authenticates via your existing `claude /login` (Pro/Max subscription); no API key required. Conversations are persisted per-track at `cache/<slug>/chat.json`.
 
 The active tab is remembered in `localStorage` (`musiq:activeTab`). Both `chat.json` and `lyrics/` are preserved across re-analysis — the Reanalyze action only wipes the pipeline-derived artifacts.
 
-If the Claude tab shows "signed out", run `claude /login` in a terminal and click Retry.
+If the Assistant tab shows "signed out", run `claude /login` in a terminal and click Retry.
+
+## Live input (microphone pitch)
+
+A browser-only **Live Input** pseudo-stem lets you sing along and see your pitch
+contour drawn in real time, pinned to the song timeline above the F0 overlay.
+
+- YIN pitch detection runs in an `AudioWorklet` (`static/js/audio/mic-yin-processor.js`),
+  ring-buffered as `Float32` MIDI (`static/js/audio/mic-pitch.js`) and rendered by
+  `static/js/render/mic-overlay.js`.
+- Colouring uses four buckets — `in` (≤100¢), `off` (>100¢), `neutral`
+  (matched-to-stem-but-silent), `no-match` (no reference) — each its own theme
+  token (`--mic-in/-off/-neutral/-no-match`); tune them under **Settings → Pitch lines**.
+- A reference-stem dropdown (default vocals) and a per-user latency-offset slider
+  compensate for browser mic input delay (Web Audio doesn't expose it).
+- `getUserMedia` forces `echoCancellation/noiseSuppression/AGC = false` — the
+  browser's "voice" DSP otherwise destroys pitch information.
 
 ## Loop region
 
@@ -148,7 +169,7 @@ Auto-scroll has two modes. **Edge** (default during normal playback): playhead i
 
 ## Theming
 
-A full design-token theme system (shipped 2026-05-09) lives under `static/js/theme/` and `static/css/tokens.css`. Five presets ship: **Classic Dark** (default), **Midnight**, **Studio Light**, **High Contrast**, and **Jinn** (the user's saved palette). Pick or customize them via **Settings → Appearance**.
+A full design-token theme system (shipped 2026-05-09) lives under `static/js/theme/` and `static/css/tokens.css`. Five presets ship: **Jinn** (default — the maintainer's baked palette, `DEFAULT_PRESET_ID` since 2026-05-24), **Classic Dark**, **Midnight**, **Studio Light**, and **High Contrast**. Pick or customize them via **Settings → Appearance**.
 
 - Every preset enumerates every token explicitly — no `...spread` inheritance — so edits to one preset don't leak into the others (convention since 2026-05-10).
 - User selection + per-token customization persist in `localStorage["musiq.theme"]` (schema v1, full resolved token map).

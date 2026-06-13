@@ -1,5 +1,32 @@
 # Changelog
 
+## 1.0.0 and later (2026-05-22 → 2026-06-13)
+
+Roll-up of work after the 2026-05-13 entry, through the public v1.0.0 release.
+
+### Public release
+
+- **v1.0.0 — repo went public 2026-05-26** under **AGPL-3.0-or-later** (`LICENSE`). Public-repo hygiene: loopback-only `OriginGuard`, `validate_slug`/`validate_stem` path-param gates, no `shell=True`, maintainer PII replaced with `<maintainer-email>`/`<PROJECT_PATH>` placeholders. Lightweight public CI checks added for the webui.
+
+### Live mic-pitch layer (2026-05-22 → 05-24)
+
+- Browser-only **Live Input** pseudo-stem: YIN in an `AudioWorklet` → `Float32` MIDI ring buffer → `mic-overlay.js`, drawn in real time over the F0 contour and pinned to the song timeline.
+- 4-bucket colouring (`in` ≤100¢ / `off` >100¢ / `neutral` matched-but-silent / `no-match`), each a theme token (`--mic-in/-off/-neutral/-no-match`); widths + colours tunable under **Settings → Pitch lines**. Reference-stem dropdown + per-user latency-offset slider. EMA (α=0.4) smoothing at write time. Live Input strip also surfaced on the Lyrics tab.
+
+### Sidebar / theme polish (2026-05-24)
+
+- Right-sidebar tabs reordered to **Track / Lyrics / Assistant** ("Claude" → "Assistant"; tab `id`s unchanged so persisted state stays valid).
+- **Jinn** became `DEFAULT_PRESET_ID` (was Classic Dark); cross-theme audit fixed stem↔function hue collisions and re-derived the Studio Light drum palette.
+- Mic row boxed-card layout on the stem grid; small sliders (stem-vol / mic-offset / zoom) retuned to an 80/50/20% token tier.
+
+### Analyze-workflow + piano-roll polish (2026-05 → 06)
+
+- Configurable piano-roll **grid colour** and **drum-hit lane height** in Settings.
+- Analyze-workflow top-bar pills + missing-stage chips.
+- Sidebar tab strip pinned while content scrolls; single scroll region per tab; raised scrollbar contrast.
+- WASAPI: removed stale "Phase-1 stub" comments from the shipped engine.
+- Key parsers now handle **Unicode** accidentals (`♯`/`♭`); backend key spelling moved to the conventional circle-of-fifths rule (`analyze/derived/theory.py`).
+
 ## 2026-05-13 — Notation coherence + default-to-MIX + auto-scroll pill
 
 ### Notation coherence
@@ -37,7 +64,7 @@ The Tools menu's **Reanalyze** action now shows a per-stage stale chip when a st
 
 ### Claude tab — tool-chip rendering + stop endpoint
 
-In-app chat actor now surfaces a compact chip for each tool call the model makes (`set_loop_region`, `set_highlighted_stem`, etc.) inside the Claude tab — previously these were silent. A `POST /api/track/<slug>/chat/stop` endpoint cancels an in-flight `ClaudeSDKClient.query()` so the user can interrupt a long generation. Last.fm card font dropped to 75% so the tag cloud doesn't dominate the sidebar.
+In-app chat actor now surfaces a compact chip for each tool call the model makes (`set_loop_region`, `set_highlighted_stem`, etc.) inside the Assistant tab — previously these were silent. A `POST /api/chat/<slug>/stop` endpoint cancels an in-flight `ClaudeSDKClient.query()` so the user can interrupt a long generation. Last.fm card font dropped to 75% so the tag cloud doesn't dominate the sidebar.
 
 ## WASAPI audio engine v1 (2026-05-12)
 

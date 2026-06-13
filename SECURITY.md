@@ -13,9 +13,9 @@ exposed to the public internet or a shared LAN.
 
 ## Reporting Security Issues
 
-Before the project is public, report issues privately to the maintainer through
-the repository owner. After publication, use GitHub private vulnerability
-reporting if it is enabled on the repository.
+Use GitHub private vulnerability reporting on the repository if it is enabled.
+If it is not, report issues privately to the maintainer through the repository
+owner — do not open a public issue for a security problem.
 
 Please include:
 

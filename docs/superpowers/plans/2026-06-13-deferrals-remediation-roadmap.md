@@ -12,7 +12,7 @@
 
 ## Source audit
 
-Findings from the 2026-06-13 assessment. Companion audit doc (if persisted): `docs/research/2026-06-13-deferrals-audit.md`.
+Findings from the 2026-06-13 assessment. (No separate companion audit file was persisted; the findings live inline in this roadmap.)
 
 - Python source is clean of `TODO`/`FIXME`/`NotImplementedError`.
 - Genuine deferrals live in `provenance.warnings`, design specs, and `prompts/next/`.
@@ -20,7 +20,9 @@ Findings from the 2026-06-13 assessment. Companion audit doc (if persisted): `do
 
 ---
 
-## Tier 0 — Quick wins: stale WASAPI comment-rot (do now)
+## Tier 0 — ✅ DONE: stale WASAPI comment-rot (landed in commit `34e64d9`)
+
+**✅ Status (2026-06-13): applied.** The three WASAPI frontend files no longer contain any `Phase 1`/`stub` comment-rot (verified by grep); the prescribed edits below are complete. Kept for the record.
 
 **Why first:** Pure comment edits, zero runtime change, highest misleading-per-byte. The WASAPI engine shipped through Phase 5 (verified: `wasapi-engine.js` load/play/seek/stems/loops/fallback all implemented; `menus.js:116/126` calls the live rebuild; `device-picker.js` is wired) but three files still claim it's a stub. Per the repo's `feedback_surgical_changes_no_tests` convention, **no test pass required** — restart webui and eyeball Settings → Audio engine.
 
@@ -155,7 +157,7 @@ git commit -m "docs(webui): drop stale Phase-1 stub comments from shipped WASAPI
 **Status:** All 5 theme presets ship identical drum-substem + typography token defaults; `webui/CHANGELOG.md:91,125` note per-preset tuning was "deferred until requested."
 
 - [ ] **Step 1:** Confirm with the user this is actually wanted — it's a "future polish pass," not a defect. If not requested, **close as YAGNI** and remove from backlog.
-- [ ] **Step 2 (if wanted):** Treat as a `feedback_lighter_process_simple_ui` token-tuning pass — adjust the 5 `drum-*` + 4 typography tokens per preset in `theme/store.js` preset maps, verify against `theme_audit_2026_05_24` contrast rules in the live customizer. No unit tests.
+- [ ] **Step 2 (if wanted):** Treat as a `feedback_surgical_changes_no_tests` token-tuning pass — adjust the 5 `drum-*` + 4 typography tokens per preset in `theme/store.js` preset maps, verify against `theme_audit_2026_05_24` contrast rules in the live customizer. No unit tests.
 
 **Effort:** ~2 hours if pursued.
 
@@ -167,7 +169,7 @@ These are **not** to be inline-implemented from this roadmap. Each already has a
 
 ### 2.1 Phase C — Structural layer (sections) ★ largest open gap
 
-- **Deferral:** `analyze/pipeline.py:539` + `analyze/writers/summary_writer.py:138` hardcode `sections: []` and emit `"sections deferred — no segmenter installed"` in every `summary.json`. allin1 dropped (NATTEN ABI).
+- **Deferral:** `analyze/pipeline.py:539` + `analyze/writers/summary_writer.py:139` hardcode `sections: []` and emit `"sections deferred — no segmenter installed"` in every `summary.json`. allin1 dropped (NATTEN ABI).
 - **Inputs:** spec/prompt `prompts/next/phase-c-structural-layer.md`; candidate ranking `docs/research/tasks/07-section-analysis.md` (librosa recurrence → MSAF → revived allin1 → SongFormer); research `docs/research/codex/section-detection-methods.md`.
 - **First decision (brainstorm):** pick the segmenter. `07-section-analysis.md` says SongFormer-class models aren't yet pip-installable; the pragmatic v1 is likely librosa recurrence/MSAF. Do **not** try to revive allin1 (reopens the dependency rabbit hole — see `docs/history.md`).
 - **Unblocks:** Roman-numeral analysis gains section context (`analyze/derived/theory.py`); Phase D confidence; the webui "sections" warning disappears.
@@ -220,7 +222,7 @@ For each, the action is a **decision** (keep / formally-defer / close-as-wontfix
 
 ## Execution order summary
 
-1. **Tier 0** (comment-rot) — now, one commit, no tests.
+1. ✅ **Tier 0** (comment-rot) — done (commit `34e64d9`).
 2. **Tier 1.1** (enharmonic) — its own short plan; **1.2** only if user confirms.
 3. ✅ **Tier 3 decisions — done 2026-06-13.** ASIO closed; Essentia documented as a limitation; Rec 4 re-eval gated on Task 2.2; `claude_orchestrator` kept as a tracked v2; `beat_position` → v1.x; identify-override → Round 6+. See the Tier 3 table.
 4. **Tier 2** — sequence C → A/B → D → G → F, each as a full superpowers cycle.
@@ -231,4 +233,4 @@ For each, the action is a **decision** (keep / formally-defer / close-as-wontfix
 
 - **Coverage:** every audit finding maps to a tier (Tier 0: 3 comment files; Tier 1: enharmonic, token-tuning; Tier 2: sections/Phase C, F0-specialist/A-B, confidence/D, web-research/G, exports/F; Tier 3: Essentia, Rec 4, beat_position, claude_orchestrator, ASIO, identify-override). ✅
 - **Placeholders:** Tier 0/1 steps carry exact before/after text and paths. Tier 2/3 deliberately route to existing specs rather than fabricate micro-steps for un-designed multi-week work — this is the skill's Scope-Check guidance, not a placeholder. ✅
-- **Path consistency:** all referenced files verified to exist (`prompts/next/phase-{a,b,c,d,e,f}.md`, `prompts/fix-key-scale-enharmonic-coherence.md`, the three WASAPI JS files, `analyze/pipeline.py:539`, `analyze/writers/summary_writer.py:138`). ✅
+- **Path consistency:** all referenced files verified to exist (`prompts/next/phase-{a,b,c,d,e,f}.md`, `prompts/fix-key-scale-enharmonic-coherence.md`, the three WASAPI JS files, `analyze/pipeline.py:539`, `analyze/writers/summary_writer.py:139`). ✅

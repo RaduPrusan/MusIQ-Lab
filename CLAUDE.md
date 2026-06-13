@@ -19,7 +19,7 @@ This project has three halves (one is a UI on top):
    - `cache/gorillaz_silent_running/` — example artifacts from the validation run
    - [`install-logs/batch-test-results.md`](install-logs/batch-test-results.md) — what real-world MP3s look like through the pipeline (5 mixed-genre tracks, with fixes for what surfaced)
 
-   The stack runs inside WSL2 Ubuntu 24.04 with a project-local venv at `.venv/` (Python 3.11 via uv, Torch 2.7.0+cu126). `requirements.lock` is checked in. The production driver lives in the `analyze/` package and runs as `python -m analyze <mp3>` — see [`analyze/README.md`](analyze/README.md). ~970 tests pass (analyze + webui); batch-validated on 5 mixed-genre MP3s (April 2026), with two real bugs found and fixed: librosa duration on malformed Xing/VBR headers (now uses ffprobe) and `vocal_range` from leaked instrumental content (now suppressed via a BS-RoFormer RMS-ratio detector).
+   The stack runs inside WSL2 Ubuntu 24.04 with a project-local venv at `.venv/` (Python 3.11 via uv, Torch 2.7.1+cu126 — `deezer/skey` pins `~2.7.0`). `requirements.lock` is checked in. The production driver lives in the `analyze/` package and runs as `python -m analyze <mp3>` — see [`analyze/README.md`](analyze/README.md). ~1060 tests pass (analyze + webui); batch-validated on 5 mixed-genre MP3s (April 2026), with two real bugs found and fixed: librosa duration on malformed Xing/VBR headers (now uses ffprobe) and `vocal_range` from leaked instrumental content (now suppressed via a BS-RoFormer RMS-ratio detector).
 
    **Vocal consensus pipeline (Phase 0c, May 2026)** — fuses FCPE / PESTO / basic-pitch into a per-frame `consensus_f0` Hz contour with `agreement_strength ∈ [0, 1]` for confidence-bucketed UI rendering. The Step 4 Viterbi smoother (8-state candidate space, anchor-proximity emission bonus, 1200¢ Gaussian transition penalty) is the default; the Step 2 heuristic builder remains as a `viterbi_enabled=False` fallback. Spec + ship report: [`docs/superpowers/specs/2026-05-05-vocal-consensus-improvements.md`](docs/superpowers/specs/2026-05-05-vocal-consensus-improvements.md), [`install-logs/phase-0c-results-2026-05-05.md`](install-logs/phase-0c-results-2026-05-05.md). Key lesson recorded there: `frames_with_finite_consensus_f0` is **not** "higher is better" — for slow ballads the right value is ~50%, not 99%; visual review is load-bearing for any future tuning. Rec 4 (HNR voicing for the Cohen t=107.7s harmonic-lock canary) deferred.
 
@@ -52,6 +52,8 @@ This project has three halves (one is a UI on top):
 - **yt-dlp binary:** `C:\$WinSoft\$tools\yt-dlp\yt-dlp.exe`
 - **Default output folder:** `C:\Users\<you>\Videos\Any Video Converter Ultimate\Youtube`
 - **FFmpeg:** assumed on PATH (yt-dlp uses it for audio extraction and muxing). Confirmed working.
+
+> The hardcoded path above is for this agent's **conversational** download workflow on the maintainer's machine. Programmatic callers in the repo (webui `analyze_runner.py`, `scripts/fetch-test-fixtures.sh`) instead resolve the binary via `$MUSIQ_YTDLP_BIN` (default `yt-dlp` on PATH) — never hardcode the maintainer path in new scripts. See memory [[ytdlp_env_var_convention]].
 
 Don't ask the user where to save unless they specify a different folder — the output folder above is the project default.
 

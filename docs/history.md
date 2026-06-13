@@ -93,8 +93,8 @@ in the pre-existing test suite. The single pre-existing JS failure
 
 - `09fd726` — **demotion protection**. Discovered during an autopilot
   sweep verification when MB started serving broad 503s: a bulk
-  `--stages-only identify` rerun (in `scripts/refresh-essentia.sh`,
-  Phase 1) overwrote 12 of 21 known-good identifications with HTTP 503
+  `--stages-only identify` rerun (driven by a one-off sweep script,
+  never checked into the repo) overwrote 12 of 21 known-good identifications with HTTP 503
   stubs before the bug was caught. The script invokes the pipeline with
   `--stages-only identify`, which by design (`pipeline.py:565-570`)
   *forces* the stage to re-run regardless of cache. The stage itself
@@ -104,8 +104,8 @@ in the pre-existing test suite. The single pre-existing JS failure
   when the incoming payload is identified=false AND the cached payload
   is identified=true, keep the cached payload and refresh only the
   sidecar. 5 new unit tests cover the demotion-protection cases plus
-  the overwrite paths that should still work. `refresh-essentia.sh`
-  Phase 1 also fixed to skip already-identified tracks before the
+  the overwrite paths that should still work. That sweep script was
+  also fixed to skip already-identified tracks before the
   pipeline gets a chance to re-touch them. The 12 wiped tracks will
   auto-restore on the next post-recovery sweep.
 
@@ -597,7 +597,7 @@ Scroll transitions now glide instead of snapping: when the gap between current s
 
 ---
 
-## Phase K — Memory anchors
+## Appendix — Memory anchors
 
 Living memories that govern future work on this project (under `~/.claude/projects/<CLAUDE_PROJECT_ID>/memory/`):
 

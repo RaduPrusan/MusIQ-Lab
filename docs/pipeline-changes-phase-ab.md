@@ -131,7 +131,7 @@ ADTOF_CLASS_MAP = {
 }
 ```
 
-Schema bumped to v3; `model` field changed from `"larsnet"` to `"adtof+larsnet"`.
+Schema bumped to v3; `model` field changed from `"larsnet"` to `"adtof+larsnet"`. *(The drums schema has since advanced to v4 — see `analyze/stages/drums.py`; this doc is frozen at Phase A+B authorship.)*
 
 **Important install facts** (saved as memory `adtof_install_facts.md`):
 
@@ -256,11 +256,11 @@ cache/<slug>/
 ├── midi/                               # transcription router output (1 mid per stem)
 │   └── vocals.mid  bass.mid  guitar.mid  piano.mid  other.mid
 ├── transcription_summary.json          # router-shape summary {schema_version, stems: {...}}
-├── transcription_vocals.json           # NEW — F0→notes detail
+├── transcription_vocals.json           # REVERTED (574f3ab) — NOT produced; see §2a
 ├── transcription_piano.json            # NEW — HR-Piano detail
 ├── stems_drums/                        # LarsNet substem WAVs (preserved for webui)
 │   └── kick.wav snare.wav toms.wav hihat.wav cymbals.wav
-├── drums_summary.json                  # v3 schema, model="adtof+larsnet"
+├── drums_summary.json                  # v3 at authorship; now v4 (drums.py)
 ├── vocal_f0.npz  vocal_f0_summary.json
 ├── chords.json  skey.json  madmom_downbeats.json  beat_this.json
 ├── .params_beats.json                  # NEW — per-stage sidecars
@@ -269,7 +269,7 @@ cache/<slug>/
 ├── .params_vocal_f0.json               # NEW
 ├── .params_beats_xcheck.json           # NEW
 ├── .params_transcription.json          # NEW
-├── .params_transcription_vocals.json   # NEW
+├── .params_transcription_vocals.json   # REVERTED (574f3ab) — NOT produced
 ├── .params_transcription_piano.json    # NEW
 ├── <slug>.jams                         # final JAMS export
 └── <slug>.summary.json                 # final compact digest (now with per_stage_params)

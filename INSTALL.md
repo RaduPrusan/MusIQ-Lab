@@ -20,7 +20,7 @@ on.
 | GPU | NVIDIA RTX 20-series, ≥8 GB VRAM | RTX 3090 24 GB | Below 6 GB free VRAM the analyze pipeline silently spills into shared memory and slows ~5–20×; see `docs/research/pipeline.md` § "WSL2 + NVIDIA Sysmem Fallback caveat" |
 | RAM | 16 GB | 64+ GB | The spillover ceiling is set by system RAM; 96 GB on the dev machine means VRAM exhaustion is effectively unreachable |
 | Disk | 30 GB free | 80 GB free | WSL venv ~10 GB, model cache ~5 GB, WSL itself ~10 GB, plus space for analyzed tracks |
-| Network | Steady 50 Mbit | 200+ Mbit | First run downloads ~5 GB of models |
+| Network | Steady 50 Mbit | 200+ Mbit | First run downloads ~8 GB of models (settles to ~5 GB resident cache) |
 
 **Total wall time** to follow this guide on a 200 Mbit connection: ~60–90
 minutes, dominated by model downloads in Phase 4.
@@ -609,7 +609,7 @@ a modal.
 
 ## Reproducibility
 
-`<PROJECT_PATH>\requirements.lock` (analyze stack, ~131 packages) and
+`<PROJECT_PATH>\requirements.lock` (analyze stack, ~150 packages) and
 `<PROJECT_PATH>\webui\requirements.lock` (webui, smaller) are checked into
 the repo. To reproduce a known-good install on a different machine, you
 can replace the requirements file content with these locks and re-run the

@@ -1,5 +1,13 @@
 # Fix enharmonic coherence between `track.key` and `analysis.scale`
 
+> **✅ SHIPPED — this task is complete (commits `ebf53a7` + `d3c302a`, June 2026).**
+> `canonical_key_name` exists in `analyze/derived/theory.py`; key spelling is coherent
+> across `summary.json`. **Do not re-implement.** Note also that the flat-PC rule this
+> prompt prescribes below (`_PREFER_FLAT_PCS = {1,3,6,8,10}` for minor) was **superseded**
+> by the conventional circle-of-fifths rule now in code: `_MAJOR_FLAT_PCS = {1,3,8,10}`,
+> `_MINOR_FLAT_PCS = {3,10}` (see memory `enharmonic_spelling_architecture`). Following
+> the old rule would revert the maintainer's deliberate change. Kept for historical context.
+
 You are a backend engineer working on the `analyze/` pipeline of MusIQ-Lab. Your single job is to make the analyzer emit one consistent enharmonic spelling for a track's key across every place it appears in `summary.json`. The webui's notation layer already faithfully prettifies whatever it receives; the bug is upstream.
 
 ## The bug, by example

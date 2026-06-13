@@ -289,7 +289,7 @@ A second pass on the same day, driven entirely by user manual smoke as the singe
   - `no-match` → `--mic-no-match` (purple default) — match dropdown set to "none"
 - `centsToColourBucket(cents, hasReference = true)` takes a second arg so NaN cents can route to `neutral` vs `no-match` based on the current dropdown. `MicOverlay.render()` reads `micPitch.getReferenceStem?.()` once per draw; `MicPitch.setReferenceStem` dispatches a `"reference-changed"` event so the overlay re-buckets the visible ribbon without waiting for the next mic frame.
 - `--mic-accent` retired (was the sidebar swatch's green). Swatch now uses `var(--mic-no-match)` as a static row identifier — matches the pitch line when the user picks "match: none". The `.status-dot` recording indicator and `.btn.m.mic-live` still use `--ok` directly (semantically: "live recording", a separate concept from row identity).
-- The earlier `--mic-neutral` collision with `--mic-accent` (both resolved to `--ok` green, making silent stretches indistinguishable from in-tune) was the trigger for the full token split. Memory: [[mic_overlay_color_buckets]], [[mic_overlay_neutral_token]].
+- The earlier `--mic-neutral` collision with `--mic-accent` (both resolved to `--ok` green, making silent stretches indistinguishable from in-tune) was the trigger for the full token split. Memory: [[mic_overlay_color_buckets]].
 
 **Configurable line widths:**
 - New `webui/static/js/ui/line-width-prefs.js` exposes `getMicLineWidth()` + `getVocalsLineWidth()` (range 0.5–4 px, default 1, step 0.25, persisted via `localStorage["musiq.lineWidth"]`, dispatched on `musiq:line-width-changed`).
@@ -320,7 +320,7 @@ A second pass on the same day, driven entirely by user manual smoke as the singe
 - Selected stem's slider fill stays the same colour as unselected (was being overridden to `--text-secondary`).
 
 **Memory entries added during this iteration:**
-- `mic_overlay_neutral_token.md` — keep `--mic-neutral` distinct from `--mic-accent`
+- `mic_overlay_neutral_token.md` — keep `--mic-neutral` distinct from `--mic-accent` *(retired 2026-06-13; folded into `mic_overlay_color_buckets.md`)*
 - `mic_ring_gate_isplaying.md` — gate ring writes on `isPlaying`; don't add Δt clear; use `Math.abs` for gap guards
 - `mic_overlay_color_buckets.md` — 4-bucket design + theme integration constraint
 - `feedback_surgical_changes_no_tests.md` — don't `node --test` after single-line cosmetic edits

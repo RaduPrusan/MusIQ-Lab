@@ -53,7 +53,7 @@ If you are an agent doing this install: at each phase, run the verify-command fr
 
 ### AcoustID API key
 
-The `identify` stage needs an AcoustID **Application** API key (not the personal user key — common confusion, see memory `acoustid_app_key_vs_user_key`). Register an application at https://acoustid.org/applications and put the resulting key in `analyze/stages/identify.py`'s expected location (the stage's docstring tells you where). The `--no-identify` CLI flag disables this stage if you don't want to bother.
+The `identify` stage needs an AcoustID **Application** API key (not the personal user key — common confusion, see memory `acoustid_app_key_vs_user_key`). Register an application at https://acoustid.org/applications and set `ACOUSTID_API_KEY` in the project-root `.env` file (read by `analyze/keys.py`; `analyze/clients/acoustid.py` resolves it via `keys.get_acoustid_key()`). The `--no-identify` CLI flag disables this stage if you don't want to bother.
 
 ### Vendored components with license attention
 
@@ -128,7 +128,7 @@ If you are Claude Code specifically, the auto-memory at `~/.claude/projects/.../
 
 ### Testing
 
-- **Python tests:** `pytest` from the analyze venv (in WSL) or the webui venv (Windows). ~970 tests total.
+- **Python tests:** `pytest` from the analyze venv (in WSL) or the webui venv (Windows). ~1060 tests total (~570 analyze + ~490 webui); these drift upward — `pytest --collect-only -q | tail -1` is the source of truth.
 - **Node pure-logic tests:** `cd webui && node --test tests-js/` for the JS that doesn't need a browser.
 - **Playwright e2e:** `cd webui && npx playwright test` — these are the visual-review and contrast-audit specs. Selectors may need updating after UI renames (e.g. today's "Claude" → "Assistant" tab rename touched `visual-review.spec.js`).
 
@@ -193,7 +193,8 @@ When extending this, follow the pattern in `chat_actor.py` (each tool is a `@ser
 │  └─ README.md
 ├─ webui/                    ← FastAPI app (Windows venv)
 │  ├─ webui/                 ←   Python package
-│  │  ├─ main.py             ←     uvicorn entry
+│  │  ├─ __main__.py         ←     python -m webui (uvicorn entry)
+│  │  ├─ server.py           ←     FastAPI app (webui.server:app)
 │  │  ├─ chat_actor.py       ←     claude-agent-sdk integration + MCP tools
 │  │  ├─ audio_backend/      ←     WASAPI engine
 │  │  └─ stage_manifest.py   ←     stale-detection for Reanalyze
@@ -217,7 +218,7 @@ When extending this, follow the pattern in `chat_actor.py` (each tool is a `@ser
 ├─ install-logs/             ← ship reports + batch test results
 ├─ tests/                    ← analyze Python tests
 ├─ cache/<slug>/             ← analyze output, per-track
-├─ requirements.lock         ← analyze stack lock file (~131 pkgs)
+├─ requirements.lock         ← analyze stack lock file (~150 pkgs)
 └─ constraints-torch27-cu126.txt
 ```
 
