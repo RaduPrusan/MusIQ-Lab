@@ -23,13 +23,18 @@ class Key:
     mode: Mode
 
 
+# Note token, optional colon/space, optional scale-quality word
+# (natural/harmonic/melodic — emitted by scale_name), then the mode.
 _KEY_RE = re.compile(
-    r"^\s*([A-G][#b]?)\s*[:\s]?\s*(major|maj|minor|min)\s*$",
+    r"^\s*([A-G][#b]?)\s*:?\s*(?:(?:natural|harmonic|melodic)\s+)?(major|maj|minor|min)\s*$",
     re.IGNORECASE,
 )
 
 
 def parse_key(s: str) -> Key:
+    # Normalize Unicode music accidentals to ASCII so scale_name output
+    # (e.g. "E♭ natural minor", "F♯ major") round-trips.
+    s = s.replace("♯", "#").replace("♭", "b")
     m = _KEY_RE.match(s)
     if not m:
         raise ValueError(f"unparseable key: {s!r}")
