@@ -8,6 +8,8 @@
 
 **Tech Stack:** Python 3.11, pytest. Pure-logic change — no new deps, no Torch/lockfile changes, no JS changes.
 
+> **Follow-up (2026-06-13, commit `d3c302a`):** this plan made `canonical_key_name` a thin wrapper over `scale_name`, which then spelled minors via `_PREFER_FLAT_PCS={1,3,6,8,10}` and majors always-sharp. That spelling was musically wrong (over-flat minors like `G♭ natural minor`; `A♯ major` for B♭ major) and, because the webui derives its note-spelling bias from `summary.track.key`, it mis-spelled the gutter. A same-day fix replaced it with the conventional circle-of-fifths rule (mode-specific `_MAJOR_FLAT_PCS`/`_MINOR_FLAT_PCS`). The `test_flat_minor_spelling_rule` / `test_major_keys_use_sharp_letter_spelling` cases in Task 2 below were superseded by `test_minor_spelling_convention` / `test_major_spelling_convention`. See the Pitch-notation note in `CLAUDE.md`.
+
 **Decisions locked (2026-06-13, user-confirmed):**
 - **`track.key` format:** full scale string, byte-identical to `analysis.scale` (e.g. `"E♭ natural minor"`, `"F♯ major"`). → requires `parse_key` hardening (Task 1).
 - **Cache migration:** re-run `analyze` per track (cached stages skip; only `summary.json` re-derives). No migration script, no summary schema bump.

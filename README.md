@@ -28,7 +28,7 @@ It is **not** a streaming service replacement (you supply the audio). It is **no
 ### Visualize what happens in a track
 
 - **Piano-roll canvas** showing every transcribed note per stem (Vocals / Drums / Bass / Guitar / Piano / Other), coloured and rendered with semi-transparent fills so overlapping voices are still readable.
-- **Chord strip** locked to the bar grid above the piano roll, in Roman numerals + your chosen notation system (Scientific / Solfège-Romance / Flat / Sharp).
+- **Chord strip** locked to the bar grid above the piano roll, in Roman numerals + your chosen notation system (Scientific or Solfège-Romance).
 - **F0 overlay** showing the singer's pitch contour as a smooth line over the vocal MIDI, with confidence-bucketed rendering (high-confidence frames bold, uncertain frames faint).
 - **Drum lane** with per-piece sub-stems (kick / snare / toms / hi-hat / cymbals as separate horizontal streams).
 - **Now Playing card** in the sidebar that updates as you scrub — current chord (Dom7), current Roman numeral (iv7), harmonic function (pre-dominant / dominant / tonic / modal), and time position.
