@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 
 from analyze.derived.theory import Key, canonical_key_name, parse_key, scale_name
+from analyze.writers.summary_writer import write_summary
 
 
 class TestParseKeyHardening:
@@ -56,3 +57,29 @@ class TestCanonicalKeyName:
             for mode in ("major", "minor"):
                 k = Key(tonic_pc=pc, mode=mode)
                 assert canonical_key_name(k) == scale_name(k)
+
+
+class TestWriterBoundaryCoherence:
+    def _minimal_results(self, raw_key: str) -> dict:
+        return {
+            "beats": {"bpm": 120.0, "downbeats": [0.5, 2.5], "time_signature": "4/4"},
+            "key": {"key": raw_key, "confidence": 1.0},
+            "chords": [],
+        }
+
+    def test_track_key_matches_analysis_scale(self, tmp_path):
+        # Raw skey output is sharp ("D# minor"); analysis.scale is flat.
+        out = tmp_path / "song.summary.json"
+        mp3 = tmp_path / "song.mp3"
+        mp3.write_bytes(b"")
+        results = self._minimal_results("D# minor")
+        derived = {"scale": scale_name(parse_key("D# minor"))}
+        write_summary(out, mp3, results, derived, warnings=[], duration_sec=200.0)
+
+        data = json.loads(out.read_text())
+        track_key = data["track"]["key"]
+        scale = data["analysis"]["scale"]
+        # Same Key object…
+        assert parse_key(track_key) == parse_key(scale)
+        # …and same tonic letter spelling (the actual bug).
+        assert track_key.split()[0] == scale.split()[0] == "E♭"

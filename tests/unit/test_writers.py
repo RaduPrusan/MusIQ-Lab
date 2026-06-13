@@ -80,7 +80,7 @@ def test_write_summary_produces_valid_json(tmp_path, fake_results, fake_derived)
 
     data = json.loads(out.read_text())
     assert data["track"]["file"] == "song.mp3"
-    assert data["track"]["key"] == "F minor"
+    assert data["track"]["key"] == "F natural minor"
     assert data["track"]["tempo_bpm"] == 107.14
     assert data["track"]["duration_sec"] == 215.0
     assert data["sections"] == []

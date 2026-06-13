@@ -45,6 +45,7 @@ from importlib import metadata as importlib_metadata
 from pathlib import Path
 
 import analyze
+from analyze.derived.theory import canonical_key_name, parse_key
 
 # Stage names that have sidecars after WI-1/WI-6/WI-7/WI-8/WI-9 land.
 _STAGES_WITH_SIDECARS = (
@@ -131,7 +132,7 @@ def write_summary(
             "wsl_path": wsl_path,
             "duration_sec": float(duration_sec),
             "tempo_bpm": float(results["beats"]["bpm"]),
-            "key": results["key"]["key"],
+            "key": canonical_key_name(parse_key(results["key"]["key"])),
             "key_confidence": float(results["key"]["confidence"]),
             "time_signature": results["beats"].get("time_signature", "4/4"),
         },
