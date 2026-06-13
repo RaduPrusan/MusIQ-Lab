@@ -418,6 +418,16 @@ def pc_to_note_name(pc: int) -> str:
     return _PC_TO_NOTE[pc % 12]
 
 
+def _canonical_tonic(key: Key) -> str:
+    """Tonic letter spelling per the canonical rule: major → sharp letters;
+    minor → flat for the conventionally flat-notated pitch classes
+    ({C♯/D♭, D♯/E♭, F♯/G♭, G♯/A♭, A♯/B♭})."""
+    pc = key.tonic_pc
+    if key.mode == "minor" and pc in _PREFER_FLAT_PCS:
+        return _PC_TO_FLAT_NAME[pc]
+    return _PC_TO_NOTE[pc]
+
+
 def scale_name(key: Key) -> str:
     """Return a human-readable scale name, e.g. 'C major' or 'F natural minor'.
 
@@ -425,14 +435,21 @@ def scale_name(key: Key) -> str:
     For minor keys, prefer flat spellings for conventionally flat-notated tonics
     (Bb, Eb, Ab, Db, Gb minor → B♭, E♭, A♭, D♭, G♭ natural minor).
     """
-    pc = key.tonic_pc
-    if key.mode == "minor" and pc in _PREFER_FLAT_PCS:
-        tonic = _PC_TO_FLAT_NAME[pc]
-    else:
-        tonic = _PC_TO_NOTE[pc]
+    tonic = _canonical_tonic(key)
     if key.mode == "major":
         return f"{tonic} major"
     return f"{tonic} natural minor"
+
+
+def canonical_key_name(key: Key) -> str:
+    """Canonical human-readable key string for writer boundaries.
+
+    Identical to `scale_name`'s output so `track.key` and `analysis.scale`
+    always agree on enharmonic spelling. Round-trips with `parse_key`:
+    parse_key(canonical_key_name(k)) == k. Use this at every summary-writer
+    boundary that emits a human-readable key string.
+    """
+    return scale_name(key)
 
 
 def scale_degree_for(note_pc: int, key: Key) -> str:
