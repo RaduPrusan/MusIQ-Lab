@@ -39,6 +39,11 @@ def test_run_writes_identify_json(monkeypatch, tmp_path):
             "mbid_release_group": "rg-mbid", "year": 2001, "isrc": "GB000001",
         },
     )
+    # The Round-5 artist-plausibility gate is exercised by its own tests
+    # (test_artist_plausibility.py). This test verifies the write path, so
+    # stub the gate to pass — the pytest tmp-dir slug carries no artist/title
+    # resembling the mocked MB metadata and would otherwise be demoted.
+    monkeypatch.setattr(identify, "_artist_plausibility_check", lambda *a, **k: (True, {}))
 
     out = identify.run(mp3, tmp_path)
     assert out["identified"] is True
@@ -59,7 +64,15 @@ def test_run_soft_fails_below_score_threshold(monkeypatch, tmp_path):
     monkeypatch.setattr(identify.acoustid_client, "lookup", lambda fp, dur, **kw: None)
 
     out = identify.run(mp3, tmp_path)
-    assert out == {"identified": False, "reason": "no AcoustID match above threshold"}
+    # Round-4/5: an AcoustID miss now runs the MB text-search fallback, which
+    # short-circuits to fallback_no_match on the junk tmp-dir slug (no usable
+    # title seed). The outcome dict gained source/match_method fields.
+    assert out == {
+        "identified": False,
+        "reason": "fallback_no_match",
+        "match_method": None,
+        "source": "none",
+    }
     assert (tmp_path / "identify.json").exists()
 
 
@@ -201,6 +214,9 @@ def test_run_overwrites_cached_identified_with_new_identified(monkeypatch, tmp_p
             "year": 2020, "isrc": "X",
         },
     )
+    # Stub the gate to pass — see test_run_writes_identify_json. This test
+    # verifies overwrite-on-new-identified, not the plausibility gate.
+    monkeypatch.setattr(identify, "_artist_plausibility_check", lambda *a, **k: (True, {}))
 
     out = identify.run(mp3, tmp_path)
     assert out["title"] == "New Title"
@@ -218,4 +234,5 @@ def test_run_overwrites_cached_unidentified_with_new_unidentified(monkeypatch, t
     monkeypatch.setattr(identify.acoustid_client, "lookup", lambda fp, dur, **kw: None)
 
     out = identify.run(mp3, tmp_path)
-    assert out["reason"] == "no AcoustID match above threshold"
+    # Round-4/5 fallback taxonomy (was "no AcoustID match above threshold").
+    assert out["reason"] == "fallback_no_match"

@@ -96,7 +96,7 @@ def test_retries_on_5xx_then_succeeds(monkeypatch):
 
 
 def test_retries_exhausted_raises(monkeypatch):
-    """All 3 attempts return 503 — raises AcoustIDError mentioning the count."""
+    """All 4 attempts return 503 — raises AcoustIDError mentioning the count."""
     monkeypatch.setenv("ACOUSTID_API_KEY", "k")
     monkeypatch.setattr(
         httpx.Client, "get",
@@ -105,7 +105,7 @@ def test_retries_exhausted_raises(monkeypatch):
     import analyze.clients.acoustid as ac
     monkeypatch.setattr(ac.time, "sleep", lambda s: None)
 
-    with pytest.raises(acoustid.AcoustIDError, match="after 3 attempts"):
+    with pytest.raises(acoustid.AcoustIDError, match="after 4 attempts"):
         acoustid.lookup("fp", 100.0)
 
 
