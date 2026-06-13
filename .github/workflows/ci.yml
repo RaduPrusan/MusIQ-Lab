@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  webui-js-syntax:
+    name: webui-js-syntax
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: JavaScript syntax smoke check
+        working-directory: webui
+        run: |
+          set -euo pipefail
+          for file in static/js/*.js tests-js/*.js; do
+            node --check "$file"
+          done
+
+  webui-python-smoke:
+    name: webui-python-smoke
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Python syntax smoke check
+        run: python -m compileall analyze webui/webui
