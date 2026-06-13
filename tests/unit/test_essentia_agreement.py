@@ -163,3 +163,24 @@ def test_existing_exact_match_still_works():
     }
     agreement = compute_agreement(pipeline, essentia)
     assert agreement["key"]["ok"] is True
+
+
+def test_key_agreement_with_canonical_scale_string_pipeline_key():
+    """track.key now arrives as 'E♭ natural minor' (canonical form). The
+    cross-check must still parse it and compute equivalence — not fall into
+    _keys_equivalent's except→False path. Eb minor's relative major is Gb
+    major; a Gb-major consensus is equivalent (relative) → ok."""
+    pipeline = {"key": "E♭ natural minor"}
+    essentia = {
+        "extracted": True,
+        "tempo": {"bpm": 120.0},
+        "key": {
+            "krumhansl": ["Gb", "major", 0.80],
+            "temperley": ["Gb", "major", 0.78],
+            "edma": ["B", "major", 0.40],
+        },
+    }
+    agreement = compute_agreement(pipeline, essentia)
+    # Gb major is the relative major of Eb minor → equivalent → ok.
+    assert agreement["key"]["ok"] is True
+    assert agreement["key"]["analyze"] == "E♭ natural minor"
