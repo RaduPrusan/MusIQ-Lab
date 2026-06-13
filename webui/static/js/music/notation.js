@@ -29,7 +29,11 @@ const SHARP_FALLBACK = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A
 // callers fall back to a plain-sharp default.
 export function parseKey(keyText) {
   if (!keyText || typeof keyText !== "string") return null;
-  const m = keyText.trim().match(/^([A-G])([#b]?)\s*(.*)$/);
+  // Backend key strings use Unicode accidentals (e.g. "E♭ natural minor",
+  // "F♯ minor"). Normalize to ASCII so the [#b] matcher resolves the right
+  // pitch class — otherwise the ♭/♯ is dropped and the tonic (and the whole
+  // spelling bias) lands a semitone off.
+  const m = keyText.replace(/♯/g, "#").replace(/♭/g, "b").trim().match(/^([A-G])([#b]?)\s*(.*)$/);
   if (!m) return null;
   const tonicLetter = m[1];
   const tonicAcc = m[2] || "";

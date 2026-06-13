@@ -764,6 +764,6 @@ function formatNowTime(t) {
 // Handles sharps/flats: "C# major" → "C#", "Bb minor" → "Bb".
 function tonicFromKey(key) {
   if (!key) return "";
-  const m = String(key).match(/^([A-G][#b]?)/);
+  const m = String(key).match(/^([A-G][#b♯♭]?)/);
   return m ? m[1] : "";
 }

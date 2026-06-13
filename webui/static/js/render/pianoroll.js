@@ -35,18 +35,14 @@ export function midiToContextualName(midi, keyTextOrParse) {
 }
 
 function keyInfo(keyText) {
-  if (!keyText) return null;
-  const m = keyText.trim().match(/^([A-G][#b]?)\s*(.*)$/);
-  if (!m) return null;
-  const tonic = PITCH_CLASS[m[1]];
-  if (tonic == null) return null;
-  const tail = (m[2] || "").toLowerCase();
-  // Treat anything that says "min", a trailing/standalone "m", or a minor-mode
-  // modal name as minor; everything else (incl. bare "C") falls back to major.
-  const isMinor = /\bmin|^m$|^m\s|aeolian|phrygian|locrian|dorian/.test(tail);
-  const intervals = isMinor ? SCALE_MINOR : SCALE_MAJOR;
-  const scale = new Set(intervals.map((i) => (tonic + i) % 12));
-  return { tonic, scale, isMinor };
+  // Delegate tonic-pc + mode detection to notation.parseKey (single source of
+  // truth — it normalizes Unicode accidentals like "E♭"/"F♯"). keyInfo only
+  // adds the diatonic scale Set used for the in-key gutter highlight.
+  const kp = parseKey(keyText);
+  if (!kp) return null;
+  const intervals = kp.isMinor ? SCALE_MINOR : SCALE_MAJOR;
+  const scale = new Set(intervals.map((i) => (kp.tonicCls + i) % 12));
+  return { tonic: kp.tonicCls, scale, isMinor: kp.isMinor };
 }
 
 // Convert a "#rrggbb" CSS token value into an "rgba(r,g,b,a)" canvas color.

@@ -35,6 +35,27 @@ test("parseKey extracts tonic letter, accidental, isMinor", () => {
   assert.equal(fsm.parentAcc, "");
 });
 
+test("parseKey handles Unicode accidentals (♯/♭) like ASCII", () => {
+  // The analyze backend now emits canonical key strings with Unicode
+  // accidentals ("E♭ natural minor", "F♯ minor", "B♭ major"). parseKey must
+  // resolve the same pitch class as the ASCII form — otherwise the gutter
+  // tonic + spelling bias land a semitone off (E natural instead of E♭).
+  const ebm = parseKey("E♭ natural minor");
+  assert.equal(ebm.tonicLetter, "E");
+  assert.equal(ebm.tonicAcc, "b");
+  assert.equal(ebm.tonicCls, 3);            // E♭ = pc 3, NOT E natural (4)
+  assert.equal(ebm.isMinor, true);
+
+  assert.equal(parseKey("F♯ minor").tonicCls, 6);
+  assert.equal(parseKey("F♯ minor").tonicAcc, "#");
+  assert.equal(parseKey("B♭ major").tonicCls, 10);
+  assert.equal(parseKey("B♭ major").isMinor, false);
+
+  // ASCII forms still parse identically (regression guard).
+  assert.equal(parseKey("D# minor").tonicCls, 3);
+  assert.equal(parseKey("Bb major").tonicCls, 10);
+});
+
 test("parentMajor for relative-minor keys lands on the right letter+accidental", () => {
   // Bb minor → relative major Db
   const bbm = parseKey("Bb minor");
