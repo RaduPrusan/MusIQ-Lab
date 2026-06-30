@@ -8,7 +8,7 @@
     "install-deps": "npx playwright install chromium"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.11.3",
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.45.0",
     "axe-core": "^4.11.4",
     "pixelmatch": "^7.2.0",
