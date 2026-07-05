@@ -128,9 +128,9 @@ If you are Claude Code specifically, the auto-memory at `~/.claude/projects/.../
 
 ### Testing
 
-- **Python tests:** `pytest` from the analyze venv (in WSL) or the webui venv (Windows). ~1060 tests total (~570 analyze + ~490 webui); these drift upward — `pytest --collect-only -q | tail -1` is the source of truth.
+- **Python tests:** `pytest` from the analyze venv (in WSL) or the webui venv (Windows). ~1060 tests total (~570 analyze + ~490 webui); these drift upward — `pytest --collect-only -q | tail -1` is the source of truth. On the Windows webui venv expect ~424 collected plus 4 collection errors: the `test_identify_round3/4/5` files import the analyze/WSL runtime — that's the known baseline, not a breakage you introduced.
 - **Node pure-logic tests:** `cd webui && node --test tests-js/` for the JS that doesn't need a browser.
-- **Playwright e2e:** `cd webui && npx playwright test` — these are the visual-review and contrast-audit specs. Selectors may need updating after UI renames (e.g. today's "Claude" → "Assistant" tab rename touched `visual-review.spec.js`).
+- **Playwright e2e:** `cd webui/tests-e2e && npm test` (the Playwright config + package.json live in `tests-e2e/`) — these are the visual-review and contrast-audit specs. Selectors may need updating after UI renames (e.g. today's "Claude" → "Assistant" tab rename touched `visual-review.spec.js`).
 
 ### When in doubt
 
@@ -169,12 +169,12 @@ This convention is logged in memory as `feedback_surgical_changes_no_tests` (the
 ## Operating the in-app chat
 
 The webui's right-sidebar **Assistant** tab (formerly "Claude") wraps `claude-agent-sdk.ClaudeSDKClient` and exposes in-process MCP tools that let the model:
-- `set_loop_region(start_bar, end_bar)`
-- `set_highlighted_stem(name)`
-- `seek_to(time_seconds)`
-- a few more — see `webui/webui/chat_actor.py`
+- `set_loop_region(start_sec, end_sec)`
+- `highlight_stem(stem)`
+- `seek_to(time_sec)`
+- a dozen more — see `make_mcp_server()` in `webui/webui/chat.py`
 
-When extending this, follow the pattern in `chat_actor.py` (each tool is a `@server.tool` decorator returning the JSON response shape the UI expects). The chat actor speaks to the SDK via a streamed session per-tab; the tool calls render as compact chips in the chat output.
+When extending this, follow the pattern in `chat.py` (each tool is an `SdkMcpTool` entry — name, description, input schema, async handler — returning the JSON response shape the UI expects). The chat actor (`webui/webui/chat_actor.py`) speaks to the SDK via a long-lived per-track client; the tool calls render as compact chips in the chat output.
 
 `claude-agent-sdk` bundles its own `claude.exe` per-platform — there is **no separate Claude Code install needed for the webui to chat**. See memory `claude_agent_sdk_bundled_cli`. The bundled CLI is in the wheel; you can see "Using bundled Claude Code CLI" in the runtime log.
 
@@ -195,7 +195,8 @@ When extending this, follow the pattern in `chat_actor.py` (each tool is a `@ser
 │  ├─ webui/                 ←   Python package
 │  │  ├─ __main__.py         ←     python -m webui (uvicorn entry)
 │  │  ├─ server.py           ←     FastAPI app (webui.server:app)
-│  │  ├─ chat_actor.py       ←     claude-agent-sdk integration + MCP tools
+│  │  ├─ chat.py             ←     MCP tool definitions (make_mcp_server)
+│  │  ├─ chat_actor.py       ←     claude-agent-sdk ClaudeSDKClient actor
 │  │  ├─ audio_backend/      ←     WASAPI engine
 │  │  └─ stage_manifest.py   ←     stale-detection for Reanalyze
 │  ├─ static/                ←   JS modules + CSS tokens + presets

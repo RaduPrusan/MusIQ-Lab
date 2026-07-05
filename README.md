@@ -140,13 +140,13 @@ MP3 in ~/Videos/.../Youtube/
     ▼
 cache/<slug>/
   ├─ <slug>.summary.json        ← key, tempo, chord progression, sections
-  ├─ <slug>.identify.json       ← AcoustID / MusicBrainz identity
-  ├─ stems/                     ← 6× WAV per stem + drum sub-stems
+  ├─ identify.json              ← AcoustID / MusicBrainz identity
+  ├─ stems_6s/ (+ stems_*/)     ← 6× WAV per stem + drum sub-stems
   ├─ midi/                      ← per-stem .mid files
-  ├─ beats.json                 ← beats + downbeats + bar grid
+  ├─ madmom_downbeats.json      ← beats + downbeats + bar grid
   ├─ chords.json                ← chord timestamps + Roman-numeral analysis
-  ├─ vocal_f0.json              ← consensus F0 contour + per-frame agreement
-  └─ acoustic_profile.json      ← Essentia features
+  ├─ vocal_consensus.npz        ← consensus F0 contour + per-frame agreement
+  └─ essentia.json              ← Essentia features
     │  (webui, Windows host; .\webui.ps1 start)
     ▼
 http://127.0.0.1:8765/  ← browse, mute/solo, loop, mic, chat
@@ -173,7 +173,7 @@ The MIR pipeline assembles a stack of specialized open-source models, each picke
 | Acoustic identity | **Chromaprint** (`fpcalc`) + **AcoustID** + **MusicBrainz** | Canonical track ID; text-search fallback for low-quality fingerprints. |
 | Audio features | **Essentia** | Tempo / key / loudness second-opinion + acoustic profile. |
 
-The webui is FastAPI + a hand-written canvas renderer in plain JS (no React/Vue). The audio engine is WASAPI on Windows (via PortAudio + `soxr` for HQ resampling) with WebAudio fallback. The Assistant tab uses `claude-agent-sdk` with an in-process MCP server exposing UI tool calls (`set_loop_region`, `set_highlighted_stem`, `seek_to`, etc.) so the model can drive the UI in response to natural-language requests.
+The webui is FastAPI + a hand-written canvas renderer in plain JS (no React/Vue). The audio engine is WASAPI on Windows (via PortAudio + `soxr` for HQ resampling) with WebAudio fallback. The Assistant tab uses `claude-agent-sdk` with an in-process MCP server exposing UI tool calls (`set_loop_region`, `highlight_stem`, `seek_to`, etc.) so the model can drive the UI in response to natural-language requests.
 
 The vendored model weights live at `~/.cache/audio-separator/`, `~/.cache/torch/`, `~/.cache/huggingface/`, `~/piano_transcription_inference_data/`, and `analyze/vendor/larsnet/` for LarsNet specifically. Total ~5 GB of model cache after a complete install.
 

@@ -79,10 +79,10 @@ Tests:
 Frontend pure-logic tests (Node 20+):
 
 ```bat
-node --test ..\webui\tests-js\*.test.js
+node --test tests-js\*.test.js
 ```
 
-(Run from project root — paths inside the test files are relative to project root.)
+(Run from `webui/` — verified 278/278 in ~2 s.)
 
 ## Spec
 
@@ -116,6 +116,11 @@ contour drawn in real time, pinned to the song timeline above the F0 overlay.
   token (`--mic-in/-off/-neutral/-no-match`); tune them under **Settings → Pitch lines**.
 - A reference-stem dropdown (default vocals) and a per-user latency-offset slider
   compensate for browser mic input delay (Web Audio doesn't expose it).
+- A per-user **transpose spinner** (± semitones, clamped [−24, +24], signed display,
+  default 0) shifts where the live pitchline draws — sing an octave down and still
+  land on the melody. Lives on the Live Input row on both the Track sidebar and the
+  compact Lyrics strip (the two stay in sync), persisted under
+  `localStorage["musiq.mic.transpose"]`.
 - `getUserMedia` forces `echoCancellation/noiseSuppression/AGC = false` — the
   browser's "voice" DSP otherwise destroys pitch information.
 
@@ -132,7 +137,7 @@ A playback loop region (in addition to the analyzed song-structure loops) can be
 | Suite | Command | What it covers |
 |---|---|---|
 | Backend unit | `python -m pytest` | tracks scan, audio range parser, f0 decoder, FastAPI routes |
-| Frontend pure-logic | `node --test ../webui/tests-js/*.test.js` (from project root) | track-data transform, view-state pub-sub, coords math, picker filter |
+| Frontend pure-logic | `node --test tests-js/*.test.js` (from `webui/`) | track-data transform, view-state pub-sub, coords math, picker filter |
 | Integration | `cd tests-e2e && npm test` | end-to-end browser flow against Gorillaz fixture |
 
 Run all three before tagging a release.

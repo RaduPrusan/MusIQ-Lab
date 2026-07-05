@@ -256,7 +256,7 @@ Then verify the analyze package itself imports:
 wsl -- bash -lc "cd <WSL_PATH> && source .venv/bin/activate && python -m analyze --help"
 ```
 
-Success: prints the analyze CLI's help output (positional `mp3_path`, `--quality`, `--from-stage`, `--stages-only`, `--params-json`, `--force`).
+Success: prints the analyze CLI's help output (positional `mp3_path`, `--stems-quality`, `--from-stage`, `--stages-only`, `--params-json`, `--force`).
 
 ### 4.2 If the bootstrap fails
 

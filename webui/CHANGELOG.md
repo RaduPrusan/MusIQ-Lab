@@ -1,5 +1,29 @@
 # Changelog
 
+## 2026-07-05 — Live Input transpose + reanalyze-stream fix
+
+### Live Input semitone transpose
+
+Both Live Input rows (Track sidebar + compact Lyrics strip) gain a **transpose
+spinner** (± semitones, clamped [−24, +24], signed display, default 0) that shifts
+where the live-mic pitchline draws on the piano roll. The shift is applied to the
+detected pitch *before* the cents-vs-reference computation, so line position,
+in/off/neutral colouring, and the row readout stay mutually consistent; buffered
+trail samples back-shift immediately on change (no glide). Persisted under
+`localStorage["musiq.mic.transpose"]`; the two surfaces sync via a
+`musiq:mic-transpose-changed` document event. +6 tests (suite: 278/278).
+
+### Reanalyze modal ticker leak (JS suite hung forever)
+
+A reanalyze/analyze-stale stream that ended without a terminal done/error event
+never called `finish()`, leaving the elapsed tickers running — in the browser the
+modal ticked forever with Close disabled after a connection drop, and under
+`node:test` the fallback ticker kept `menus.test.js` alive so the full suite never
+exited. `finish()` is now also reached via a finished-flag guard when the stream
+ends with no result. Also pinned 3 stale tests to current intentional behaviour
+(themed Reanalyze entry colour, renamed track-picker buttons, WASAPI `setMode`
+deferring `modeChanged` until the server's `StateMsg` confirms).
+
 ## 1.0.0 and later (2026-05-22 → 2026-06-13)
 
 Roll-up of work after the 2026-05-13 entry, through the public v1.0.0 release.
