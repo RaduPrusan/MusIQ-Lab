@@ -7,17 +7,26 @@ const dom = new JSDOM("<!doctype html><html><body></body></html>", { url: "http:
 globalThis.document = dom.window.document;
 globalThis.window = dom.window;
 globalThis.localStorage = dom.window.localStorage;
+// App code constructs bare `new CustomEvent(...)` for its document-level
+// broadcasts (stem-mute, mic-transpose). jsdom's dispatchEvent brand-checks
+// the event and rejects Node's built-in Event classes, so align the Event
+// globals (and EventTarget, which fakeMic extends) with the jsdom window.
+globalThis.Event = dom.window.Event;
+globalThis.CustomEvent = dom.window.CustomEvent;
+globalThis.EventTarget = dom.window.EventTarget;
 
 import { MicRow } from "../static/js/ui/mic-row.js";
 
 function fakeMic() {
   return new (class extends EventTarget {
-    _ref = null; _off = 0; _dev = null; _running = false;
+    _ref = null; _off = 0; _dev = null; _running = false; _transpose = 0;
     setReferenceStem(s) { this._ref = s; }
     setOffsetMs(n) { this._off = n; }
     setDeviceId(d) { this._dev = d; }
+    setTranspose(n) { this._transpose = Math.max(-24, Math.min(24, Math.round(n))); }
     getOffsetMs() { return this._off; }
     getReferenceStem() { return this._ref; }
+    getTranspose() { return this._transpose; }
     isRunning() { return this._running; }
     async start() { this._running = true; this.dispatchEvent(new Event("started")); }
     stop() { this._running = false; this.dispatchEvent(new Event("stopped")); }
@@ -132,6 +141,82 @@ test("MicRow readout reformats on musiq:notation-changed", () => {
   localStorage.setItem("musiq.notation", "solfege");
   document.dispatchEvent(new dom.window.Event("musiq:notation-changed"));
   assert.match(readout.textContent, /La4|La/);
+});
+
+test("MicRow renders the transpose spinner on both full and compact variants with signed value", () => {
+  localStorage.clear();
+  localStorage.setItem("musiq.mic.transpose", "3");
+
+  // Full row: spinner lives in the .mic-meta sub-row.
+  const fullHost = document.createElement("div");
+  new MicRow({ host: fullHost, micPitch: fakeMic(), trackData: fakeTrackData() }).mount();
+  const fullSpinner = fullHost.querySelector(".mic-meta .mic-transpose");
+  assert.ok(fullSpinner, "full row: expected .mic-transpose inside .mic-meta");
+  assert.ok(fullSpinner.querySelector(".mic-transpose-btn.up"), "full row: up stepper");
+  assert.ok(fullSpinner.querySelector(".mic-transpose-btn.down"), "full row: down stepper");
+  // Positive values render with an explicit sign.
+  assert.equal(fullSpinner.querySelector(".mic-transpose-value").textContent, "+3");
+
+  // Compact row: no sub-meta, spinner sits inline in the .ms button cell.
+  const compactHost = document.createElement("div");
+  new MicRow({ host: compactHost, micPitch: fakeMic(), trackData: fakeTrackData(), compact: true }).mount();
+  assert.ok(!compactHost.querySelector(".mic-meta"), "compact row must not attach a sub-meta");
+  const compactSpinner = compactHost.querySelector(".ms .mic-transpose");
+  assert.ok(compactSpinner, "compact row: expected .mic-transpose inside .ms");
+  assert.equal(compactSpinner.querySelector(".mic-transpose-value").textContent, "+3");
+});
+
+test("MicRow transpose steppers apply via mic.setTranspose and persist to localStorage", () => {
+  localStorage.clear();
+  const host = document.createElement("div");
+  const mic = fakeMic();
+  const row = new MicRow({ host, micPitch: mic, trackData: fakeTrackData() });
+  row.mount();
+  // Persisted default (0) is applied on mount like offset/ref/device.
+  assert.equal(mic.getTranspose(), 0);
+  const value = host.querySelector(".mic-transpose-value");
+  assert.equal(value.textContent, "0");
+
+  host.querySelector(".mic-transpose-btn.up").click();
+  assert.equal(mic.getTranspose(), 1);
+  assert.equal(localStorage.getItem("musiq.mic.transpose"), "1");
+  assert.equal(value.textContent, "+1");
+
+  host.querySelector(".mic-transpose-btn.down").click();
+  host.querySelector(".mic-transpose-btn.down").click();
+  assert.equal(mic.getTranspose(), -1);
+  assert.equal(localStorage.getItem("musiq.mic.transpose"), "-1");
+  assert.equal(value.textContent, "-1", "negative values must render");
+});
+
+test("MicRow transpose spinners sync across rows via musiq:mic-transpose-changed", () => {
+  localStorage.clear();
+  // Same MicPitch instance behind both surfaces, as in the app
+  // (window.__musiqMic is shared by sidebar.js and lyrics-tab.js).
+  const mic = fakeMic();
+  const hostA = document.createElement("div");
+  const hostB = document.createElement("div");
+  const rowA = new MicRow({ host: hostA, micPitch: mic, trackData: fakeTrackData() });
+  const rowB = new MicRow({ host: hostB, micPitch: mic, trackData: fakeTrackData(), compact: true });
+  rowA.mount();
+  rowB.mount();
+
+  // Stepping on the full row updates the compact row's display.
+  hostA.querySelector(".mic-transpose-btn.up").click();
+  assert.equal(hostB.querySelector(".mic-transpose-value").textContent, "+1");
+  // …and stepping on the compact row updates the full row.
+  hostB.querySelector(".mic-transpose-btn.down").click();
+  hostB.querySelector(".mic-transpose-btn.down").click();
+  assert.equal(hostA.querySelector(".mic-transpose-value").textContent, "-1");
+  assert.equal(mic.getTranspose(), -1);
+
+  // Remount hygiene: setTrackData() remounts; the stale document listener
+  // must be removed, so one step still means one increment (not N).
+  rowA.setTrackData(fakeTrackData(["vocals"]));
+  hostA.querySelector(".mic-transpose-btn.up").click();
+  assert.equal(mic.getTranspose(), 0);
+  assert.equal(hostB.querySelector(".mic-transpose-value").textContent, "0");
+  rowB.unmount();
 });
 
 test("MicRow does not leak document listeners across setTrackData() calls", () => {

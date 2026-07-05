@@ -20,6 +20,12 @@ const LS_OFFSET    = "musiq.mic.offsetMs";
 const LS_REF       = "musiq.mic.referenceStem";
 const LS_DEVICE    = "musiq.mic.deviceId";
 const LS_META_COLLAPSED = "musiq.mic.metaCollapsed";
+const LS_TRANSPOSE = "musiq.mic.transpose";
+
+// Transpose bounds mirror MicPitch.setTranspose's clamp — the row clamps
+// too so the displayed value never disagrees with what the mic applied.
+const TRANSPOSE_MIN = -24;
+const TRANSPOSE_MAX = 24;
 
 // Mic icon for the toggle button. stroke="currentColor" so it inherits
 // the button's color across idle / hover / .mic-live states (no extra CSS).
@@ -38,6 +44,16 @@ function loadDevice() {
 }
 function loadMetaCollapsed() {
   return localStorage.getItem(LS_META_COLLAPSED) === "1";
+}
+function loadTranspose() {
+  const n = Number(localStorage.getItem(LS_TRANSPOSE));
+  if (!Number.isFinite(n)) return 0;
+  return Math.max(TRANSPOSE_MIN, Math.min(TRANSPOSE_MAX, Math.round(n)));
+}
+// Always show the sign on positive values ("+3") so a transposed line is
+// visually distinct from the untouched default ("0") at a glance.
+function fmtTranspose(n) {
+  return n > 0 ? `+${n}` : String(n);
 }
 
 function availableStems(trackData) {
@@ -73,6 +89,8 @@ export class MicRow {
     this._onStopped = () => this._setEnabled(false);
     this._onNotationChanged = null;
     this._onStemMuteChanged = null;
+    this._onTransposeChanged = null;
+    this._transposeValueEl = null;
   }
 
   mount() {
@@ -93,13 +111,19 @@ export class MicRow {
       document.removeEventListener("musiq:stem-mute-changed", this._onStemMuteChanged);
       this._onStemMuteChanged = null;
     }
+    if (this._onTransposeChanged) {
+      document.removeEventListener("musiq:mic-transpose-changed", this._onTransposeChanged);
+      this._onTransposeChanged = null;
+    }
     clear(this.host);
 
     // Apply persisted settings.
     const offset = loadOffset();
     const ref = loadRef();
     const dev = loadDevice();
+    const transpose = loadTranspose();
     this.mic.setOffsetMs(offset);
+    this.mic.setTranspose(transpose);
     // Reference is only honoured if it exists in this track; else fall back to first present stem.
     const present = availableStems(this.trackData);
     const refToUse = ref === "none" || present.includes(ref)
@@ -168,6 +192,11 @@ export class MicRow {
     if (this.compact && this.engine && present.includes("vocals")) {
       msChildren.push(this._buildVocalMuteBtn());
     }
+    // Compact variant has no sub-meta row, so its transpose spinner sits
+    // inline, left of the mic/V buttons (the .ms cell autosizes in CSS).
+    if (this.compact) {
+      msChildren.unshift(this._buildTransposeSpinner(transpose));
+    }
     const ms = el("div", { class: "ms" }, msChildren);
 
     const row = el("div", {
@@ -224,10 +253,19 @@ export class MicRow {
       offsetSlider,
       offsetLabel,
     ]);
+    // Transpose gets its OWN meta line: the match/offset line is already at
+    // capacity in the ~250px sidebar (measured 309px wanted vs 251px
+    // available with the spinner inline — it clipped clean out of view and
+    // crushed the offset slider to a sliver). Same .mic-meta class so it
+    // inherits the flex styling and the mic-meta-collapsed hide rule.
+    const meta2 = el("div", { class: "mic-meta mic-meta-transpose" }, [
+      el("span", { class: "mic-meta-label", text: "transpose" }),
+      this.compact ? null : this._buildTransposeSpinner(transpose),
+    ]);
     // Compact (Lyrics-tab) variant omits the Match/Offset sub-meta entirely —
-    // those live on the full Track-tab row. The meta node is built but left
-    // detached (no listeners fire while it's out of the DOM).
-    if (!this.compact) row.appendChild(meta);
+    // those live on the full Track-tab row. The meta nodes are built but left
+    // detached (no listeners fire while they're out of the DOM).
+    if (!this.compact) { row.appendChild(meta); row.appendChild(meta2); }
 
     this.host.appendChild(row);
 
@@ -255,6 +293,17 @@ export class MicRow {
       document.addEventListener("musiq:stem-mute-changed", this._onStemMuteChanged);
     }
 
+    // Keep this row's transpose spinner in sync when transpose is changed
+    // on the OTHER surface (Track-tab full row vs Lyrics-tab compact row).
+    // The originating row already called mic.setTranspose + saved to
+    // localStorage, so the listener only refreshes the displayed value.
+    this._onTransposeChanged = (e) => {
+      const v = e.detail?.value;
+      if (!Number.isInteger(v) || !this._transposeValueEl) return;
+      this._transposeValueEl.textContent = fmtTranspose(v);
+    };
+    document.addEventListener("musiq:mic-transpose-changed", this._onTransposeChanged);
+
     this._setEnabled(this.mic.isRunning());
   }
 
@@ -279,6 +328,44 @@ export class MicRow {
     return btn;
   }
 
+  // Semitone transpose spinner (▼ value ▲), shared by both variants: the
+  // full row hosts it in the .mic-meta sub-row, the compact row inline
+  // next to the mic/V buttons. Custom steppers (not a native
+  // <input type="number">) so the control matches the app's dark button
+  // aesthetic — native spinner arrows don't restyle reliably.
+  _buildTransposeSpinner(initial) {
+    const valueEl = el("span", {
+      class: "mic-transpose-value",
+      text: fmtTranspose(initial),
+      attrs: { title: "Live-mic transpose (semitones)" },
+    });
+    this._transposeValueEl = valueEl;
+    const stepBtn = (delta, glyph, label) => el("div", {
+      class: `mic-transpose-btn ${delta > 0 ? "up" : "down"}`,
+      text: glyph,
+      attrs: { role: "button", title: label, "aria-label": label },
+      onClick: (e) => {
+        e.stopPropagation();
+        this._applyTranspose(this.mic.getTranspose() + delta);
+      },
+    });
+    return el("div", { class: "mic-transpose" }, [
+      stepBtn(-1, "▼", "Transpose down 1 semitone"),
+      valueEl,
+      stepBtn(+1, "▲", "Transpose up 1 semitone"),
+    ]);
+  }
+
+  _applyTranspose(n) {
+    const v = Math.max(TRANSPOSE_MIN, Math.min(TRANSPOSE_MAX, Math.round(n)));
+    this.mic.setTranspose(v);
+    try { localStorage.setItem(LS_TRANSPOSE, String(v)); } catch {}
+    if (this._transposeValueEl) this._transposeValueEl.textContent = fmtTranspose(v);
+    // Broadcast so the sibling MicRow (other tab) updates its spinner.
+    // Mirrors the musiq:stem-mute-changed wiring.
+    document.dispatchEvent(new CustomEvent("musiq:mic-transpose-changed", { detail: { value: v } }));
+  }
+
   unmount() {
     this.mic.removeEventListener("sample", this._onSample);
     this.mic.removeEventListener("error", this._onError);
@@ -290,6 +377,10 @@ export class MicRow {
     if (this._onStemMuteChanged) {
       document.removeEventListener("musiq:stem-mute-changed", this._onStemMuteChanged);
       this._onStemMuteChanged = null;
+    }
+    if (this._onTransposeChanged) {
+      document.removeEventListener("musiq:mic-transpose-changed", this._onTransposeChanged);
+      this._onTransposeChanged = null;
     }
     clear(this.host);
   }

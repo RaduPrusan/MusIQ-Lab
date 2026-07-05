@@ -1375,4 +1375,60 @@ sub.pitch-oct { font-size: 0.72em; line-height: 1; vertical-align: sub; }
   min-width: 36px;
   text-align: right;
 }
+
+/* Transpose spinner: ▼ value ▲ triplet shared by the full row's sub-meta
+   and the compact (Lyrics) strip. Box treatment follows .mic-ref (same
+   surface / border / radius) so the sub-meta's two controls read as kin. */
+.track-row.mic .mic-transpose {
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--surface-2);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-2);
+  overflow: hidden;
+  flex: none;
+  user-select: none;
+}
+.track-row.mic .mic-transpose-btn {
+  font-size: 7px;
+  line-height: 1;
+  color: var(--text-muted);
+  padding: 4px 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.12s, color 0.12s;
+}
+.track-row.mic .mic-transpose-btn:hover {
+  background: var(--surface-3);
+  color: var(--text-primary);
+}
+.track-row.mic .mic-transpose-value {
+  min-width: 24px;
+  text-align: center;
+  font-size: 10px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+  padding: 1px 3px;
+  border-left: 1px solid var(--surface-3);
+  border-right: 1px solid var(--surface-3);
+  align-self: center;
+}
+/* Full row: transpose lives on its own second meta line — the match/offset
+   line is already at capacity in the ~250px sidebar (inline it measured
+   309px wanted vs 251px available: spinner clipped out of view, offset
+   slider crushed). Shares .mic-meta so the collapse rule hides it too. */
+.track-row.mic .mic-meta.mic-meta-transpose { margin-top: 3px; }
+
+/* Compact strip: the spinner joins the mic/V buttons in the last grid cell,
+   which must autosize past the stem grid's fixed 52px ms column. To pay for
+   it, the readout column shrinks from the stem grid's fixed 36+56px pair to
+   fit-content (capped) and the name takes the slack back — with the fixed
+   92px readout the 1fr name column collapsed to ~30px and "Live Input"
+   rendered as "L…". The compact row isn't column-aligned with stem rows
+   anyway (see margin:0 note above). */
+.track-row.mic.compact { grid-template-columns: 12px minmax(0, 1fr) fit-content(96px) auto; }
+.track-row.mic.compact .mic-readout { grid-column: 3; }
+.track-row.mic.compact .ms { align-items: center; }
 .xcheck-icon.warn { color: var(--status-warning); }

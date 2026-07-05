@@ -44,6 +44,11 @@ export class MicPitch extends EventTarget {
     this._referenceStem = null;
     this._deviceId = null;
     this._trackData = null;
+    // User transpose in integer semitones, clamped to [-24, +24]. Applied
+    // to the DETECTED pitch in _onSample before the cents computation, the
+    // "sample" event, and the ring write — a display-only shift would draw
+    // the line ON the reference note while still colouring it off-pitch.
+    this._transpose = 0;
 
     // Pre-allocated ring buffer.
     this._cap = RING_CAPACITY;
@@ -196,11 +201,38 @@ export class MicPitch extends EventTarget {
   setDeviceId(id) {
     this._deviceId = id || null;
   }
+  setTranspose(n) {
+    let v = Math.round(Number(n) || 0);
+    v = Math.max(-24, Math.min(24, v));
+    const d = v - this._transpose;
+    if (d === 0) return;
+    this._transpose = v;
+    // Shift already-buffered ring samples by the delta so the visible trail
+    // jumps with the spinner instead of splitting into a pre/post staircase.
+    // Cents shift only where finite — NaN means "no reference here" and a
+    // NaN + 100*d write would stay NaN anyway, but skipping keeps intent
+    // explicit (mirror of the NaN-sentinel convention in _onSample).
+    for (let k = 0; k < this._n; k++) {
+      const i = (this._head - this._n + k + this._cap) % this._cap;
+      this._midi[i] = Math.max(0, Math.min(127, this._midi[i] + d));
+      if (Number.isFinite(this._cents[i])) this._cents[i] += 100 * d;
+    }
+    // Reset the EMA chain (same partial-reset idea as setReferenceStem /
+    // clearBuffer): _emaLastTSong = null makes the next _onSample re-seed
+    // both smoothers, so the line jumps cleanly instead of gliding from
+    // the un-transposed EMA state over ~3 samples.
+    this._emaCents = NaN;
+    this._emaLastTSong = null;
+    // Notify MicOverlay for an immediate redraw of the shifted trail
+    // (mirrors the "reference-changed" pattern above).
+    this.dispatchEvent(new Event("transpose-changed"));
+  }
 
   // ----- Public reads -----
   isRunning() { return this._running; }
   getOffsetMs() { return this._offsetMs; }
   getReferenceStem() { return this._referenceStem; }
+  getTranspose() { return this._transpose; }
 
   getSamplesInRange(tStart, tEnd) {
     // Copy the live entries into per-call typed arrays. The number of
@@ -258,9 +290,11 @@ export class MicPitch extends EventTarget {
       tSong = this.engine.currentTime - age - this._offsetMs / 1000;
     }
 
-    // Voicing.
+    // Voicing. The user transpose lands here — on the DETECTED pitch,
+    // before cents / event / ring — so line position, colour bucketing,
+    // and the row readout all agree on the shifted value.
     const voiced = freq > 0;
-    const midiF = voiced ? 69 + 12 * Math.log2(freq / 440) : 0;
+    const midiF = voiced ? 69 + 12 * Math.log2(freq / 440) + this._transpose : 0;
     // Clamp into the MIDI range but keep the continuous (float) value —
     // the ring buffer stores Float32 so quarter-tone-flat C4 renders at
     // 60-ish instead of snapping to 60.

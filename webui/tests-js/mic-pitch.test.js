@@ -299,6 +299,122 @@ test("MicPitch.start emits 'error' code=device-busy when getUserMedia throws Not
   }
 });
 
+test("MicPitch transpose shifts detected pitch before cents, 'sample' event, and ring write", () => {
+  const engine = fakeEngine(0.5);   // inside the reference note (t=0..1, midi=60)
+  const ctx = fakeCtx(0.5);
+  const factory = fakeWorkletFactory();
+  const mic = new MicPitch({ engine, audioContext: ctx, workletFactory: factory });
+  mic._attachForTest();
+
+  mic.setTrackData({
+    notes: { vocals: {
+      t: new Float32Array([0]),
+      dur: new Float32Array([1]),
+      midi: new Uint8Array([60]),   // C4
+    }},
+  });
+  mic.setReferenceStem("vocals");
+  mic.setTranspose(3);
+  assert.equal(mic.getTranspose(), 3);
+
+  let lastSample = null;
+  mic.addEventListener("sample", (e) => { lastSample = e.detail; });
+  // 440 Hz = MIDI 69; transposed +3 → 72. Cents vs C4 = 100*(72-60) = +1200,
+  // NOT the un-transposed +900 — the shift must land BEFORE the cents math
+  // so line position and colour bucketing agree.
+  factory.push({ freq: 440, clarity: 1, rms: 0.1, ctxTime: 0.5 });
+  assert.ok(Math.abs(lastSample.midi - 72) < 1e-3, `event midi: got ${lastSample.midi}`);
+  assert.ok(Math.abs(lastSample.cents - 1200) < 1e-3, `event cents: got ${lastSample.cents}`);
+  const s = mic.getSamplesInRange(-1, 100);
+  assert.equal(s.time.length, 1);
+  assert.ok(Math.abs(s.midi[0] - 72) < 1e-3, `ring midi: got ${s.midi[0]}`);
+  assert.ok(Math.abs(s.cents[0] - 1200) < 1e-3, `ring cents: got ${s.cents[0]}`);
+});
+
+test("MicPitch setTranspose back-shifts buffered ring samples, clamps midi, keeps NaN cents NaN", () => {
+  const engine = fakeEngine(0.5);
+  const ctx = fakeCtx(0.5);
+  const factory = fakeWorkletFactory();
+  const mic = new MicPitch({ engine, audioContext: ctx, workletFactory: factory });
+  mic._attachForTest();
+
+  mic.setTrackData({
+    notes: { vocals: {
+      t: new Float32Array([0]),
+      dur: new Float32Array([1]),
+      midi: new Uint8Array([60]),
+    }},
+  });
+  mic.setReferenceStem("vocals");
+  // Buffer one sample with a reference (finite cents = +900) …
+  factory.push({ freq: 440, clarity: 1, rms: 0.1, ctxTime: 0.5 });
+  // … and one without (NaN cents), in a note gap.
+  mic.setReferenceStem(null);
+  engine._t = 2.5; ctx._t = 2.5;
+  factory.push({ freq: 440, clarity: 1, rms: 0.1, ctxTime: 2.5 });
+
+  mic.setTranspose(5);
+  const s = mic.getSamplesInRange(-1, 100);
+  assert.equal(s.time.length, 2);
+  // Both midi values shifted by +5 (69 → 74).
+  assert.ok(Math.abs(s.midi[0] - 74) < 1e-3, `ring[0] midi: got ${s.midi[0]}`);
+  assert.ok(Math.abs(s.midi[1] - 74) < 1e-3, `ring[1] midi: got ${s.midi[1]}`);
+  // Finite cents shifted by 100*d; NaN stays NaN (the "no reference"
+  // sentinel must survive the back-shift).
+  assert.ok(Math.abs(s.cents[0] - 1400) < 1e-3, `ring[0] cents: got ${s.cents[0]}`);
+  assert.ok(Number.isNaN(s.cents[1]), `ring[1] cents should stay NaN, got ${s.cents[1]}`);
+
+  // Clamp: buffer a very high pitch (10 kHz ≈ MIDI 123 + current +5 → 127,
+  // write-clamped), then transpose further up — the back-shift must pin the
+  // buffered value at 127 instead of writing 146 into the ring.
+  engine._t = 4.0; ctx._t = 4.0;
+  factory.push({ freq: 10000, clarity: 1, rms: 0.1, ctxTime: 4.0 });
+  mic.setTranspose(24);   // delta +19 over every buffered sample
+  const s2 = mic.getSamplesInRange(-1, 100);
+  assert.equal(s2.time.length, 3);
+  assert.equal(s2.midi[2], 127, `high sample should clamp at 127, got ${s2.midi[2]}`);
+  for (let i = 0; i < s2.midi.length; i++) {
+    assert.ok(s2.midi[i] >= 0 && s2.midi[i] <= 127, `ring midi out of [0,127]: ${s2.midi[i]}`);
+  }
+});
+
+test("MicPitch setTranspose clamps to [-24,+24], resets the EMA chain, and dispatches transpose-changed", () => {
+  const engine = fakeEngine(0.5);
+  const ctx = fakeCtx(0.5);
+  const factory = fakeWorkletFactory();
+  const mic = new MicPitch({ engine, audioContext: ctx, workletFactory: factory });
+  mic._attachForTest();
+
+  // Clamp + integer coercion.
+  mic.setTranspose(100);
+  assert.equal(mic.getTranspose(), 24);
+  mic.setTranspose(-100);
+  assert.equal(mic.getTranspose(), -24);
+  mic.setTranspose(2.6);
+  assert.equal(mic.getTranspose(), 3);
+
+  // transpose-changed fires on change, not on a no-op set.
+  let events = 0;
+  mic.addEventListener("transpose-changed", () => events++);
+  mic.setTranspose(0);
+  assert.equal(events, 1);
+  mic.setTranspose(0);
+  assert.equal(events, 1, "no-op setTranspose must not re-dispatch");
+
+  // EMA reset: seed the smoother, change transpose, then push a sample
+  // 20 ms later (inside EMA_GAP_S). Without the reset the new sample would
+  // blend with the stale un-transposed EMA (0.4*71 + 0.6*69 = 69.8) and
+  // glide; with the reset it re-seeds at exactly the shifted pitch.
+  factory.push({ freq: 440, clarity: 1, rms: 0.1, ctxTime: 0.5 });   // midi 69
+  mic.setTranspose(2);
+  engine._t = 0.52; ctx._t = 0.52;
+  factory.push({ freq: 440, clarity: 1, rms: 0.1, ctxTime: 0.52 });  // midi 69+2=71
+  const s = mic.getSamplesInRange(-1, 100);
+  const last = s.midi[s.midi.length - 1];
+  assert.ok(Math.abs(last - 71) < 1e-3,
+    `expected clean jump to 71 (EMA re-seeded), got ${last} — smoother glide?`);
+});
+
 test("MicPitch ring stores continuous (float) MIDI — no semitone quantization", () => {
   const engine = fakeEngine(0);
   const ctx = fakeCtx(0);

@@ -134,8 +134,12 @@ export class MicOverlay {
     if (micPitch) {
       this._onSample = () => this._scheduleDraw();
       this._onRefChanged = () => this._scheduleDraw();
+      // setTranspose back-shifts the whole ring in place; redraw right away
+      // so the visible trail jumps with the spinner, not on the next sample.
+      this._onTransposeChanged = () => this._scheduleDraw();
       micPitch.addEventListener("sample", this._onSample);
       micPitch.addEventListener("reference-changed", this._onRefChanged);
+      micPitch.addEventListener("transpose-changed", this._onTransposeChanged);
     }
     if (typeof ResizeObserver !== "undefined") {
       new ResizeObserver(() => this._scheduleDraw()).observe(host);
@@ -188,6 +192,10 @@ export class MicOverlay {
     if (this.micPitch && this._onRefChanged) {
       this.micPitch.removeEventListener("reference-changed", this._onRefChanged);
       this._onRefChanged = null;
+    }
+    if (this.micPitch && this._onTransposeChanged) {
+      this.micPitch.removeEventListener("transpose-changed", this._onTransposeChanged);
+      this._onTransposeChanged = null;
     }
     if (this._onWidthChanged && typeof document !== "undefined") {
       document.removeEventListener("musiq:line-width-changed", this._onWidthChanged);
