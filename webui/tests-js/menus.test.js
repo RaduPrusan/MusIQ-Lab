@@ -59,15 +59,16 @@ test("Analyze-stale entry uses neutral color (not the destructive red of Reanaly
   const reanalyzeEntry = entryDivs.find((d) => /^Reanalyze \(clear cache/.test(d.textContent.trim()));
   assert.ok(staleEntry, "stale entry not found");
   assert.ok(reanalyzeEntry, "reanalyze entry not found");
-  // Destructive entry: explicit #ff8080.
+  // Destructive entry: the error theme token (was a literal #ff8080 before
+  // the theming migration moved menu colors onto CSS variables).
   assert.ok(
-    /#ff8080/i.test(reanalyzeEntry.style.color) || /rgb\(255, ?128, ?128\)/.test(reanalyzeEntry.style.color),
-    `expected red color on Reanalyze entry, got: ${reanalyzeEntry.style.color}`,
+    /var\(--status-error\)/.test(reanalyzeEntry.style.color),
+    `expected var(--status-error) on Reanalyze entry, got: ${reanalyzeEntry.style.color}`,
   );
-  // Neutral entry: NOT red.
+  // Neutral entry: NOT the error token.
   assert.ok(
-    !/#ff8080/i.test(staleEntry.style.color) && !/rgb\(255, ?128, ?128\)/.test(staleEntry.style.color),
-    `expected non-red color on stale entry, got: ${staleEntry.style.color}`,
+    !/var\(--status-error\)/.test(staleEntry.style.color),
+    `expected non-error color on stale entry, got: ${staleEntry.style.color}`,
   );
   overlay.remove();
 });

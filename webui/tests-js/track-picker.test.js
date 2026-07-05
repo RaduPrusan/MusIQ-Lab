@@ -39,7 +39,7 @@ test("sort=title alphabetical", () => {
   assert.deepEqual(r.map((t) => t.slug), ["a", "b", "c"]);
 });
 
-test("track-picker header includes + File and + YT buttons", async () => {
+test("track-picker header includes Analyze file and Analyze Youtube buttons", async () => {
   const { JSDOM } = await import("jsdom");
   const dom = new JSDOM("<!doctype html><html><body><div id='picker'></div></body></html>");
   globalThis.document = dom.window.document;
@@ -49,7 +49,9 @@ test("track-picker header includes + File and + YT buttons", async () => {
   const picker = dom.window.document.getElementById("picker");
   mountTrackPicker(picker, [], { currentSlug: null, onPick: () => {} });
   picker.toggle();
+  // Labels renamed from "+ File" / "+ YT" in the analyze-workflow polish
+  // (top-bar pills) — pin the current wording.
   const headerText = picker.querySelector(".tp-header")?.textContent ?? "";
-  assert.match(headerText, /\+ File/);
-  assert.match(headerText, /\+ YT/);
+  assert.match(headerText, /Analyze file/);
+  assert.match(headerText, /Analyze Youtube video/);
 });

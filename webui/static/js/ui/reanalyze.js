@@ -211,7 +211,9 @@ function startReanalyzePipeline(panel, overlay, slug, title, quality, mode = "fu
     if (atBottom) logBox.scrollTop = logBox.scrollHeight;
   };
   const setStage = (name, status) => stageController.setStage(name, status);
+  let finished = false;
   const finish = ({ ok }) => {
+    finished = true;
     // Stop both timers; freezes the displayed elapsed values. Then mark any
     // still-running chip as done so the final view is clean (handles stages
     // that crashed mid-run without a terminal "done" marker).
@@ -263,6 +265,12 @@ function startReanalyzePipeline(panel, overlay, slug, title, quality, mode = "fu
     else if (event.type === "stage") setStage(event.name, event.status);
     else if (event.type === "done") showStats(event.stats);
     else if (event.type === "error") showError(event.message, event.kind);
+  }).then(() => {
+    // Stream ended without a terminal done/error event (server crash or
+    // connection drop mid-run). Without this the elapsed tickers keep
+    // running forever and the Close button stays disabled — and in jsdom
+    // the ticker's setTimeout fallback keeps the node:test process alive.
+    if (!finished) showError("analysis stream ended unexpectedly (no result received)");
   }).catch((err) => showError(`request failed: ${err.message || err}`));
 }
 

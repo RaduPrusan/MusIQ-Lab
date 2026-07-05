@@ -134,14 +134,27 @@ test("Bug 1: setDuration(0) / setDuration(-1) collapse to null (mirrors WebAudio
   engine.dispose();
 });
 
-test("Bug 1: setMode emits modeChanged event for the Transport listener", () => {
+test("Bug 1: setMode sends set_mode; modeChanged emits only when the server's StateMsg confirms", () => {
+  // The Phase-2 synchronous emit was replaced by the server-confirm design:
+  // setMode fire-and-forgets {op:"set_mode"} and modeChanged is emitted from
+  // _onMessage when a StateMsg actually flips the mode mirror (wasapi-engine.js
+  // setMode + _onMessage "state" branch).
   const engine = new WasapiEngine();
+  const sent = [];
+  engine._ws.send = (raw) => sent.push(JSON.parse(raw));
   const events = [];
   engine.on("modeChanged", (payload) => events.push(payload));
   engine.setMode("stems");
+  // No synchronous emit — confirmation comes from the server.
+  assert.equal(events.length, 0, "modeChanged must not fire before StateMsg confirms");
+  assert.ok(
+    sent.some((m) => m.op === "set_mode" && m.mode === "stems"),
+    `expected a set_mode fire-and-forget, sent: ${JSON.stringify(sent)}`,
+  );
+  // Simulate the server's StateMsg confirmation.
+  engine._onMessage({ data: JSON.stringify({ type: "state", playing: false, mode: "stems" }) });
   assert.equal(events.length, 1);
-  // Phase 2 always reports "source" as the active mode.
-  assert.equal(events[0].mode, "source");
+  assert.equal(events[0].mode, "stems");
   engine.dispose();
 });
 
