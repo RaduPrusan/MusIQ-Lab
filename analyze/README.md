@@ -1,6 +1,6 @@
 # `analyze/` — MusIQ-Lab pipeline driver
 
-Wraps the validated 13-stage MIR pipeline (the original 8-stage validation core plus identify / essentia / stems-dynamics / vocal-consensus / drums) with per-stem specialists (Phase A+B as of May 2026) behind a single CLI:
+Wraps the validated 12-stage MIR pipeline (the original 8-stage validation core — its `sections` stage is deferred — plus identify / essentia / stems-dynamics / vocal-consensus / drums) with per-stem specialists (Phase A+B as of May 2026) behind a single CLI:
 
 ```bash
 python -m analyze <mp3>
