@@ -263,7 +263,7 @@ def measure_stem_presence(
     max_other_rms_db: Optional[float] = None
     max_other_name: Optional[str] = None
     for other_name, other_path in other_stem_wavs.items():
-        if not other_path.exists():
+        if other_path is None or not other_path.exists():
             continue
         if precomputed_rms_db is not None and other_name in precomputed_rms_db:
             db = precomputed_rms_db[other_name]

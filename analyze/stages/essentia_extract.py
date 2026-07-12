@@ -227,8 +227,9 @@ def compute_agreement(pipeline_summary: dict, essentia_data: dict) -> dict:
         if votes >= 2:
             consensus = f"{consensus_pair[0]}:{consensus_pair[1]}"
         else:
+            candidates = [k for k in estimators if k and k[0] and k[1]]
             best = max(
-                (k for k in estimators if k),
+                candidates,
                 key=lambda k: float(k[2] or 0.0),
                 default=None,
             )

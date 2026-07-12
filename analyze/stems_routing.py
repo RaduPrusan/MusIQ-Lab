@@ -44,7 +44,7 @@ def load(cache_dir: Path) -> dict:
         raise RoutingError(f"{CANONICAL} not found at {path}")
     try:
         return json.loads(path.read_text())
-    except json.JSONDecodeError as e:
+    except (json.JSONDecodeError, OSError) as e:
         raise RoutingError(f"failed to parse {path}: {e}") from e
 
 
