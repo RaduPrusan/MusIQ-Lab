@@ -52,6 +52,8 @@ def slug_for(mp3_path: Path) -> str:
 
 
 def ensure_dir(slug: str) -> Path:
+    if not slug:
+        raise ValueError("empty slug — refusing to use the cache root as a track dir")
     d = PROJECT_ROOT / "cache" / slug
     d.mkdir(parents=True, exist_ok=True)
     return d

@@ -45,6 +45,21 @@ def test_ensure_dir_is_idempotent(tmp_path, monkeypatch):
     assert d1.is_dir()
 
 
+def test_ensure_dir_rejects_empty_slug(tmp_path, monkeypatch):
+    # An empty slug would collapse `PROJECT_ROOT/cache/<slug>` to the cache
+    # ROOT (pathlib drops the empty component); a subsequent --force clear()
+    # would then wipe the entire cache. Guard turns that into a loud failure.
+    monkeypatch.setattr(cache, "PROJECT_ROOT", tmp_path)
+    with pytest.raises(ValueError):
+        cache.ensure_dir("")
+
+
+def test_slug_for_empty_on_non_latin_stem():
+    # A stem with no ASCII alphanumerics slugs to "" — the boundary that
+    # would trigger the empty-slug cache-root catastrophe guarded above.
+    assert cache.slug_for(Path("歌曲.mp3")) == ""
+
+
 def test_clear_removes_contents_preserves_dir(tmp_path, monkeypatch):
     monkeypatch.setattr(cache, "PROJECT_ROOT", tmp_path)
     d = cache.ensure_dir("my_song")
