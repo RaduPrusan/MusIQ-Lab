@@ -35,9 +35,8 @@ for slug, q in RETRIES:
     dt = time.monotonic() - t0
     out = json.loads((d / "identify.json").read_text())
     if out.get("identified"):
-        rec = out.get("recording", {})
-        artist = rec.get("artist")
-        title = rec.get("title")
+        artist = out.get("artist")
+        title = out.get("title")
         print(f"  IDENTIFIED in {dt:.1f}s: {artist} - {title}")
     else:
         reason = (out.get("reason") or "")[:140]
