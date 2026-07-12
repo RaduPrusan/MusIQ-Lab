@@ -292,12 +292,12 @@ async function loadTrack(slug) {
 
   mountTopbar($topbar, summary, { onPickerToggle: openPicker, slug });
   // Notation toggle (Settings → Pitch notation) re-renders the topbar so
-  // the key/scale badges follow the new system. Listener is intentionally
-  // unguarded against duplicate registration: this main() body runs once
-  // per page load, after which the listener is permanent.
+  // the key/scale badges follow the new system. Scoped to the per-track
+  // AbortController (aborted at the top of the next loadTrack) so it doesn't
+  // accumulate one stale listener per track change.
   document.addEventListener("musiq:notation-changed", () => {
     mountTopbar($topbar, summary, { onPickerToggle: openPicker, slug });
-  });
+  }, { signal: currentAbort.signal });
   // Cross-check toggle (top-bar K / T pills) — re-render the top-bar so the
   // active segment styling reflects the new choice; refresh the piano-roll
   // with the alt-key view so chord roman + function colors track the active
@@ -312,7 +312,7 @@ async function loadTrack(slug) {
       // function colors appear without an explicit render() call.
       pianoRoll.setTrackData(effectiveTrackData(trackData));
     }
-  });
+  }, { signal: currentAbort.signal });
 
   clear($body);
   const main = el("div", { id: "viewer-main" });

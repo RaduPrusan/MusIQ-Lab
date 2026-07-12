@@ -743,7 +743,9 @@ def _resolve_source_mp3(slug: str) -> Optional[pathlib.Path]:
 
     cache = _paths.cache_dir() / slug
     if cache.is_dir():
-        candidates = list(cache.glob("*.mp3"))
+        # sorted() for a deterministic pick when several .mp3 files exist
+        # (matches the sibling stem resolver's sorted globs).
+        candidates = sorted(cache.glob("*.mp3"))
         if candidates:
             return candidates[0]
     # Fallback: read the summary for windows_path (original MP3 outside the cache).

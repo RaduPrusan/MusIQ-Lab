@@ -170,7 +170,13 @@ export function formatPitch(midi, keyParse, system) {
   const table = spellingTableFor(keyParse);
   const pc = ((midi % 12) + 12) % 12;
   const { letter, accidental } = table[pc];
-  const oct = Math.floor(midi / 12) - 1;
+  // Derive the octave from the SPELLED letter, not raw MIDI: an accidental that
+  // crosses the C boundary (Cb, B#) sits in a different octave than its raw
+  // pitch-class implies. Undo the accidental's semitone shift so the octave
+  // matches the letter. Provably identical to Math.floor(midi/12)-1 whenever the
+  // spelling doesn't cross the boundary (accShift is absorbed within the octave).
+  const accShift = (accidental.match(/#/g)?.length || 0) - (accidental.match(/b/g)?.length || 0);
+  const oct = Math.floor((midi - accShift) / 12) - 1;
   const head = system === "solfege" ? SOLFEGE[letter] : letter;
   return prettifyAccidentals(`${head}${accidental}${oct}`);
 }
