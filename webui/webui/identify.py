@@ -18,6 +18,6 @@ def read_identify(cache_dir: Path) -> dict | None:
         return None
     try:
         return json.loads(path.read_text())
-    except json.JSONDecodeError as e:
+    except (json.JSONDecodeError, OSError) as e:
         log.warning("identify.json corrupt at %s: %s", path, e)
         return None

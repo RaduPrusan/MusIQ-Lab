@@ -14,6 +14,6 @@ def read_essentia(cache_dir: Path) -> dict | None:
         return None
     try:
         return json.loads(path.read_text())
-    except json.JSONDecodeError as e:
+    except (json.JSONDecodeError, OSError) as e:
         log.warning("essentia.json corrupt at %s: %s", path, e)
         return None

@@ -209,7 +209,7 @@ async def lrclib_lookup(
                 }
             best = min(
                 results,
-                key=lambda x: abs(int(x.get("duration", 0)) - int(round(duration_sec))),
+                key=lambda x: abs(int(x.get("duration") or 0) - int(round(duration_sec))),
             )
             return _shape_lrclib_record(best)
     except (httpx.ConnectError, httpx.ReadTimeout, httpx.ConnectTimeout) as e:
@@ -267,7 +267,10 @@ def load_cached(cache: Path) -> dict | None:
     meta_path = cache / "meta.json"
     if not meta_path.is_file():
         return None
-    meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    try:
+        meta = json.loads(meta_path.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return None
     synced_path = cache / "synced.lrc"
     plain_path = cache / "plain.txt"
     if synced_path.is_file():

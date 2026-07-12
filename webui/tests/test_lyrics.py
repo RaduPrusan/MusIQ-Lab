@@ -224,6 +224,31 @@ async def test_lrclib_get_404_falls_back_to_search(monkeypatch):
 
 
 @pytest.mark.asyncio
+async def test_lrclib_search_handles_null_duration(monkeypatch):
+    # LRCLIB can return a search result with duration: null. The sort key must
+    # not crash on int(None); the null entry sorts as duration 0.
+    def handler(request):
+        if request.url.path == "/api/get":
+            return httpx.Response(404)
+        if request.url.path == "/api/search":
+            return httpx.Response(
+                200,
+                json=[
+                    {"id": 1, "duration": None, "syncedLyrics": "[00:01.00]a\n", "plainLyrics": "a"},
+                    {"id": 2, "duration": 181, "syncedLyrics": "[00:01.00]b\n", "plainLyrics": "b"},
+                ],
+            )
+        return httpx.Response(500)
+
+    transport = _FakeTransport(handler)
+    result = await lrclib_lookup(
+        artist="X", title="Y", duration_sec=180.0, _transport=transport
+    )
+    # No crash; entry 2 (duration 181) is closest to 180, so it wins.
+    assert result["lrclib_id"] == 2
+
+
+@pytest.mark.asyncio
 async def test_lrclib_no_match_returns_not_found(monkeypatch):
     def handler(request):
         if request.url.path == "/api/get":

@@ -154,8 +154,6 @@ async def api_track_rename(slug: str, request: Request) -> dict:
     Side effect: writes lyrics/meta.json with smart-split artist/title so the
     lyrics-tab header reflects the rename without a separate edit.
     """
-    from . import user_meta
-
     validate_slug(slug)
     # 404 first if slug is unknown — surface validation error from a known track.
     try:
@@ -229,8 +227,7 @@ def api_vocal_consensus(slug: str) -> dict:
             status_code=404,
             detail="vocal_consensus.json not found (stage may not have run)",
         )
-    import json as _json
-    return _json.loads(json_path.read_text())
+    return json.loads(json_path.read_text())
 
 
 @app.get("/api/track/{slug}/lastfm")
