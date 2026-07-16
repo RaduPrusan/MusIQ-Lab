@@ -39,8 +39,10 @@ the boundary; `formatPitchClass` (no octave) was never affected.
 
 - `mic-overlay.js` hoists its four theme-token reads out of the per-segment render
   loop — they were four `getComputedStyle` calls per curve segment per frame.
-- `claude-tab.js`'s `open_midi` POST had no failure path, so a failed open was
-  silent; it now routes through the toasting `postSideEffect` helper.
+- `claude-tab.js`'s `open_midi` POST had no failure path — an HTTP error was
+  ignored and a network error surfaced as an unhandled rejection; it now logs a
+  console warning on a non-OK response and swallows the rejection (console-only,
+  no user-visible toast).
 - Both yt-dlp spawn sites in `analyze_runner.py` pass a `--` argv terminator before
   the URL positional, so a URL beginning with `-` can't be read as an option.
 - Dead code removed: redundant re-imports in `server.py` / `tracks.py`; unused
