@@ -1,5 +1,54 @@
 # Changelog
 
+## 2026-07-12 — Deep-review autopilot fixes (webui side)
+
+The webui subset of the low-risk fixes triaged out of a full-tree review. No feature
+or API changes: each one is a latent failure that hadn't been hit yet, or dead code.
+
+### Pitch labels at the C boundary
+
+`formatPitch` took the octave from raw MIDI (`Math.floor(midi / 12) - 1`) and ignored
+the spelled letter, so a spelling that crosses the C boundary was labelled an octave
+off — MIDI 59 spelled `C♭` in G♭ major rendered `C♭3` when it should read `C♭4`
+(≡ B3). The octave now undoes the accidental's semitone shift so it follows the
+letter it's printed next to. Provably identical for every spelling that doesn't cross
+the boundary; `formatPitchClass` (no octave) was never affected.
+
+### Crash + error-handling guards
+
+- **Lyrics `duration: null`** — an LRCLIB search result with a null duration crashed
+  the fallback sort key on `int(None)`. Nulls now sort as duration 0.
+- **Corrupt `meta.json`** — `lyrics.load_cached` raised on unparseable cached
+  metadata instead of returning `None` (now mirrors `user_meta.read`).
+- **Range header** — an oversized numeric Range raised `ValueError` past its caller
+  (CPython refuses `int(str)` beyond 4300 digits) and surfaced as HTTP 500; a suffix
+  range against a zero-byte file produced a malformed `Content-Range: bytes 0--1/0`.
+  Both now parse as no-range, which the server already maps to 416.
+- **Reader `OSError`** — `essentia.py` and `identify.py` caught only
+  `JSONDecodeError`; an unreadable file escaped. Both now return `None`.
+
+### Listener + observer leaks
+
+- The two inline `document.addEventListener` calls in `main.js`'s `loadTrack`
+  (`musiq:notation-changed`, `musiq:xcheck-changed`) never unsubscribed, so each
+  track load stacked another pair. They now take the per-track `AbortController`
+  signal like every other per-track listener.
+- `mic-overlay.js` never disconnected its `ResizeObserver`; `destroy()` now does.
+
+### Other
+
+- `mic-overlay.js` hoists its four theme-token reads out of the per-segment render
+  loop — they were four `getComputedStyle` calls per curve segment per frame.
+- `claude-tab.js`'s `open_midi` POST had no failure path, so a failed open was
+  silent; it now routes through the toasting `postSideEffect` helper.
+- Both yt-dlp spawn sites in `analyze_runner.py` pass a `--` argv terminator before
+  the URL positional, so a URL beginning with `-` can't be read as an option.
+- Dead code removed: redundant re-imports in `server.py` / `tracks.py`; unused
+  `_effective_target()` + `_stems_n_samples` in `audio_backend/stream.py`.
+- `_resolve_source_mp3` sorts its glob, so the source-mp3 pick is deterministic.
+
++5 pytest cases, +1 JS test (JS suite 279/279; webui pytest 429 collected).
+
 ## 2026-07-05 — Live Input transpose + reanalyze-stream fix
 
 ### Live Input semitone transpose

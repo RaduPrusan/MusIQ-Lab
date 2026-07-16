@@ -82,7 +82,7 @@ Frontend pure-logic tests (Node 20+):
 node --test tests-js\*.test.js
 ```
 
-(Run from `webui/` — verified 278/278 in ~2 s.)
+(Run from `webui/` — verified 279/279 in ~4 s.)
 
 ## Spec
 

@@ -128,7 +128,7 @@ If you are Claude Code specifically, the auto-memory at `~/.claude/projects/.../
 
 ### Testing
 
-- **Python tests:** `pytest` from the analyze venv (in WSL) or the webui venv (Windows). ~1060 tests total (~570 analyze + ~490 webui); these drift upward — `pytest --collect-only -q | tail -1` is the source of truth. On the Windows webui venv expect ~424 collected plus 4 collection errors: the `test_identify_round3/4/5` files import the analyze/WSL runtime — that's the known baseline, not a breakage you introduced.
+- **Python tests:** `pytest` from the analyze venv (in WSL) or the webui venv (Windows). ~1060 tests total (~570 analyze + ~490 webui); these drift upward — `pytest --collect-only -q | tail -1` is the source of truth. On the Windows webui venv expect ~429 collected plus 4 collection errors: the `test_identify_round2/3/4/5` files import the analyze/WSL runtime — that's the known baseline, not a breakage you introduced.
 - **Node pure-logic tests:** `cd webui && node --test tests-js/` for the JS that doesn't need a browser.
 - **Playwright e2e:** `cd webui/tests-e2e && npm test` (the Playwright config + package.json live in `tests-e2e/`) — these are the visual-review and contrast-audit specs. Selectors may need updating after UI renames (e.g. today's "Claude" → "Assistant" tab rename touched `visual-review.spec.js`).
 
