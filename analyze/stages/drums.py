@@ -340,9 +340,12 @@ def run(mp3: Path, cache_dir: Path) -> dict:
     except stems_routing.RoutingError:
         # transition path: legacy caches or fast preset without routing.json
         drums_path = next(
-            Path(p) for p in glob.glob(str(cache_dir / "stems_6s" / "*.wav"))
-            if "drum" in Path(p).name.lower()
+            (Path(p) for p in glob.glob(str(cache_dir / "stems_6s" / "*.wav"))
+             if "drum" in Path(p).name.lower()),
+            None,
         )
+        if drums_path is None:
+            raise RuntimeError("no drums stem WAV found in stems_6s/")
 
     drums_db, max_other_db, ratio_db = _check_gate(cache_dir, drums_path)
     if ratio_db < GATE_THRESHOLD_DB:

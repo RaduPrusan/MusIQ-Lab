@@ -96,16 +96,6 @@ export function rmsToAlpha(rms) {
   return ALPHA_FLOOR + t * (ALPHA_CEIL - ALPHA_FLOOR);
 }
 
-function strokeFor(bucket, rms) {
-  const colour = ({
-    in:        readToken("--mic-in",       "#7fdc20"),
-    off:       readToken("--mic-off",      "#e7574a"),
-    neutral:   readToken("--mic-neutral",  "#5ab4ff"),
-    "no-match": readToken("--mic-no-match", "#a48cff"),
-  })[bucket];
-  return { colour, alpha: rmsToAlpha(rms) };
-}
-
 export class MicOverlay {
   constructor(host, micPitch) {
     this.canvas = document.createElement("canvas");
@@ -142,7 +132,8 @@ export class MicOverlay {
       micPitch.addEventListener("transpose-changed", this._onTransposeChanged);
     }
     if (typeof ResizeObserver !== "undefined") {
-      new ResizeObserver(() => this._scheduleDraw()).observe(host);
+      this._resizeObs = new ResizeObserver(() => this._scheduleDraw());
+      this._resizeObs.observe(host);
     }
     // Repaint immediately when the user drags the Live Input width slider
     // or picks a new mic colour in Settings → Pitch lines → Colours
@@ -213,6 +204,8 @@ export class MicOverlay {
       this.viewState.off?.("change", this._onViewChange);
       this._onViewChange = null;
     }
+    this._resizeObs?.disconnect();
+    this._resizeObs = null;
     if (this._raf) { cancelAnimationFrame(this._raf); this._raf = 0; }
     this.micPitch = null;
   }
@@ -282,6 +275,16 @@ export class MicOverlay {
     // getReferenceStem; default-true preserves the pre-split bucket.
     const hasReference = !!this.micPitch.getReferenceStem?.();
 
+    // Hoist the theme-token reads (each a getComputedStyle) OUT of the
+    // per-segment loop below — they're constant across a render() call, so
+    // reading them once here avoids a getComputedStyle per curve segment.
+    const colours = {
+      in:         readToken("--mic-in",       "#7fdc20"),
+      off:        readToken("--mic-off",      "#e7574a"),
+      neutral:    readToken("--mic-neutral",  "#5ab4ff"),
+      "no-match": readToken("--mic-no-match", "#a48cff"),
+    };
+
     // Catmull-Rom curves subdivided into short straight sub-segments,
     // then stroked as one polyline per ring segment.
     //
@@ -328,9 +331,8 @@ export class MicOverlay {
         const c2x = p2x - (xs[j3] - p1x) / 6;
         const c2y = p2y - (ys[j3] - p1y) / 6;
         const bucket = centsToColourBucket(s.cents[j], hasReference);
-        const { colour, alpha } = strokeFor(bucket, s.rms[j]);
-        ctx.globalAlpha = alpha;
-        ctx.strokeStyle = colour;
+        ctx.globalAlpha = rmsToAlpha(s.rms[j]);
+        ctx.strokeStyle = colours[bucket];
         ctx.beginPath();
         ctx.moveTo(p1x, p1y);
         for (let k = 1; k <= SUB_STEPS; k++) {

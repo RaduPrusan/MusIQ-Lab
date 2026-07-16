@@ -105,7 +105,7 @@ class AudioSession:
 
         # Per-stem gain state. `_target_vol` / `_muted` / `_soloed` mirror
         # web-audio-engine.js:14-30; the effective per-block target is
-        # computed by `_effective_target()` (truth table at l. 197-198).
+        # computed inline in the audio callback (mute/solo truth table).
         # `_gain_array` is the smoothed value the callback ramps toward
         # the target via a one-pole IIR — start at 0 so the very first
         # callback after play() doesn't pop. Indexed by stem position in
@@ -435,15 +435,6 @@ class AudioSession:
         with self._lock:
             return any(buf is not None for buf in self._stem_buffers.values())
 
-    @property
-    def _stems_n_samples(self) -> int:
-        """End-of-track sample count for stems mode. Uses the longest
-        loaded stem so a short stem doesn't cut the track off early."""
-        return max(
-            (buf.shape[0] for buf in self._stem_buffers.values() if buf is not None),
-            default=0,
-        )
-
     def set_stem_volume(self, name: str, vol01: float) -> None:
         if name not in STEM_NAMES:
             raise ValueError(f"unknown stem: {name}")
@@ -497,19 +488,6 @@ class AudioSession:
     def get_mode(self) -> str:
         with self._lock:
             return self._mode
-
-    def _effective_target(self, name: str, any_soloed: bool) -> float:
-        """Mirrors web-audio-engine.js:194-201 mute/solo truth table.
-
-        `_SOLO_DUCK` is 0 (matches WebAudio). Caller has already snapped
-        `any_soloed` so the per-stem decision is local and lock-free.
-        Caller MUST hold `_lock` (this reads `_muted`/`_soloed`/`_target_vol`).
-        """
-        if self._muted[name]:
-            return _SOLO_DUCK
-        if any_soloed and not self._soloed[name]:
-            return _SOLO_DUCK
-        return self._target_vol[name]
 
     # ------------------------------------------------------------------
     # Playback control
@@ -790,9 +768,8 @@ class AudioSession:
                         len_i = buf_i.shape[0]
                         if len_i > n_total:
                             n_total = len_i
-                    # _effective_target is inlined here to avoid the dict
-                    # comprehension allocation; mirrors web-audio-engine.js
-                    # mute/solo truth table.
+                    # Mute/solo truth table inlined here to avoid the dict
+                    # comprehension allocation; mirrors web-audio-engine.js.
                     if self._muted[n_]:
                         self._stem_targets[i] = _SOLO_DUCK
                     elif any_soloed and not self._soloed[n_]:

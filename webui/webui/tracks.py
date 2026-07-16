@@ -179,7 +179,6 @@ def get_summary(slug: str, cache: Path | None = None) -> dict:
     summary = json.loads(sj.read_text(encoding="utf-8"))
     # Merge user-authored display_name override (separate file so it survives
     # reanalyze, which regenerates summary.json from scratch).
-    from . import user_meta
     um = user_meta.read(cache / slug)
     dn = (um.get("display_name") or "").strip()
     if dn:

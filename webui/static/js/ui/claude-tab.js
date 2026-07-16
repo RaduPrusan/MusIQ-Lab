@@ -378,7 +378,12 @@ export class ClaudeTab {
         if (args.volume != null) this.engine?.setStemVolume(args.stem, args.volume);
         break;
       case "highlight_stem":    if (this.viewState) this.viewState.highlightedStem = args.stem; break;
-      case "open_midi":         fetch(`/api/tools/open-midi/${encodeURIComponent(this.slug)}/${encodeURIComponent(args.stem)}`, { method: "POST" }); break;
+      case "open_midi":
+        // Fire-and-forget, but don't leave the rejection/HTTP-error unhandled.
+        fetch(`/api/tools/open-midi/${encodeURIComponent(this.slug)}/${encodeURIComponent(args.stem)}`, { method: "POST" })
+          .then((res) => { if (!res.ok) console.warn("open_midi failed", res.status); })
+          .catch(() => {});
+        break;
       case "switch_tab":        this.tabbedSidebar?.bar?.activate(args.tab); break;
       case "highlight_lyric_line": this.lyricsTab?.highlightLineByIndex?.(args.index); break;
       case "reload_lyrics":     this.lyricsTab?._lazyLoad?.(); break;

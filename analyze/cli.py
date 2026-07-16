@@ -110,6 +110,11 @@ def main(argv: list[str] | None = None) -> int:
     except PipelineError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
+    except ValueError as e:
+        # Unknown --from-stage / --stages-only names raise ValueError; surface
+        # a clean error line instead of a raw traceback.
+        print(f"error: {e}", file=sys.stderr)
+        return 2
     except (OSError, IOError) as e:
         print(f"error: cache/output write failure: {e}", file=sys.stderr)
         return 3

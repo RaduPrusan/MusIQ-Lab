@@ -14,6 +14,10 @@ from webui import audio
         ("bytes=0-0,200-300", 1000, None),    # multi-range — refuse
         ("invalid", 1000, None),
         (None, 1000, None),                   # no header → no range
+        ("bytes=-100", 0, None),              # suffix on empty file → no range
+        ("bytes=0-", 0, None),                # open-ended on empty file → no range
+        ("bytes=" + "9" * 5000 + "-", 1000, None),  # oversized start (>4300 digits) → no crash
+        ("bytes=-" + "9" * 5000, 1000, None),       # oversized suffix → no crash
     ],
 )
 def test_parse_range(header, size, expected):

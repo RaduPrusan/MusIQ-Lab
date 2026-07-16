@@ -138,6 +138,15 @@ test("formatPitch: scientific notation matches expected octave/letter", () => {
   assert.equal(formatPitch(69, parseKey("F# major"), "scientific"), "A4");
 });
 
+test("formatPitch: octave follows the SPELLED letter across the C boundary", () => {
+  // Gb major spells pitch-class 11 (MIDI 59) as Cb, which belongs to octave 4
+  // (Cb4 ≡ B3), NOT octave 3 as raw MIDI floor(59/12)-1 would suggest.
+  assert.equal(formatPitch(59, parseKey("Gb major"), "scientific"), "C♭4");
+  // C# major spells pitch-class 0 (MIDI 60) as B#, which belongs to octave 3
+  // (B#3 ≡ C4) — one BELOW the raw-MIDI octave 4.
+  assert.equal(formatPitch(60, parseKey("C# major"), "scientific"), "B♯3");
+});
+
 test("formatPitch: solfège uses Italian Do/Re/Mi/Fa/Sol/La/Si plus ♯/♭", () => {
   assert.equal(formatPitch(60, parseKey("C major"), "solfege"), "Do4");
   assert.equal(formatPitch(64, parseKey("C major"), "solfege"), "Mi4");

@@ -592,6 +592,7 @@ async def youtube_metadata_slug(url: str, *, update_first: bool = False) -> dict
             "--skip-download",
             "--print", "%(title)s-%(id)s",
             "--no-update",
+            "--",
             url,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
@@ -689,6 +690,7 @@ async def youtube_download(url: str, *, update_first: bool = False):
         "--no-update", "--newline",
         "-o", out_template,
         "--print", "after_move:filepath",
+        "--",
         url,
     ]
 
